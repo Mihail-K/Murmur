@@ -30,5 +30,66 @@ options {
 }
 
 compilationUnit
+	:	statement
+	;
+
+/* - Statements  - */
+/* - - - - - - - - */
+
+statement
+	//	Declarations.
+	:	typeDeclaration SemicolonElement
+	|	iTypeDeclaration SemicolonElement
+
+	//	Language elements.
+	|	keywordStatement SemicolonElement
+	|	expression SemicolonElement
+	;
+
+keywordStatement
+	//	Flow control.
+	:	BreakKeyword expression?
+	|	ContinueKeyword expression?
+	|	ReturnKeyword expression?
+	|	ThrowKeyword expression
+
+	//	Self-assignment.
+	|	LeftArrowElement Identifier
+	;
+
+/* - Types - */
+/* - - - - - */
+
+typeDeclaration
+	:	TypeKeyword LeftBraceElement
+		RightBraceElement
+	;
+
+typeElement
 	:
+	;
+
+/* - Interface Types - */
+/* - - - - - - - - - - */
+
+iTypeDeclaration
+	:	ITypeKeyword LeftBraceElement
+		RightBraceElement
+	;
+
+/* - Expressions - */
+/* - - - - - - - - */
+
+expression
+	//	Literals.
+	:	literal
+	;
+
+literal
+	:	IntegerLiteral
+	|	DecimalLiteral
+	|	BooleanLiteral
+	|	CharacterLiteral
+	|	StringLiteral
+	|	NullLiteral
 	;
