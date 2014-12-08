@@ -24,7 +24,10 @@
 
 parser grammar MurmurParser;
 
-import MurmurLexer;
+options {
+	// Import lexer.
+	tokenVocab = MurmurLexer;
+}
 
 compilationUnit
 	:
