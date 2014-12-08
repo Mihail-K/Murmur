@@ -30,7 +30,7 @@ options {
 }
 
 compilationUnit
-	:	statement
+	:	statement*
 	;
 
 /* - Statements  - */
@@ -38,23 +38,23 @@ compilationUnit
 
 statement
 	//	Declarations.
-	:	typeStatement SemicolonElement?
-	|	iTypeStatement SemicolonElement?
+	:	typeStatement ';'?
+	|	iTypeStatement ';'?
 
 	//	Language elements.
-	|	keywordStatement SemicolonElement
-	|	expression SemicolonElement
+	|	keywordStatement ';'
+	|	expression ';'
 	;
 
 keywordStatement
 	//	Flow control.
-	:	BreakKeyword expression?
-	|	ContinueKeyword expression?
-	|	ReturnKeyword expression?
-	|	ThrowKeyword expression
+	:	'break' expression?
+	|	'continue' expression?
+	|	'return' expression?
+	|	'throw' expression
 
 	//	Self-assignment.
-	|	LeftArrowElement Identifier
+	|	'<-' Identifier
 	;
 
 /* - Blocks  - */
@@ -62,9 +62,7 @@ keywordStatement
 
 block
 	//	{ ... }
-	:	LeftBraceElement
-		statement*
-		RightBraceElement
+	:	'{' statement* '}'
 	;
 
 /* - Types - */
@@ -72,18 +70,20 @@ block
 
 typeStatement
 	//	name = type { ... }
-	:	Identifier EqualsOperator
+	:	Identifier '='
 		typeDeclaration
 	;
 
 typeDeclaration
 	//	type { ... }
-	:	TypeKeyword LeftBraceElement
-		RightBraceElement
+	:	'type' '{'
+		typeElement*
+		'}'
 	;
 
 typeElement
-	:
+	//	Fields and functions.
+	:	Identifier ('=' expression)?
 	;
 
 /* - Interface Types - */
@@ -91,22 +91,22 @@ typeElement
 
 iTypeStatement
 	//	name = itype { ... }
-	:	Identifier EqualsOperator
+	:	Identifier '='
 		iTypeDeclaration
 	;
 
 iTypeDeclaration
 	//	itype { ... }
-	:	ITypeKeyword LeftBraceElement
+	:	'itype' '{'
 		iTypeElement*
-		RightBraceElement
+		'}'
 	;
 
 iTypeElement
 	//	name ( ... )
-	:	Identifier LeftParenElement
+	:	Identifier '('
 		expressionList?
-		RightParenElement
+		')'
 	;
 
 /* - Expressions - */
@@ -123,10 +123,15 @@ expression
 	;
 
 literal
+	//	Literals.
 	:	IntegerLiteral
 	|	DecimalLiteral
 	|	BooleanLiteral
 	|	CharacterLiteral
 	|	StringLiteral
 	|	NullLiteral
+
+	//	Keywords.
+	|	'this'
+	|	'super'
 	;
