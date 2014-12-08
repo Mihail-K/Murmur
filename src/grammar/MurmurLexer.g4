@@ -188,7 +188,7 @@ IntegerSuffix
 
 fragment
 Base10DecimalLiteral
-	:	([0] | Digits) '.' Base10Value?  Base10Exponent? DecimalSuffix?
+	:	([0] | Base10Digits) '.' Base10Value?  Base10Exponent? DecimalSuffix?
 	|	'.' Base10Value Base10Exponent? DecimalSuffix?
 	|	Base10Digits Base10Exponent DecimalSuffix?
 	|	Base10Digits DecimalSuffix
