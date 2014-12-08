@@ -38,8 +38,8 @@ compilationUnit
 
 statement
 	//	Declarations.
-	:	typeDeclaration SemicolonElement
-	|	iTypeDeclaration SemicolonElement
+	:	typeStatement SemicolonElement?
+	|	iTypeStatement SemicolonElement?
 
 	//	Language elements.
 	|	keywordStatement SemicolonElement
@@ -57,10 +57,27 @@ keywordStatement
 	|	LeftArrowElement Identifier
 	;
 
+/* - Blocks  - */
+/* - - - - - - */
+
+block
+	//	{ ... }
+	:	LeftBraceElement
+		statement*
+		RightBraceElement
+	;
+
 /* - Types - */
 /* - - - - - */
 
+typeStatement
+	//	name = type { ... }
+	:	Identifier EqualsOperator
+		typeDeclaration
+	;
+
 typeDeclaration
+	//	type { ... }
 	:	TypeKeyword LeftBraceElement
 		RightBraceElement
 	;
@@ -72,13 +89,33 @@ typeElement
 /* - Interface Types - */
 /* - - - - - - - - - - */
 
+iTypeStatement
+	//	name = itype { ... }
+	:	Identifier EqualsOperator
+		iTypeDeclaration
+	;
+
 iTypeDeclaration
+	//	itype { ... }
 	:	ITypeKeyword LeftBraceElement
+		iTypeElement*
 		RightBraceElement
+	;
+
+iTypeElement
+	//	name ( ... )
+	:	Identifier LeftParenElement
+		expressionList?
+		RightParenElement
 	;
 
 /* - Expressions - */
 /* - - - - - - - - */
+
+expressionList
+	:	expression
+		(',' expression)*
+	;
 
 expression
 	//	Literals.
