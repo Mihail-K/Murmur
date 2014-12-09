@@ -480,6 +480,10 @@ ITypeKeyword
 	:	'itype'
 	;
 
+LetKeyword
+	:	'let'
+	;
+
 ModuleKeyword
 	:	'module'
 	;

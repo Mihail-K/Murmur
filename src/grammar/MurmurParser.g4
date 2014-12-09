@@ -40,7 +40,7 @@ statement
 	//	Declarations.
 	:	typeStatement ';'?
 	|	iTypeStatement ';'?
-
+		
 	//	Language elements.
 	|	keywordStatement ';'?
 	|	expression ';'?
@@ -48,10 +48,13 @@ statement
 
 keywordStatement
 	//	Flow control.
-	:	'break' expression?
-	|	'continue' expression?
+	:	('break' | 'continue')
 	|	'return' expression?
 	|	'throw' expression
+
+	//	Let statement.
+	|	'let' initializerList
+	|	'let' identifierList '->' expression
 
 	//	Self-assignment.
 	|	'<-' identifierList
@@ -120,6 +123,11 @@ identifierList
 		(',' Identifier)*
 	;
 
+initializerList
+	:	Identifier ('=' expression)?
+		(',' Identifier ('=' expression)?)*
+	;
+
 expressionList
 	:	expression
 		(',' expression)*
@@ -136,8 +144,11 @@ expression
 	|	lambda
 		
 	//	Postfixed.
+	|	expression ('++' | '--')
 	|	expression '.' Identifier
 	|	expression '[' expression ']'
+		
+	|	expression lambda
 	|	expression '(' expressionList? ')'
 
 	//	Prefixed.
@@ -194,6 +205,11 @@ expression
 		expression
 		':'
 		expression
+	|	expression
+		'?'
+		statement
+		(':'
+		 statement)?
 
 	//	Assignment.
 	|	<assoc = right>
@@ -211,6 +227,10 @@ expression
 		|	'<<='
 		)
 		expression
+
+	//	Set notation.
+	|	'[' expression? ','
+		expression? ']'
 
 	//	Parenthesized.
 	|	'(' expression ')'
