@@ -103,8 +103,8 @@ iTypeDeclaration
 	;
 
 iTypeElement
-	//	name ( ... )
-	:	Identifier '('
+	//	name = ( ... )
+	:	Identifier '=' '('
 		identifierList?
 		')'
 	;
