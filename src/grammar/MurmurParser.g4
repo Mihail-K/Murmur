@@ -42,8 +42,8 @@ statement
 	|	iTypeStatement ';'?
 
 	//	Language elements.
-	|	keywordStatement ';'
-	|	expression ';'
+	|	keywordStatement ';'?
+	|	expression ';'?
 	;
 
 keywordStatement
@@ -54,7 +54,8 @@ keywordStatement
 	|	'throw' expression
 
 	//	Self-assignment.
-	|	'<-' Identifier
+	|	'<-' identifierList
+	|	'->' identifierList
 	;
 
 /* - Blocks  - */
@@ -83,7 +84,7 @@ typeDeclaration
 
 typeElement
 	//	Fields and functions.
-	:	Identifier ('=' expression)?
+	:	(Identifier | 'this') ('=' expression)?
 	;
 
 /* - Interface Types - */
@@ -97,7 +98,7 @@ iTypeStatement
 
 iTypeDeclaration
 	//	itype { ... }
-	:	'itype' '{'
+	:	'itype' '{'	
 		(iTypeElement ';'?)*
 		'}'
 	;
@@ -125,6 +126,97 @@ expressionList
 expression
 	//	Literals.
 	:	literal
+		
+	//	Identifiers.
+	|	Identifier
+		
+	//	Lambdas.
+	|	lambda
+		
+	//	Postfixed.
+	|	expression '.' Identifier
+	|	expression '[' expression ']'
+	|	expression '(' expressionList? ')'
+
+	//	Prefixed.
+	|	('+' | '-') expression
+	|	('++' | '--') expression
+	|	('!' | '~') expression
+
+	//	Multiplicative.
+	|	expression
+		('*' | '/' | '%')
+		expression
+		
+	//	Additive.
+	|	expression
+		('+' | '-' | '~')
+		expression
+
+	//	Bit Shift.
+	|	expression
+		('<<' | '>>')
+		expression
+
+	//	Comparison.
+	|	expression
+		('<' | '>' | '<=' | '>=')
+		expression
+
+	//	Equality
+	|	expression
+		('==' | '!=')
+		expression
+
+	//	Bitwise.
+	|	expression
+		'&'
+		expression
+	|	expression
+		'^'
+		expression
+	|	expression
+		'|'
+		
+	//	Logical.
+	|	expression
+		'&&'
+		expression
+	|	expression
+		'||'
+		expression
+
+	//	Ternary.
+	|	expression
+		'?'
+		expression
+		':'
+		expression
+
+	//	Assignment.
+	|	<assoc = right>
+		expression
+		(	'='
+		|	'+='
+		|	'-='
+		|	'*='
+		|	'/='
+		|	'%='
+		|	'&='
+		|	'^='
+		|	'|='
+		|	'>>='
+		|	'<<='
+		)
+		expression
+
+	//	Parenthesized.
+	|	'(' expression ')'
+	;
+
+lambda
+	:	('(' identifierList? ')')?
+		block
 	;
 
 literal
