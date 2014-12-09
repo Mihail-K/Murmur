@@ -72,6 +72,7 @@ block
 typeStatement
 	//	name = type { ... }
 	:	Identifier '='
+		(Identifier '+')*
 		typeDeclaration
 	;
 
@@ -93,6 +94,7 @@ typeElement
 iTypeStatement
 	//	name = itype { ... }
 	:	Identifier '='
+		(Identifier '+')*
 		iTypeDeclaration
 	;
 
