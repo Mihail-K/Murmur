@@ -77,7 +77,7 @@ typeStatement
 typeDeclaration
 	//	type { ... }
 	:	'type' '{'
-		typeElement*
+		(typeElement ';'?)*
 		'}'
 	;
 
@@ -98,19 +98,24 @@ iTypeStatement
 iTypeDeclaration
 	//	itype { ... }
 	:	'itype' '{'
-		iTypeElement*
+		(iTypeElement ';'?)*
 		'}'
 	;
 
 iTypeElement
 	//	name ( ... )
 	:	Identifier '('
-		expressionList?
+		identifierList?
 		')'
 	;
 
 /* - Expressions - */
 /* - - - - - - - - */
+
+identifierList
+	:	Identifier
+		(',' Identifier)*
+	;
 
 expressionList
 	:	expression
