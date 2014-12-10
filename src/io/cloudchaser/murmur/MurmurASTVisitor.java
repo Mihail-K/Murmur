@@ -26,7 +26,7 @@ package io.cloudchaser.murmur;
 
 import io.cloudchaser.murmur.parser.MurmurParser;
 import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
-
+import io.cloudchaser.murmur.symbols.Symbol;
 
 /**
  *
@@ -38,6 +38,132 @@ public class MurmurASTVisitor
 
 	public MurmurASTVisitor() {
 	}
+	
+	/* - Statements  - */
+	/* - - - - - - - - */
+	
+	public Object visitLeftArrowStatement(MurmurParser.KeywordStatementContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitRightArrowStatement(MurmurParser.KeywordStatementContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitBreakStatement(MurmurParser.KeywordStatementContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitContinueStatement(MurmurParser.KeywordStatementContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitLetStatement(MurmurParser.KeywordStatementContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitReturnStatement(MurmurParser.KeywordStatementContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitThrowStatement(MurmurParser.KeywordStatementContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	@Override
+	public Object visitKeywordStatement(MurmurParser.KeywordStatementContext ctx) {
+		if(ctx.operator != null) {
+			// Keyword/operator.
+			switch(ctx.operator.getText()) {
+				case "<-":
+					return visitLeftArrowStatement(ctx);
+				case "->":
+					return visitRightArrowStatement(ctx);
+				case "break":
+					return visitBreakStatement(ctx);
+				case "continue":
+					return visitContinueStatement(ctx);
+				case "let":
+					return visitLetStatement(ctx);
+				case "return":
+					return visitReturnStatement(ctx);
+				case "throw":
+					return visitThrowStatement(ctx);
+				default:
+					// Unknown operation.
+					throw new RuntimeException();
+			}
+		}
+		
+		// Something went wrong.
+		throw new RuntimeException();
+	}
+	
+	/* - Interfaces  - */
+	/* - - - - - - - - */
+	
+	public Object visitITypeFunction(MurmurParser.ITypeElementContext ctx) {
+		// TODO
+		return null;
+	}
+
+	@Override
+	public Object visitITypeElement(MurmurParser.ITypeElementContext ctx) {
+		// Get symbol information.
+		Symbol symbol = (Symbol)ctx.getExtra();
+		
+		switch(symbol.getType()) {
+			case FUNCTION:
+				// Interface function.
+				return visitITypeFunction(ctx);
+			default:
+				// Unsupported type.
+				// TODO : Inner types.
+				throw new RuntimeException();
+		}
+	}
+	
+	/* - Classes - */
+	/* - - - - - - */
+	
+	public Object visitTypeField(MurmurParser.TypeElementContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitTypeFunction(MurmurParser.TypeElementContext ctx) {
+		// TODO
+		return null;
+	}
+
+	@Override
+	public Object visitTypeElement(MurmurParser.TypeElementContext ctx) {
+		// Get symbol information.
+		Symbol symbol = (Symbol)ctx.getExtra();
+		
+		switch(symbol.getType()) {
+			case VARIABLE:
+				// Class field.
+				return visitTypeField(ctx);
+			case FUNCTION:
+				// Class function.
+				return visitTypeFunction(ctx);
+			default:
+				// Unsupported type.
+				// TODO : Inner types.
+				throw new RuntimeException();
+		}
+	}
+	
+	/* - Expressions - */
+	/* - - - - - - - - */
 	
 	public Object visitPositiveExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
@@ -198,9 +324,19 @@ public class MurmurASTVisitor
 		// TODO
 		return null;
 	}
+	
+	public Object visitIdentifierExpression(MurmurParser.ExpressionContext ctx) {
+		// TODO
+		return null;
+	}
 
 	@Override
 	public Object visitExpression(MurmurParser.ExpressionContext ctx) {
+		// Literals.
+		if(ctx.literal() != null) {
+			return visitLiteral(ctx.literal());
+		}
+		
 		if(ctx.operator != null) {
 			// Operator types.
 			switch(ctx.operator.getText()) {
@@ -306,6 +442,16 @@ public class MurmurASTVisitor
 			}
 		}
 		
+		// Identifier.
+		if(ctx.Identifier() != null) {
+			return visitIdentifierExpression(ctx);
+		}
+		
+		// Lambda.
+		if(ctx.lambda() != null) {
+			return visitLambda(ctx.lambda());
+		}
+		
 		// Parenthesized.
 		if(ctx.inner != null) {
 			return visitExpression(ctx.inner);
@@ -314,4 +460,68 @@ public class MurmurASTVisitor
 		return null;
 	}
 	
+	/* - Literal Types - */
+	/* - - - - - - - - - */
+	
+	public Object visitIntegerLiteral(MurmurParser.LiteralContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitDecimalLiteral(MurmurParser.LiteralContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitBooleanLiteral(MurmurParser.LiteralContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitCharacterLiteral(MurmurParser.LiteralContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitStringLiteral(MurmurParser.LiteralContext ctx) {
+		// TODO
+		return null;
+	}
+	
+	public Object visitNullLiteral(MurmurParser.LiteralContext ctx) {
+		// TODO
+		return null;
+	}
+
+	@Override
+	public Object visitLiteral(MurmurParser.LiteralContext ctx) {
+		// Integer literals.
+		if(ctx.IntegerLiteral() != null) {
+			return visitIntegerLiteral(ctx);
+		}
+		// Decimal literals.
+		if(ctx.DecimalLiteral() != null) {
+			return visitDecimalLiteral(ctx);
+		}
+		// Boolean literals.
+		if(ctx.BooleanLiteral() != null) {
+			return visitDecimalLiteral(ctx);
+		}
+		// Character literals.
+		if(ctx.CharacterLiteral() != null) {
+			return visitCharacterLiteral(ctx);
+		}
+		// String literals.
+		if(ctx.StringLiteral() != null) {
+			return visitStringLiteral(ctx);
+		}
+		// Null literals.
+		if(ctx.NullLiteral() != null) {
+			return visitNullLiteral(ctx);
+		}
+		
+		// Unknown literal type.
+		throw new RuntimeException();
+	}
+
 }
