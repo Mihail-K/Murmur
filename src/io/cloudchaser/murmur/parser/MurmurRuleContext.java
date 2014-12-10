@@ -22,46 +22,35 @@
  *	SOFTWARE.
  */
 
-package io.cloudchaser.murmur.symbols;
+package io.cloudchaser.murmur.parser;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 /**
  *
  * @author Mihail K
  * @since 0.1
  */
-public class SymbolContext extends Symbol {
+public class MurmurRuleContext extends ParserRuleContext {
 	
-	private SymbolContext parent;
-	private final Map<String, Symbol> symbols;
+	/**
+	 * Stores a bit of extra data, in this context.
+	 */
+	private Object extra;
 
-	public SymbolContext(String name, SymbolType type) {
-		super(name, type);
-		symbols = new HashMap<>();
-	}
-
-	public SymbolContext getParent() {
-		return parent;
-	}
-	
-	public void addSymbol(Symbol symbol) {
-		if(symbol instanceof SymbolContext)
-			((SymbolContext)symbol).parent = this;
-		symbols.put(symbol.getName(), symbol);
-	}
-	
-	public Symbol findSymbol(String name) {
-		Symbol symbol = symbols.get(name);
-		if(symbol == null && parent != null)
-			return parent.findSymbol(name);
-		return null;
+	public MurmurRuleContext() {
 	}
 
-	@Override
-	public String toString() {
-		return "SymbolContext{symbols=" + symbols + '}';
+	public MurmurRuleContext(ParserRuleContext prc, int i) {
+		super(prc, i);
+	}
+
+	public Object getExtra() {
+		return extra;
+	}
+
+	public void setExtra(Object extra) {
+		this.extra = extra;
 	}
 	
 }

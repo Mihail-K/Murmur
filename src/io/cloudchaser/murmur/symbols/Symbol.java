@@ -46,5 +46,10 @@ public class Symbol {
 	public SymbolType getType() {
 		return type;
 	}
+
+	@Override
+	public String toString() {
+		return "Symbol{name=" + name + ", type=" + type + '}';
+	}
 	
 }
