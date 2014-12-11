@@ -57,13 +57,7 @@ public class Murmur {
 		MurmurParser parser = new MurmurParser(tokens);
 		
 		// Build a symbol table for the file.
-		ParseTreeVisitor visitor = new MurmurSymbolVisitor();
-		visitor.visit(parser.compilationUnit());
-		
-		System.out.println(((MurmurSymbolVisitor)visitor).getSymbolTable());
-
-		// Parse the file's contents.
-		visitor = new MurmurASTVisitor();
+		ParseTreeVisitor visitor = new MurmurASTVisitor();
 		visitor.visit(parser.compilationUnit());
     }
 	

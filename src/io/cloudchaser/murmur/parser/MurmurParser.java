@@ -81,7 +81,7 @@ public class MurmurParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class CompilationUnitContext extends MurmurRuleContext {
+	public static class CompilationUnitContext extends ParserRuleContext {
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
@@ -132,7 +132,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class StatementContext extends MurmurRuleContext {
+	public static class StatementContext extends ParserRuleContext {
 		public TypeStatementContext typeStatement() {
 			return getRuleContext(TypeStatementContext.class,0);
 		}
@@ -231,7 +231,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class KeywordStatementContext extends MurmurRuleContext {
+	public static class KeywordStatementContext extends ParserRuleContext {
 		public Token operator;
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
@@ -336,7 +336,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class BlockContext extends MurmurRuleContext {
+	public static class BlockContext extends ParserRuleContext {
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
@@ -389,7 +389,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class TypeStatementContext extends MurmurRuleContext {
+	public static class TypeStatementContext extends ParserRuleContext {
 		public Token name;
 		public Token Identifier;
 		public List<Token> parents = new ArrayList<Token>();
@@ -449,7 +449,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class TypeDeclarationContext extends MurmurRuleContext {
+	public static class TypeDeclarationContext extends ParserRuleContext {
 		public List<TypeElementContext> typeElement() {
 			return getRuleContexts(TypeElementContext.class);
 		}
@@ -511,7 +511,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class TypeElementContext extends MurmurRuleContext {
+	public static class TypeElementContext extends ParserRuleContext {
 		public Token name;
 		public TerminalNode Identifier() { return getToken(MurmurParser.Identifier, 0); }
 		public ExpressionContext expression() {
@@ -564,7 +564,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ITypeStatementContext extends MurmurRuleContext {
+	public static class ITypeStatementContext extends ParserRuleContext {
 		public Token name;
 		public Token Identifier;
 		public List<Token> parents = new ArrayList<Token>();
@@ -624,7 +624,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ITypeDeclarationContext extends MurmurRuleContext {
+	public static class ITypeDeclarationContext extends ParserRuleContext {
 		public ITypeElementContext iTypeElement(int i) {
 			return getRuleContext(ITypeElementContext.class,i);
 		}
@@ -686,7 +686,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ITypeElementContext extends MurmurRuleContext {
+	public static class ITypeElementContext extends ParserRuleContext {
 		public Token name;
 		public TerminalNode Identifier() { return getToken(MurmurParser.Identifier, 0); }
 		public IdentifierListContext identifierList() {
@@ -735,7 +735,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class IdentifierListContext extends MurmurRuleContext {
+	public static class IdentifierListContext extends ParserRuleContext {
 		public List<TerminalNode> Identifier() { return getTokens(MurmurParser.Identifier); }
 		public TerminalNode Identifier(int i) {
 			return getToken(MurmurParser.Identifier, i);
@@ -788,7 +788,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class InitializerListContext extends MurmurRuleContext {
+	public static class InitializerListContext extends ParserRuleContext {
 		public List<TerminalNode> Identifier() { return getTokens(MurmurParser.Identifier); }
 		public TerminalNode Identifier(int i) {
 			return getToken(MurmurParser.Identifier, i);
@@ -865,7 +865,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ExpressionListContext extends MurmurRuleContext {
+	public static class ExpressionListContext extends ParserRuleContext {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
@@ -918,7 +918,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ExpressionContext extends MurmurRuleContext {
+	public static class ExpressionContext extends ParserRuleContext {
 		public ExpressionContext left;
 		public ExpressionContext clause;
 		public Token operator;
@@ -1348,7 +1348,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class LambdaContext extends MurmurRuleContext {
+	public static class LambdaContext extends ParserRuleContext {
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
 		}
@@ -1404,7 +1404,7 @@ public class MurmurParser extends Parser {
 		return _localctx;
 	}
 
-	public static class LiteralContext extends MurmurRuleContext {
+	public static class LiteralContext extends ParserRuleContext {
 		public TerminalNode DecimalLiteral() { return getToken(MurmurParser.DecimalLiteral, 0); }
 		public TerminalNode StringLiteral() { return getToken(MurmurParser.StringLiteral, 0); }
 		public TerminalNode NullLiteral() { return getToken(MurmurParser.NullLiteral, 0); }

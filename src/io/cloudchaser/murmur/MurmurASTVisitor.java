@@ -26,7 +26,6 @@ package io.cloudchaser.murmur;
 
 import io.cloudchaser.murmur.parser.MurmurParser;
 import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
-import io.cloudchaser.murmur.symbols.Symbol;
 
 /**
  *
@@ -35,8 +34,16 @@ import io.cloudchaser.murmur.symbols.Symbol;
  */
 public class MurmurASTVisitor
 		extends MurmurParserBaseVisitor {
-
+	
 	public MurmurASTVisitor() {
+	}
+
+	@Override
+	public Object visitCompilationUnit(MurmurParser.CompilationUnitContext ctx) {
+		// Visit children.
+		ctx.statement().stream().forEach(this::visitStatement);
+		
+		return null;
 	}
 	
 	/* - Statements  - */
@@ -116,18 +123,8 @@ public class MurmurASTVisitor
 
 	@Override
 	public Object visitITypeElement(MurmurParser.ITypeElementContext ctx) {
-		// Get symbol information.
-		Symbol symbol = (Symbol)ctx.getExtra();
-		
-		switch(symbol.getType()) {
-			case FUNCTION:
-				// Interface function.
-				return visitITypeFunction(ctx);
-			default:
-				// Unsupported type.
-				// TODO : Inner types.
-				throw new RuntimeException();
-		}
+		// TODO
+		return null;
 	}
 	
 	/* - Classes - */
@@ -145,21 +142,8 @@ public class MurmurASTVisitor
 
 	@Override
 	public Object visitTypeElement(MurmurParser.TypeElementContext ctx) {
-		// Get symbol information.
-		Symbol symbol = (Symbol)ctx.getExtra();
-		
-		switch(symbol.getType()) {
-			case VARIABLE:
-				// Class field.
-				return visitTypeField(ctx);
-			case FUNCTION:
-				// Class function.
-				return visitTypeFunction(ctx);
-			default:
-				// Unsupported type.
-				// TODO : Inner types.
-				throw new RuntimeException();
-		}
+		// TODO
+		return null;
 	}
 	
 	/* - Expressions - */
@@ -305,7 +289,19 @@ public class MurmurASTVisitor
 		return null;
 	}
 	
+	public Object visitFunctionArguments(MurmurParser.ExpressionListContext ctx) {
+		// Visit the argument list.
+		ctx.expression().stream().forEach(this::visitExpression);
+		
+		// TODO
+		return null;
+	}
+	
 	public Object visitFunctionCallExpression(MurmurParser.ExpressionContext ctx) {
+		if(ctx.expressionList() != null) {
+			visitFunctionArguments(ctx.expressionList());
+		}
+		
 		// TODO
 		return null;
 	}
@@ -457,7 +453,7 @@ public class MurmurASTVisitor
 			return visitExpression(ctx.inner);
 		}
 		
-		return null;
+		throw new RuntimeException();
 	}
 	
 	/* - Literal Types - */
