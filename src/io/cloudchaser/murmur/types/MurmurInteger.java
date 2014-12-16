@@ -154,6 +154,54 @@ public class MurmurInteger extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opLessThan(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			boolean result = value < ((MurmurInteger)other).value;
+			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opGreaterThan(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			boolean result = value > ((MurmurInteger)other).value;
+			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opLessOrEqual(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			boolean result = value <= ((MurmurInteger)other).value;
+			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opGreaterOrEqual(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			boolean result = value >= ((MurmurInteger)other).value;
+			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public MurmurObject opEquals(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {

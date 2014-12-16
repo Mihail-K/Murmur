@@ -66,6 +66,14 @@ public abstract class MurmurObject {
 	
 	public abstract MurmurObject opShiftRight(MurmurObject other);
 	
+	public abstract MurmurObject opLessThan(MurmurObject other);
+	
+	public abstract MurmurObject opGreaterThan(MurmurObject other);
+	
+	public abstract MurmurObject opLessOrEqual(MurmurObject other);
+	
+	public abstract MurmurObject opGreaterOrEqual(MurmurObject other);
+	
 	public abstract MurmurObject opEquals(MurmurObject other);
 	
 	public abstract MurmurObject opNotEquals(MurmurObject other);

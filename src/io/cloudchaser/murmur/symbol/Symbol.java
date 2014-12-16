@@ -111,6 +111,26 @@ public abstract class Symbol<Type extends MurmurObject>
 	}
 
 	@Override
+	public MurmurObject opLessThan(MurmurObject other) {
+		return value.opLessThan(other);
+	}
+
+	@Override
+	public MurmurObject opGreaterThan(MurmurObject other) {
+		return value.opGreaterThan(other);
+	}
+
+	@Override
+	public MurmurObject opLessOrEqual(MurmurObject other) {
+		return value.opLessOrEqual(other);
+	}
+
+	@Override
+	public MurmurObject opGreaterOrEqual(MurmurObject other) {
+		return value.opGreaterOrEqual(other);
+	}
+
+	@Override
 	public MurmurObject opEquals(MurmurObject other) {
 		return value.opEquals(other);
 	}

@@ -107,6 +107,30 @@ public class MurmurBoolean extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opLessThan(MurmurObject other) {
+		// Booleans don't support inequality.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opGreaterThan(MurmurObject other) {
+		// Booleans don't support inequality.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opLessOrEqual(MurmurObject other) {
+		// Booleans don't support inequality.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opGreaterOrEqual(MurmurObject other) {
+		// Booleans don't support inequality.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public MurmurObject opEquals(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == BOOLEAN) {
