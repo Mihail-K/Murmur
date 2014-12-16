@@ -27,6 +27,7 @@ package io.cloudchaser.murmur;
 import io.cloudchaser.murmur.parser.MurmurParser;
 import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
 import io.cloudchaser.murmur.types.MurmurInteger;
+import io.cloudchaser.murmur.types.MurmurObject;
 
 /**
  *
@@ -34,13 +35,13 @@ import io.cloudchaser.murmur.types.MurmurInteger;
  * @since 0.1
  */
 public class MurmurASTVisitor
-		extends MurmurParserBaseVisitor {
+		extends MurmurParserBaseVisitor<MurmurObject> {
 	
 	public MurmurASTVisitor() {
 	}
 
 	@Override
-	public Object visitCompilationUnit(MurmurParser.CompilationUnitContext ctx) {
+	public MurmurObject visitCompilationUnit(MurmurParser.CompilationUnitContext ctx) {
 		// Visit children.
 		ctx.statement().stream().forEach(this::visitStatement);
 		
@@ -50,43 +51,43 @@ public class MurmurASTVisitor
 	/* - Statements  - */
 	/* - - - - - - - - */
 	
-	public Object visitLeftArrowStatement(MurmurParser.KeywordStatementContext ctx) {
+	public MurmurObject visitLeftArrowStatement(MurmurParser.KeywordStatementContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitRightArrowStatement(MurmurParser.KeywordStatementContext ctx) {
+	public MurmurObject visitRightArrowStatement(MurmurParser.KeywordStatementContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitBreakStatement(MurmurParser.KeywordStatementContext ctx) {
+	public MurmurObject visitBreakStatement(MurmurParser.KeywordStatementContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitContinueStatement(MurmurParser.KeywordStatementContext ctx) {
+	public MurmurObject visitContinueStatement(MurmurParser.KeywordStatementContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitLetStatement(MurmurParser.KeywordStatementContext ctx) {
+	public MurmurObject visitLetStatement(MurmurParser.KeywordStatementContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitReturnStatement(MurmurParser.KeywordStatementContext ctx) {
+	public MurmurObject visitReturnStatement(MurmurParser.KeywordStatementContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitThrowStatement(MurmurParser.KeywordStatementContext ctx) {
+	public MurmurObject visitThrowStatement(MurmurParser.KeywordStatementContext ctx) {
 		// TODO
 		return null;
 	}
 	
 	@Override
-	public Object visitKeywordStatement(MurmurParser.KeywordStatementContext ctx) {
+	public MurmurObject visitKeywordStatement(MurmurParser.KeywordStatementContext ctx) {
 		if(ctx.operator != null) {
 			// Keyword/operator.
 			switch(ctx.operator.getText()) {
@@ -117,13 +118,13 @@ public class MurmurASTVisitor
 	/* - Interfaces  - */
 	/* - - - - - - - - */
 	
-	public Object visitITypeFunction(MurmurParser.ITypeElementContext ctx) {
+	public MurmurObject visitITypeFunction(MurmurParser.ITypeElementContext ctx) {
 		// TODO
 		return null;
 	}
 
 	@Override
-	public Object visitITypeElement(MurmurParser.ITypeElementContext ctx) {
+	public MurmurObject visitITypeElement(MurmurParser.ITypeElementContext ctx) {
 		// TODO
 		return null;
 	}
@@ -131,18 +132,18 @@ public class MurmurASTVisitor
 	/* - Classes - */
 	/* - - - - - - */
 	
-	public Object visitTypeField(MurmurParser.TypeElementContext ctx) {
+	public MurmurObject visitTypeField(MurmurParser.TypeElementContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitTypeFunction(MurmurParser.TypeElementContext ctx) {
+	public MurmurObject visitTypeFunction(MurmurParser.TypeElementContext ctx) {
 		// TODO
 		return null;
 	}
 
 	@Override
-	public Object visitTypeElement(MurmurParser.TypeElementContext ctx) {
+	public MurmurObject visitTypeElement(MurmurParser.TypeElementContext ctx) {
 		// TODO
 		return null;
 	}
@@ -150,147 +151,148 @@ public class MurmurASTVisitor
 	/* - Expressions - */
 	/* - - - - - - - - */
 	
-	public Object visitPositiveExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitPositiveExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitPreIncrementExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitPreIncrementExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitPostIncrementExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitPostIncrementExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitAdditionExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitAdditionExpression(MurmurParser.ExpressionContext ctx) {
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		return left.opPlus(right);
+	}
+	
+	public MurmurObject visitNegativeExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitNegativeExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitPreDecrementExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitPreDecrementExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitPostDecrementExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitPostDecrementExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitSubtractionExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitSubtractionExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitMultiplicationExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitMultiplicationExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitDivisionExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitDivisionExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitModuloExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitModuloExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitEqualExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitEqualExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitNotEqualExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitNotEqualExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitLogicalNotExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitLogicalNotExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitLogicalAndExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitLogicalAndExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitLogicalOrExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitLogicalOrExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitBinaryNotExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitBinaryNotExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitBinaryAndExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitBinaryAndExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitBinaryXorExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitBinaryXorExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitBinaryOrExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitBinaryOrExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitLessThanExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitLessThanExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitGreaterThanExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitGreaterThanExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitLessOrEqualExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitLessOrEqualExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitGreaterOrEqualExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitGreaterOrEqualExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitShiftLeftExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitShiftLeftExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitShiftRightExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitShiftRightExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitTernaryExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitTernaryExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitArrayIndexExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitArrayIndexExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
-	}
-	
-	public Object visitFunctionArguments(MurmurParser.ExpressionListContext ctx) {
+	public MurmurObject visitFunctionArguments(MurmurParser.ExpressionListContext ctx) {
 		// Visit the argument list.
 		ctx.expression().stream().forEach(this::visitExpression);
 		
@@ -298,7 +300,7 @@ public class MurmurASTVisitor
 		return null;
 	}
 	
-	public Object visitFunctionCallExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitFunctionCallExpression(MurmurParser.ExpressionContext ctx) {
 		if(ctx.expressionList() != null) {
 			visitFunctionArguments(ctx.expressionList());
 		}
@@ -307,28 +309,28 @@ public class MurmurASTVisitor
 		return null;
 	}
 	
-	public Object visitAssignmentExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitAssignmentExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitMemberExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitMemberExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitSetNotationExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitSetNotationExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitIdentifierExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitIdentifierExpression(MurmurParser.ExpressionContext ctx) {
 		// TODO
 		return null;
 	}
 
 	@Override
-	public Object visitExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitExpression(MurmurParser.ExpressionContext ctx) {
 		// Literals.
 		if(ctx.literal() != null) {
 			return visitLiteral(ctx.literal());
@@ -466,33 +468,33 @@ public class MurmurASTVisitor
 		return new MurmurInteger(value);
 	}
 	
-	public Object visitDecimalLiteral(MurmurParser.LiteralContext ctx) {
+	public MurmurObject visitDecimalLiteral(MurmurParser.LiteralContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitBooleanLiteral(MurmurParser.LiteralContext ctx) {
+	public MurmurObject visitBooleanLiteral(MurmurParser.LiteralContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitCharacterLiteral(MurmurParser.LiteralContext ctx) {
+	public MurmurObject visitCharacterLiteral(MurmurParser.LiteralContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitStringLiteral(MurmurParser.LiteralContext ctx) {
+	public MurmurObject visitStringLiteral(MurmurParser.LiteralContext ctx) {
 		// TODO
 		return null;
 	}
 	
-	public Object visitNullLiteral(MurmurParser.LiteralContext ctx) {
+	public MurmurObject visitNullLiteral(MurmurParser.LiteralContext ctx) {
 		// TODO
 		return null;
 	}
 
 	@Override
-	public Object visitLiteral(MurmurParser.LiteralContext ctx) {
+	public MurmurObject visitLiteral(MurmurParser.LiteralContext ctx) {
 		// Integer literals.
 		if(ctx.IntegerLiteral() != null) {
 			return visitIntegerLiteral(ctx);
