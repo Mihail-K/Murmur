@@ -66,6 +66,16 @@ public abstract class Symbol<Type extends MurmurObject>
 	}
 
 	@Override
+	public MurmurObject opPositive() {
+		return value.opPositive();
+	}
+
+	@Override
+	public MurmurObject opNegative() {
+		return value.opNegative();
+	}
+
+	@Override
 	public MurmurObject opIncrement() {
 		return value.opIncrement();
 	}

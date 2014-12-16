@@ -217,8 +217,8 @@ public class MurmurASTVisitor
 	/* - - - - - - - - */
 	
 	public MurmurObject visitPositiveExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject right = visitExpression(ctx.right);
+		return right.opPositive();
 	}
 	
 	public MurmurObject visitPreIncrementExpression(MurmurParser.ExpressionContext ctx) {
@@ -260,8 +260,8 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitNegativeExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject right = visitExpression(ctx.right);
+		return right.opNegative();
 	}
 	
 	public MurmurObject visitPreDecrementExpression(MurmurParser.ExpressionContext ctx) {

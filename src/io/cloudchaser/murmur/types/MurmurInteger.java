@@ -67,6 +67,16 @@ public class MurmurInteger extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opPositive() {
+		return create(+value);
+	}
+
+	@Override
+	public MurmurObject opNegative() {
+		return create(-value);
+	}
+
+	@Override
 	public MurmurObject opIncrement() {
 		return create(value + 1);
 	}
