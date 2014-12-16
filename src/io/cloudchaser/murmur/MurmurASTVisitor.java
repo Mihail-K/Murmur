@@ -675,8 +675,7 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitBooleanLiteral(MurmurParser.LiteralContext ctx) {
-		boolean value = Boolean.parseBoolean(ctx.getText());
-		return value ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		return MurmurBoolean.create(Boolean.parseBoolean(ctx.getText()));
 	}
 	
 	public MurmurObject visitCharacterLiteral(MurmurParser.LiteralContext ctx) {

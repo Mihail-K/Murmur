@@ -43,6 +43,16 @@ public class MurmurBoolean extends MurmurObject {
 		this.value = value;
 	}
 	
+	/**
+	 * Converts a Java boolean into a Murmur boolean.
+	 * 
+	 * @param value The Java boolean value.
+	 * @return The murmur boolean value.
+	 */
+	public static MurmurBoolean create(boolean value) {
+		return value ? TRUE : FALSE;
+	}
+	
 	public boolean getValue() {
 		return value;
 	}
@@ -134,8 +144,7 @@ public class MurmurBoolean extends MurmurObject {
 	public MurmurObject opEquals(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == BOOLEAN) {
-			boolean result = value == ((MurmurBoolean)other).value;
-			return result ? TRUE : FALSE;
+			return create(value == ((MurmurBoolean)other).value);
 		}
 		
 		// Not equal.
@@ -146,8 +155,7 @@ public class MurmurBoolean extends MurmurObject {
 	public MurmurObject opNotEquals(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == BOOLEAN) {
-			boolean result = value != ((MurmurBoolean)other).value;
-			return result ? TRUE : FALSE;
+			return create(value != ((MurmurBoolean)other).value);
 		}
 		
 		// Not equal.
@@ -156,15 +164,14 @@ public class MurmurBoolean extends MurmurObject {
 
 	@Override
 	public MurmurObject opBitNot() {
-		return value ? FALSE : TRUE;
+		return create(!value);
 	}
 
 	@Override
 	public MurmurObject opBitAnd(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == BOOLEAN) {
-			boolean result = value & ((MurmurBoolean)other).value;
-			return result ? TRUE : FALSE;
+			return create(value & ((MurmurBoolean)other).value);
 		}
 		
 		// Unsupported.
@@ -175,8 +182,7 @@ public class MurmurBoolean extends MurmurObject {
 	public MurmurObject opBitXor(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == BOOLEAN) {
-			boolean result = value ^ ((MurmurBoolean)other).value;
-			return result ? TRUE : FALSE;
+			return create(value ^ ((MurmurBoolean)other).value);
 		}
 		
 		// Unsupported.
@@ -187,8 +193,7 @@ public class MurmurBoolean extends MurmurObject {
 	public MurmurObject opBitOr(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == BOOLEAN) {
-			boolean result = value | ((MurmurBoolean)other).value;
-			return result ? TRUE : FALSE;
+			return create(value | ((MurmurBoolean)other).value);
 		}
 		
 		// Unsupported.
@@ -197,15 +202,14 @@ public class MurmurBoolean extends MurmurObject {
 
 	@Override
 	public MurmurObject opLogicalNot() {
-		return value ? FALSE : TRUE;
+		return create(!value);
 	}
 
 	@Override
 	public MurmurObject opLogicalAnd(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == BOOLEAN) {
-			boolean result = value && ((MurmurBoolean)other).value;
-			return result ? TRUE : FALSE;
+			return create(value && ((MurmurBoolean)other).value);
 		}
 		
 		// Unsupported.
@@ -216,8 +220,7 @@ public class MurmurBoolean extends MurmurObject {
 	public MurmurObject opLogicalOr(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == BOOLEAN) {
-			boolean result = value || ((MurmurBoolean)other).value;
-			return result ? TRUE : FALSE;
+			return create(value || ((MurmurBoolean)other).value);
 		}
 		
 		// Unsupported.
