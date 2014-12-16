@@ -33,6 +33,11 @@ import static io.cloudchaser.murmur.types.MurmurType.INTEGER;
  */
 public class MurmurInteger extends MurmurObject {
 	
+	/**
+	 * Singleton constant for integer zero.
+	 */
+	public static final MurmurInteger ZERO = new MurmurInteger(0);
+	
 	private final long value;
 
 	public MurmurInteger(long value) {
@@ -42,6 +47,11 @@ public class MurmurInteger extends MurmurObject {
 
 	public long getValue() {
 		return value;
+	}
+
+	@Override
+	public MurmurInteger asInteger() {
+		return this;
 	}
 	
 }
