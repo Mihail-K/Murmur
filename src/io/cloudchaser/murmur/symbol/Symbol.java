@@ -24,27 +24,30 @@
 
 package io.cloudchaser.murmur.symbol;
 
+import io.cloudchaser.murmur.types.MurmurObject;
+
 /**
  *
  * @author Mihail K
+ * @param <Type>
  * @since 0.1
  */
-public abstract class Symbol {
+public abstract class Symbol<Type extends MurmurObject> {
 
 	private final String name;
-	private final Object type;
+	private final Type value;
 
-	public Symbol(String name, Object type) {
+	public Symbol(String name, Type value) {
 		this.name = name;
-		this.type = type;
+		this.value = value;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public Object getType() {
-		return type;
+	public Type getType() {
+		return value;
 	}
 
 }

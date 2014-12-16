@@ -24,6 +24,8 @@
 
 package io.cloudchaser.murmur.symbol;
 
+import io.cloudchaser.murmur.types.MurmurObject;
+
 /**
  *
  * @author Mihail K
@@ -31,18 +33,8 @@ package io.cloudchaser.murmur.symbol;
  */
 public class LetSymbol extends Symbol {
 
-	private Object value;
-
-	public LetSymbol(String name, Object type) {
+	public LetSymbol(String name, MurmurObject type) {
 		super(name, type);
-	}
-
-	public Object getValue() {
-		return value;
-	}
-
-	public void setValue(Object value) {
-		this.value = value;
 	}
 	
 }
