@@ -47,6 +47,13 @@ public class MurmurASTVisitor
 		
 		return null;
 	}
+
+	@Override
+	public MurmurObject visitStatement(MurmurParser.StatementContext ctx) {
+		// Print results for debug.
+		System.out.println(visitExpression(ctx.expression()));
+		return null;
+	}
 	
 	/* - Statements  - */
 	/* - - - - - - - - */
