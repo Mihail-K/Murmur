@@ -29,16 +29,17 @@ package io.cloudchaser.murmur.types;
  * @author Mihail K
  * @since 0.1
  */
-public abstract class MurmurObject {
+public enum MurmurType {
 	
-	private final MurmurType type;
-
-	public MurmurObject(MurmurType type) {
-		this.type = type;
-	}
-
-	public MurmurType getName() {
-		return type;
-	}
+	NULL,
+	INTEGER,
+	DECIMAL,
+	BOOLEAN,
+	CHARACTER,
+	STRING,
+	
+	FUNCTION,
+	OBJECT,
+	TYPE
 	
 }
