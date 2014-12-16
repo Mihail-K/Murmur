@@ -45,32 +45,42 @@ public class MurmurBoolean extends MurmurObject {
 
 	@Override
 	public MurmurInteger asInteger() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return value ? new MurmurInteger(1) : MurmurInteger.ZERO;
 	}
 
 	@Override
 	public MurmurObject opPlus(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		// Booleans don't support integer arithmetic.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opMinus(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		// Booleans don't support integer arithmetic.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opMultiply(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		// Booleans don't support integer arithmetic.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opDivide(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		// Booleans don't support integer arithmetic.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opModulo(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		// Booleans don't support integer arithmetic.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public String toString() {
+		return "MurmurBoolean{" + "value=" + value + '}';
 	}
 	
 }
