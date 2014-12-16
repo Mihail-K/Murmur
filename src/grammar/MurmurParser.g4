@@ -177,7 +177,7 @@ expression
 		
 	//	Additive.
 	|	left = expression
-		operator = ('+' | '-' | '~')
+		operator = ('+' | '-')
 		right = expression
 
 	//	Bit Shift.
@@ -242,6 +242,11 @@ expression
 		|	'>>='
 		|	'<<='
 		)
+		right = expression
+		
+	//	Concatenation.
+	|	left = expression
+		operator = '~'
 		right = expression
 
 	//	Set notation.
