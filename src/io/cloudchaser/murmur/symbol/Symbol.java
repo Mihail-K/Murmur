@@ -37,7 +37,7 @@ public abstract class Symbol<Type extends MurmurObject>
 		extends MurmurObject {
 
 	private final String name;
-	private final Type value;
+	private Type value;
 
 	public Symbol(String name, Type value) {
 		super(null);
@@ -53,12 +53,26 @@ public abstract class Symbol<Type extends MurmurObject>
 		return value;
 	}
 	
+	public void setValue(Type value) {
+		this.value = value;
+	}
+	
 	/* - Delegates - */
 	/* - - - - - - - */
 
 	@Override
 	public MurmurInteger asInteger() {
 		return value.asInteger();
+	}
+
+	@Override
+	public MurmurObject opIncrement() {
+		return value.opIncrement();
+	}
+
+	@Override
+	public MurmurObject opDecrement() {
+		return value.opDecrement();
 	}
 
 	@Override
