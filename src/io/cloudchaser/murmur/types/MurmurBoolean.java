@@ -148,6 +148,35 @@ public class MurmurBoolean extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opLogicalNot() {
+		return value ? FALSE : TRUE;
+	}
+
+	@Override
+	public MurmurObject opLogicalAnd(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == BOOLEAN) {
+			boolean result = value && ((MurmurBoolean)other).value;
+			return result ? TRUE : FALSE;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opLogicalOr(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == BOOLEAN) {
+			boolean result = value || ((MurmurBoolean)other).value;
+			return result ? TRUE : FALSE;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public String toString() {
 		return "MurmurBoolean{" + "value=" + value + '}';
 	}

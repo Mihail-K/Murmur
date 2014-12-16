@@ -234,6 +234,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitAdditionExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
 		return left.opPlus(right instanceof Symbol ?
 				((Symbol)right).getValue() : right);
 	}
@@ -256,6 +258,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitSubtractionExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
 		return left.opMinus(right instanceof Symbol ?
 				((Symbol)right).getValue() : right);
 	}
@@ -263,6 +267,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitMultiplicationExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
 		return left.opMultiply(right instanceof Symbol ?
 				((Symbol)right).getValue() : right);
 	}
@@ -270,6 +276,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitDivisionExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
 		return left.opDivide(right instanceof Symbol ?
 				((Symbol)right).getValue() : right);
 	}
@@ -277,6 +285,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitModuloExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
 		return left.opModulo(right instanceof Symbol ?
 				((Symbol)right).getValue() : right);
 	}
@@ -284,6 +294,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitEqualExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
 		return left.opEquals(right instanceof Symbol ?
 				((Symbol)right).getValue() : right);
 	}
@@ -291,23 +303,33 @@ public class MurmurASTVisitor
 	public MurmurObject visitNotEqualExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
 		return left.opNotEquals(right instanceof Symbol ?
 				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitLogicalNotExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject right = visitExpression(ctx.right);
+		return right.opLogicalNot();
 	}
 	
 	public MurmurObject visitLogicalAndExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
+		return left.opLogicalAnd(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitLogicalOrExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
+		return left.opLogicalOr(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitBinaryNotExpression(MurmurParser.ExpressionContext ctx) {
@@ -318,6 +340,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitBinaryAndExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
 		return left.opBitAnd(right instanceof Symbol ?
 				((Symbol)right).getValue() : right);
 	}
@@ -325,6 +349,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitBinaryXorExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
 		return left.opBitXor(right instanceof Symbol ?
 				((Symbol)right).getValue() : right);
 	}
@@ -332,6 +358,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitBinaryOrExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
 		return left.opBitOr(right instanceof Symbol ?
 				((Symbol)right).getValue() : right);
 	}

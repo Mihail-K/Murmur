@@ -70,4 +70,10 @@ public abstract class MurmurObject {
 	
 	public abstract MurmurObject opBitOr(MurmurObject other);
 	
+	public abstract MurmurObject opLogicalNot();
+	
+	public abstract MurmurObject opLogicalAnd(MurmurObject other);
+	
+	public abstract MurmurObject opLogicalOr(MurmurObject other);
+	
 }
