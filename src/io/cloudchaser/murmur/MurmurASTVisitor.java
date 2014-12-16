@@ -423,13 +423,21 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitShiftLeftExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
+		return left.opShiftLeft(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitShiftRightExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
+		return left.opShiftRight(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitTernaryExpression(MurmurParser.ExpressionContext ctx) {

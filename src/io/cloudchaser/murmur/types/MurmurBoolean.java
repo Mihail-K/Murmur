@@ -95,6 +95,18 @@ public class MurmurBoolean extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opShiftLeft(MurmurObject other) {
+		// Booleans don't support bitshift.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opShiftRight(MurmurObject other) {
+		// Booleans don't support bitshift.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public MurmurObject opEquals(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == BOOLEAN) {

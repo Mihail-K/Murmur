@@ -101,6 +101,16 @@ public abstract class Symbol<Type extends MurmurObject>
 	}
 
 	@Override
+	public MurmurObject opShiftLeft(MurmurObject other) {
+		return value.opShiftLeft(other);
+	}
+
+	@Override
+	public MurmurObject opShiftRight(MurmurObject other) {
+		return value.opShiftRight(other);
+	}
+
+	@Override
 	public MurmurObject opEquals(MurmurObject other) {
 		return value.opEquals(other);
 	}

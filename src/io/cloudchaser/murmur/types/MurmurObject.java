@@ -62,6 +62,10 @@ public abstract class MurmurObject {
 	
 	public abstract MurmurObject opModulo(MurmurObject other);
 	
+	public abstract MurmurObject opShiftLeft(MurmurObject other);
+	
+	public abstract MurmurObject opShiftRight(MurmurObject other);
+	
 	public abstract MurmurObject opEquals(MurmurObject other);
 	
 	public abstract MurmurObject opNotEquals(MurmurObject other);

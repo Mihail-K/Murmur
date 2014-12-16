@@ -132,6 +132,28 @@ public class MurmurInteger extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opShiftLeft(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			return create(value << ((MurmurInteger)other).value);
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opShiftRight(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			return create(value >> ((MurmurInteger)other).value);
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public MurmurObject opEquals(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
