@@ -24,48 +24,35 @@
 
 package io.cloudchaser.murmur.symbol;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  *
  * @author Mihail K
  * @since 0.1
  */
-public class SymbolContext extends Symbol {
+public interface SymbolContext {
 	
-	private SymbolContext parent;
-	private final Map<String, Symbol> symbols;
-
-	public SymbolContext(String name) {
-		super(name, null);
-		symbols = new HashMap<>();
-	}
-
 	/**
-	 * Returns the context within which this context exists.
+	 * Returns this context's parent context.
 	 * 
-	 * @return The parent symbol context.
+	 * @return The parent context.
 	 */
-	public SymbolContext getParent() {
-		return parent;
-	}
+	SymbolContext getParent();
 	
-	public void addSymbol(Symbol symbol) {
-		if(symbol instanceof SymbolContext)
-			((SymbolContext)symbol).parent = this;
-		symbols.put(symbol.getName(), symbol);
-	}
+	/**
+	 * Defines a symbol in this context.
+	 * If a definition already exists, its value is replaced.
+	 * 
+	 * @param symbol The new symbol.
+	 */
+	void addSymbol(Symbol symbol);
 	
-	public Symbol getSymbol(String name) {
-		return getSymbol(name, false);
-	}
-	
-	public Symbol getSymbol(String name, boolean local) {
-		Symbol symbol = symbols.get(name);
-		if(symbol == null && !local)
-			return parent.getSymbol(name, local);
-		return symbol;
-	}
+	/**
+	 * Search for a symbol by name.
+	 * If the symbol isn't found in this context, the parent is searched.
+	 * 
+	 * @param name The name of the symbol to look for.
+	 * @return The symbol, if found. Otherwise, <code>null</code>.
+	 */
+	Symbol getSymbol(String name);
 	
 }
