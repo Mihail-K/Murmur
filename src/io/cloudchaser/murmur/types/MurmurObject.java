@@ -41,4 +41,11 @@ public abstract class MurmurObject {
 		return type;
 	}
 	
+	/**
+	 * Converts this Object to an integer, if possible.
+	 * 
+	 * @return This Object as an integer.
+	 */
+	public abstract MurmurInteger asInteger();
+	
 }
