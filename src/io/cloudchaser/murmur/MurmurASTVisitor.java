@@ -26,8 +26,12 @@ package io.cloudchaser.murmur;
 
 import io.cloudchaser.murmur.parser.MurmurParser;
 import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
+import io.cloudchaser.murmur.symbol.Symbol;
+import io.cloudchaser.murmur.symbol.SymbolContext;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurObject;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -37,7 +41,36 @@ import io.cloudchaser.murmur.types.MurmurObject;
 public class MurmurASTVisitor
 		extends MurmurParserBaseVisitor<MurmurObject> {
 	
+	private static class MurmurBaseContext
+			implements SymbolContext {
+		
+		private final Map<String, Symbol> symbols;
+
+		public MurmurBaseContext() {
+			symbols = new HashMap<>();
+		}
+
+		@Override
+		public SymbolContext getParent() {
+			return null;
+		}
+
+		@Override
+		public void addSymbol(Symbol symbol) {
+			symbols.put(symbol.getName(), symbol);
+		}
+
+		@Override
+		public Symbol getSymbol(String name) {
+			return symbols.get(name);
+		}
+		
+	}
+	
+	private final SymbolContext context;
+	
 	public MurmurASTVisitor() {
+		context = new MurmurBaseContext();
 	}
 
 	@Override
@@ -332,8 +365,7 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitIdentifierExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		return context.getSymbol(ctx.getText());
 	}
 
 	@Override
