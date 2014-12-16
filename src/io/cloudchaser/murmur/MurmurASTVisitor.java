@@ -499,8 +499,19 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitAssignmentExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		
+		// Check that this is an lvalue.
+		if(!(left instanceof Symbol)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		System.out.println(left);
+		
+		// Assign the value to the symbol.
+		((Symbol)left).setValue(right);
+		return right;
 	}
 	
 	public MurmurObject visitMemberExpression(MurmurParser.ExpressionContext ctx) {
@@ -514,7 +525,16 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitIdentifierExpression(MurmurParser.ExpressionContext ctx) {
-		return context.getSymbol(ctx.getText());
+		Symbol symbol = context.getSymbol(ctx.getText());
+		
+		// Check that the symbol exists.
+		if(symbol == null) {
+			// TODO
+			throw new NullPointerException();
+		}
+		
+		// Return the symbol.
+		return symbol;
 	}
 
 	@Override
