@@ -83,6 +83,30 @@ public class MurmurBoolean extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opEquals(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == BOOLEAN) {
+			boolean result = value == ((MurmurBoolean)other).value;
+			return result ? TRUE : FALSE;
+		}
+		
+		// Not equal.
+		return FALSE;
+	}
+
+	@Override
+	public MurmurObject opNotEquals(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == BOOLEAN) {
+			boolean result = value != ((MurmurBoolean)other).value;
+			return result ? TRUE : FALSE;
+		}
+		
+		// Not equal.
+		return TRUE;
+	}
+
+	@Override
 	public String toString() {
 		return "MurmurBoolean{" + "value=" + value + '}';
 	}

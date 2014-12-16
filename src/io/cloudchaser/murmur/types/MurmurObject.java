@@ -58,4 +58,8 @@ public abstract class MurmurObject {
 	
 	public abstract MurmurObject opModulo(MurmurObject other);
 	
+	public abstract MurmurObject opEquals(MurmurObject other);
+	
+	public abstract MurmurObject opNotEquals(MurmurObject other);
+	
 }

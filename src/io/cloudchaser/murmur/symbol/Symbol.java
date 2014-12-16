@@ -86,4 +86,14 @@ public abstract class Symbol<Type extends MurmurObject>
 		return value.opModulo(other);
 	}
 
+	@Override
+	public MurmurObject opEquals(MurmurObject other) {
+		return value.opEquals(other);
+	}
+
+	@Override
+	public MurmurObject opNotEquals(MurmurObject other) {
+		return value.opNotEquals(other);
+	}
+
 }

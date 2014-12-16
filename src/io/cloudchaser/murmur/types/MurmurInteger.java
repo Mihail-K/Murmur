@@ -120,6 +120,30 @@ public class MurmurInteger extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opEquals(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			boolean result = value == ((MurmurInteger)other).value;
+			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		}
+		
+		// Not equal.
+		return MurmurBoolean.FALSE;
+	}
+
+	@Override
+	public MurmurObject opNotEquals(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			boolean result = value != ((MurmurInteger)other).value;
+			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		}
+		
+		// Not equal.
+		return MurmurBoolean.TRUE;
+	}
+
+	@Override
 	public String toString() {
 		return "MurmurInteger{" + "value=" + value + '}';
 	}
