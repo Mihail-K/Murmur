@@ -55,6 +55,20 @@ public class MurmurInteger extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opIncrement() {
+		long result = value + 1;
+		if(result == 0) return ZERO;
+		return new MurmurInteger(result);
+	}
+
+	@Override
+	public MurmurObject opDecrement() {
+		long result = value - 1;
+		if(result == 0) return ZERO;
+		return new MurmurInteger(result);
+	}
+
+	@Override
 	public MurmurObject opPlus(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {

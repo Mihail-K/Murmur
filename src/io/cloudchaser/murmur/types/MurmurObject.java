@@ -48,6 +48,10 @@ public abstract class MurmurObject {
 	 */
 	public abstract MurmurInteger asInteger();
 	
+	public abstract MurmurObject opIncrement();
+	
+	public abstract MurmurObject opDecrement();
+	
 	public abstract MurmurObject opPlus(MurmurObject other);
 	
 	public abstract MurmurObject opMinus(MurmurObject other);

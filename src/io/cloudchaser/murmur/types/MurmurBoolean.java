@@ -53,6 +53,18 @@ public class MurmurBoolean extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opIncrement() {
+		// Booleans don't support integer arithmetic.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opDecrement() {
+		// Booleans don't support integer arithmetic.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public MurmurObject opPlus(MurmurObject other) {
 		// Booleans don't support integer arithmetic.
 		throw new UnsupportedOperationException();

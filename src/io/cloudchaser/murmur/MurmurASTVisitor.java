@@ -222,13 +222,32 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitPreIncrementExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject right = visitExpression(ctx.right);
+		
+		// Must be a symbol to increment.
+		if(!(right instanceof Symbol)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Increment and return value.
+		Symbol symbol = (Symbol)right;
+		symbol.setValue(right.opIncrement());
+		return symbol.getValue();
 	}
 	
 	public MurmurObject visitPostIncrementExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		
+		// Must be a symbol to increment.
+		if(!(left instanceof Symbol)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Increment and return old value.
+		Symbol symbol = (Symbol)left;
+		MurmurObject old = symbol.getValue();
+		symbol.setValue(left.opIncrement());
+		return old;
 	}
 	
 	public MurmurObject visitAdditionExpression(MurmurParser.ExpressionContext ctx) {
@@ -246,13 +265,32 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitPreDecrementExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject right = visitExpression(ctx.right);
+		
+		// Must be a symbol to decrement.
+		if(!(right instanceof Symbol)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Decrement and return value.
+		Symbol symbol = (Symbol)right;
+		symbol.setValue(right.opDecrement());
+		return symbol.getValue();
 	}
 	
 	public MurmurObject visitPostDecrementExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		
+		// Must be a symbol to decrement.
+		if(!(left instanceof Symbol)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Decrement and return old value.
+		Symbol symbol = (Symbol)left;
+		MurmurObject old = symbol.getValue();
+		symbol.setValue(left.opDecrement());
+		return old;
 	}
 	
 	public MurmurObject visitSubtractionExpression(MurmurParser.ExpressionContext ctx) {
