@@ -49,7 +49,7 @@ public class MurmurBoolean extends MurmurObject {
 
 	@Override
 	public MurmurInteger asInteger() {
-		return value ? new MurmurInteger(1) : MurmurInteger.ZERO;
+		return MurmurInteger.create(value ? 1 : 0);
 	}
 
 	@Override

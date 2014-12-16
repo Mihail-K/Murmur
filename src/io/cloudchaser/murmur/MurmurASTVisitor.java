@@ -642,8 +642,7 @@ public class MurmurASTVisitor
 			value = Long.parseLong(text);
 		}
 		
-		if(value == 0) return MurmurInteger.ZERO;
-		return new MurmurInteger(value);
+		return MurmurInteger.create(value);
 	}
 	
 	public MurmurObject visitDecimalLiteral(MurmurParser.LiteralContext ctx) {

@@ -40,9 +40,21 @@ public class MurmurInteger extends MurmurObject {
 	
 	private final long value;
 
-	public MurmurInteger(long value) {
+	private MurmurInteger(long value) {
 		super(INTEGER);
 		this.value = value;
+	}
+	
+	/**
+	 * Creates an integer from a Java long value.
+	 * If the value is 0, the singleton ZERO is returned instead.
+	 * 
+	 * @param value The value for the integer.
+	 * @return The murmur integer value.
+	 */
+	public static MurmurInteger create(long value) {
+		if(value == 0) return ZERO;
+		return new MurmurInteger(value);
 	}
 
 	public long getValue() {
@@ -56,25 +68,19 @@ public class MurmurInteger extends MurmurObject {
 
 	@Override
 	public MurmurObject opIncrement() {
-		long result = value + 1;
-		if(result == 0) return ZERO;
-		return new MurmurInteger(result);
+		return create(value + 1);
 	}
 
 	@Override
 	public MurmurObject opDecrement() {
-		long result = value - 1;
-		if(result == 0) return ZERO;
-		return new MurmurInteger(result);
+		return create(value - 1);
 	}
 
 	@Override
 	public MurmurObject opPlus(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
-			long result = value + ((MurmurInteger)other).value;
-			if(result == 0) return ZERO;
-			return new MurmurInteger(result);
+			return create(value + ((MurmurInteger)other).value);
 		}
 		
 		// Unsupported.
@@ -85,9 +91,7 @@ public class MurmurInteger extends MurmurObject {
 	public MurmurObject opMinus(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
-			long result = value - ((MurmurInteger)other).value;
-			if(result == 0) return ZERO;
-			return new MurmurInteger(result);
+			return create(value - ((MurmurInteger)other).value);
 		}
 		
 		// Unsupported.
@@ -98,9 +102,7 @@ public class MurmurInteger extends MurmurObject {
 	public MurmurObject opMultiply(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
-			long result = value * ((MurmurInteger)other).value;
-			if(result == 0) return ZERO;
-			return new MurmurInteger(result);
+			return create(value * ((MurmurInteger)other).value);
 		}
 		
 		// Unsupported.
@@ -111,9 +113,7 @@ public class MurmurInteger extends MurmurObject {
 	public MurmurObject opDivide(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
-			long result = value / ((MurmurInteger)other).value;
-			if(result == 0) return ZERO;
-			return new MurmurInteger(result);
+			return create(value / ((MurmurInteger)other).value);
 		}
 		
 		// Unsupported.
@@ -124,9 +124,7 @@ public class MurmurInteger extends MurmurObject {
 	public MurmurObject opModulo(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
-			long result = value % ((MurmurInteger)other).value;
-			if(result == 0) return ZERO;
-			return new MurmurInteger(result);
+			return create(value % ((MurmurInteger)other).value);
 		}
 		
 		// Unsupported.
@@ -159,18 +157,14 @@ public class MurmurInteger extends MurmurObject {
 
 	@Override
 	public MurmurObject opBitNot() {
-		long result = ~value;
-		if(result == 0) return ZERO;
-		return new MurmurInteger(result);
+		return create(~value);
 	}
 
 	@Override
 	public MurmurObject opBitAnd(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
-			long result = value & ((MurmurInteger)other).value;
-			if(result == 0) return ZERO;
-			return new MurmurInteger(result);
+			return create(value & ((MurmurInteger)other).value);
 		}
 		
 		// Unsupported.
@@ -181,9 +175,7 @@ public class MurmurInteger extends MurmurObject {
 	public MurmurObject opBitXor(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
-			long result = value ^ ((MurmurInteger)other).value;
-			if(result == 0) return ZERO;
-			return new MurmurInteger(result);
+			return create(value ^ ((MurmurInteger)other).value);
 		}
 		
 		// Unsupported.
@@ -194,9 +186,7 @@ public class MurmurInteger extends MurmurObject {
 	public MurmurObject opBitOr(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
-			long result = value | ((MurmurInteger)other).value;
-			if(result == 0) return ZERO;
-			return new MurmurInteger(result);
+			return create(value | ((MurmurInteger)other).value);
 		}
 		
 		// Unsupported.
