@@ -26,6 +26,7 @@ package io.cloudchaser.murmur;
 
 import io.cloudchaser.murmur.parser.MurmurParser;
 import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
+import io.cloudchaser.murmur.types.MurmurInteger;
 
 /**
  *
@@ -459,9 +460,10 @@ public class MurmurASTVisitor
 	/* - Literal Types - */
 	/* - - - - - - - - - */
 	
-	public Object visitIntegerLiteral(MurmurParser.LiteralContext ctx) {
-		// TODO
-		return null;
+	public MurmurInteger visitIntegerLiteral(MurmurParser.LiteralContext ctx) {
+		long value = Long.parseLong(ctx.getText());
+		if(value == 0) return MurmurInteger.ZERO;
+		return new MurmurInteger(value);
 	}
 	
 	public Object visitDecimalLiteral(MurmurParser.LiteralContext ctx) {
