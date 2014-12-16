@@ -66,4 +66,24 @@ public abstract class Symbol<Type extends MurmurObject>
 		return value.opPlus(other);
 	}
 
+	@Override
+	public MurmurObject opMinus(MurmurObject other) {
+		return value.opMinus(other);
+	}
+
+	@Override
+	public MurmurObject opMultiply(MurmurObject other) {
+		return value.opMultiply(other);
+	}
+
+	@Override
+	public MurmurObject opDivide(MurmurObject other) {
+		return value.opDivide(other);
+	}
+
+	@Override
+	public MurmurObject opModulo(MurmurObject other) {
+		return value.opModulo(other);
+	}
+
 }

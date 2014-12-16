@@ -253,23 +253,31 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitSubtractionExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		return left.opMinus(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitMultiplicationExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		return left.opMultiply(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitDivisionExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		return left.opDivide(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitModuloExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		return left.opModulo(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitEqualExpression(MurmurParser.ExpressionContext ctx) {

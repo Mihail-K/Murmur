@@ -50,4 +50,12 @@ public abstract class MurmurObject {
 	
 	public abstract MurmurObject opPlus(MurmurObject other);
 	
+	public abstract MurmurObject opMinus(MurmurObject other);
+	
+	public abstract MurmurObject opMultiply(MurmurObject other);
+	
+	public abstract MurmurObject opDivide(MurmurObject other);
+	
+	public abstract MurmurObject opModulo(MurmurObject other);
+	
 }
