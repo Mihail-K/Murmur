@@ -357,8 +357,23 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitTernaryExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject clause = visitExpression(ctx.clause);
+		clause = clause instanceof Symbol ? ((Symbol)clause).getValue() : clause;
+		
+		// Check that the clause is boolean.
+		if(!(clause instanceof MurmurBoolean)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Check the clause.
+		MurmurBoolean bool = (MurmurBoolean)clause;
+		if(bool.getValue()) {
+			// True; evaluate left.
+			return visitExpression(ctx.expression(1));
+		} else {
+			// False; evaluate right.
+			return visitExpression(ctx.expression(2));
+		}
 	}
 	
 	public MurmurObject visitArrayIndexExpression(MurmurParser.ExpressionContext ctx) {
