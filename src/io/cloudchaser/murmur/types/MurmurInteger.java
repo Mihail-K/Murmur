@@ -66,5 +66,10 @@ public class MurmurInteger extends MurmurObject {
 		// Unsupported.
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public String toString() {
+		return "MurmurInteger{" + "value=" + value + '}';
+	}
 	
 }
