@@ -53,5 +53,18 @@ public class MurmurInteger extends MurmurObject {
 	public MurmurInteger asInteger() {
 		return this;
 	}
+
+	@Override
+	public MurmurObject opPlus(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			long result = value + ((MurmurInteger)other).value;
+			if(result == 0) return ZERO;
+			return new MurmurInteger(result);
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
 	
 }
