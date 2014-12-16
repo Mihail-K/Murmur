@@ -37,7 +37,7 @@ public abstract class MurmurObject {
 		this.type = type;
 	}
 
-	public MurmurType getName() {
+	public MurmurType getType() {
 		return type;
 	}
 	
