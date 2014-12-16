@@ -29,6 +29,7 @@ import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
 import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
+import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurObject;
 import java.util.HashMap;
@@ -549,8 +550,8 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitBooleanLiteral(MurmurParser.LiteralContext ctx) {
-		// TODO
-		return null;
+		boolean value = Boolean.parseBoolean(ctx.getText());
+		return value ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
 	}
 	
 	public MurmurObject visitCharacterLiteral(MurmurParser.LiteralContext ctx) {
@@ -580,7 +581,7 @@ public class MurmurASTVisitor
 		}
 		// Boolean literals.
 		if(ctx.BooleanLiteral() != null) {
-			return visitDecimalLiteral(ctx);
+			return visitBooleanLiteral(ctx);
 		}
 		// Character literals.
 		if(ctx.CharacterLiteral() != null) {
