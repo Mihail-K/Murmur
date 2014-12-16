@@ -26,6 +26,7 @@ package io.cloudchaser.murmur;
 
 import io.cloudchaser.murmur.parser.MurmurParser;
 import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
+import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
 import io.cloudchaser.murmur.types.MurmurInteger;
@@ -83,8 +84,13 @@ public class MurmurASTVisitor
 
 	@Override
 	public MurmurObject visitStatement(MurmurParser.StatementContext ctx) {
-		// Print results for debug.
-		System.out.println(visitExpression(ctx.expression()));
+		if(ctx.keywordStatement() != null) {
+			visitKeywordStatement(ctx.keywordStatement());
+		} else {
+			// Print results for debug.
+			System.out.println(visitExpression(ctx.expression()));
+		}
+		
 		return null;
 	}
 	
@@ -111,9 +117,27 @@ public class MurmurASTVisitor
 		return null;
 	}
 	
-	public MurmurObject visitLetStatement(MurmurParser.KeywordStatementContext ctx) {
-		// TODO
+	public MurmurObject visitLetInitializerList(MurmurParser.InitializerListContext ctx) {
+		ctx.initializerElement().stream().forEach((element) -> {
+			String name = element.Identifier().getText();
+			MurmurObject value = visitExpression(element.expression());
+			System.out.println(name + " : " + value);
+			
+			// Create a symbol entry.
+			context.addSymbol(new LetSymbol(name, value));
+		});
+		
 		return null;
+	}
+	
+	public MurmurObject visitLetStatement(MurmurParser.KeywordStatementContext ctx) {
+		// Let with an initializer list.
+		if(ctx.initializerList() != null) {
+			return visitLetInitializerList(ctx.initializerList());
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
 	}
 	
 	public MurmurObject visitReturnStatement(MurmurParser.KeywordStatementContext ctx) {
@@ -209,7 +233,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitAdditionExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
-		return left.opPlus(right);
+		return left.opPlus(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitNegativeExpression(MurmurParser.ExpressionContext ctx) {
@@ -370,6 +395,9 @@ public class MurmurASTVisitor
 
 	@Override
 	public MurmurObject visitExpression(MurmurParser.ExpressionContext ctx) {
+		// Skip null elements.
+		if(ctx == null) return null;
+		
 		// Literals.
 		if(ctx.literal() != null) {
 			return visitLiteral(ctx.literal());
