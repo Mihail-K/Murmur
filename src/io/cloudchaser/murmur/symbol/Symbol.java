@@ -24,6 +24,7 @@
 
 package io.cloudchaser.murmur.symbol;
 
+import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurObject;
 
 /**
@@ -32,12 +33,14 @@ import io.cloudchaser.murmur.types.MurmurObject;
  * @param <Type>
  * @since 0.1
  */
-public abstract class Symbol<Type extends MurmurObject> {
+public abstract class Symbol<Type extends MurmurObject>
+		extends MurmurObject {
 
 	private final String name;
 	private final Type value;
 
 	public Symbol(String name, Type value) {
+		super(null);
 		this.name = name;
 		this.value = value;
 	}
@@ -46,8 +49,21 @@ public abstract class Symbol<Type extends MurmurObject> {
 		return name;
 	}
 
-	public Type getType() {
+	public Type getValue() {
 		return value;
+	}
+	
+	/* - Delegates - */
+	/* - - - - - - - */
+
+	@Override
+	public MurmurInteger asInteger() {
+		return value.asInteger();
+	}
+
+	@Override
+	public MurmurObject opPlus(MurmurObject other) {
+		return value.opPlus(other);
 	}
 
 }
