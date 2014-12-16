@@ -97,6 +97,11 @@ public abstract class Symbol<Type extends MurmurObject>
 	}
 
 	@Override
+	public MurmurObject opBitNot() {
+		return value.opBitNot();
+	}
+
+	@Override
 	public MurmurObject opBitAnd(MurmurObject other) {
 		return value.opBitAnd(other);
 	}

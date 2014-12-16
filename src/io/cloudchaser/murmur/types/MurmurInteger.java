@@ -157,6 +157,13 @@ public class MurmurInteger extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opBitNot() {
+		long result = ~value;
+		if(result == 0) return ZERO;
+		return new MurmurInteger(result);
+	}
+
+	@Override
 	public MurmurObject opBitXor(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {

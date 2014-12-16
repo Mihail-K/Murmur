@@ -107,6 +107,11 @@ public class MurmurBoolean extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opBitNot() {
+		return value ? FALSE : TRUE;
+	}
+
+	@Override
 	public MurmurObject opBitAnd(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == BOOLEAN) {

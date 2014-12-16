@@ -311,8 +311,8 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitBinaryNotExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject right = visitExpression(ctx.right);
+		return right.opBitNot();
 	}
 	
 	public MurmurObject visitBinaryAndExpression(MurmurParser.ExpressionContext ctx) {
