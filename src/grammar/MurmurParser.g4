@@ -123,9 +123,13 @@ identifierList
 		(',' Identifier)*
 	;
 
-initializerList
+initializerElement
 	:	Identifier ('=' expression)?
-		(',' Identifier ('=' expression)?)*
+	;
+
+initializerList
+	:	initializerElement
+		(',' initializerElement)*
 	;
 
 expressionList
