@@ -282,13 +282,17 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitEqualExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		return left.opEquals(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitNotEqualExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		return left.opNotEquals(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitLogicalNotExpression(MurmurParser.ExpressionContext ctx) {
@@ -312,18 +316,24 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitBinaryAndExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		return left.opBitAnd(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitBinaryXorExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		return left.opBitXor(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitBinaryOrExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		return left.opBitOr(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public MurmurObject visitLessThanExpression(MurmurParser.ExpressionContext ctx) {
@@ -554,7 +564,18 @@ public class MurmurASTVisitor
 	/* - - - - - - - - - */
 	
 	public MurmurInteger visitIntegerLiteral(MurmurParser.LiteralContext ctx) {
-		long value = Long.parseLong(ctx.getText());
+		long value;
+		String text = ctx.getText().toLowerCase();
+		
+		// Check for base.
+		if(text.startsWith("0x")) {
+			text = text.replaceAll("(0x|_|l)", "");
+			value = Long.parseLong(text, 16);
+		} else {
+			text = text.replaceAll("(_|l)", "");
+			value = Long.parseLong(text);
+		}
+		
 		if(value == 0) return MurmurInteger.ZERO;
 		return new MurmurInteger(value);
 	}

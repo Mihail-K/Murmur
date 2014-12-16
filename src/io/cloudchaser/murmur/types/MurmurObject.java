@@ -62,4 +62,10 @@ public abstract class MurmurObject {
 	
 	public abstract MurmurObject opNotEquals(MurmurObject other);
 	
+	public abstract MurmurObject opBitAnd(MurmurObject other);
+	
+	public abstract MurmurObject opBitXor(MurmurObject other);
+	
+	public abstract MurmurObject opBitOr(MurmurObject other);
+	
 }

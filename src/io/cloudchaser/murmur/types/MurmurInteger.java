@@ -144,6 +144,45 @@ public class MurmurInteger extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opBitAnd(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			long result = value & ((MurmurInteger)other).value;
+			if(result == 0) return ZERO;
+			return new MurmurInteger(result);
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opBitXor(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			long result = value ^ ((MurmurInteger)other).value;
+			if(result == 0) return ZERO;
+			return new MurmurInteger(result);
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opBitOr(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == INTEGER) {
+			long result = value | ((MurmurInteger)other).value;
+			if(result == 0) return ZERO;
+			return new MurmurInteger(result);
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public String toString() {
 		return "MurmurInteger{" + "value=" + value + '}';
 	}

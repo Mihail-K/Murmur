@@ -107,6 +107,42 @@ public class MurmurBoolean extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opBitAnd(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == BOOLEAN) {
+			boolean result = value & ((MurmurBoolean)other).value;
+			return result ? TRUE : FALSE;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opBitXor(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == BOOLEAN) {
+			boolean result = value ^ ((MurmurBoolean)other).value;
+			return result ? TRUE : FALSE;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opBitOr(MurmurObject other) {
+		// Check for supported operation.
+		if(other.getType() == BOOLEAN) {
+			boolean result = value | ((MurmurBoolean)other).value;
+			return result ? TRUE : FALSE;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public String toString() {
 		return "MurmurBoolean{" + "value=" + value + '}';
 	}
