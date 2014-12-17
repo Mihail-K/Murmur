@@ -28,7 +28,7 @@ package io.cloudchaser.murmur.types;
  *
  * @author Mihail K
  * @since 0.1
- */
+ **/
 public abstract class MurmurObject {
 	
 	private final MurmurType type;
@@ -45,14 +45,14 @@ public abstract class MurmurObject {
 	 * Converts this Object to an integer, if possible.
 	 * 
 	 * @return This Object as an integer.
-	 */
+	 **/
 	public abstract MurmurInteger asInteger();
 	
 	/**
 	 * Converts this Object to a string, if possible.
 	 * 
 	 * @return This Object as a string.
-	 */
+	 **/
 	public abstract MurmurString asString();
 	
 	public abstract MurmurObject opPositive();
