@@ -32,16 +32,15 @@ import io.cloudchaser.murmur.types.ReferenceType;
 /**
  *
  * @author Mihail K
- * @param <Type>
  * @since 0.1
  */
-public abstract class Symbol<Type extends MurmurObject>
-		extends MurmurObject implements ReferenceType {
+public abstract class Symbol extends MurmurObject
+		implements ReferenceType {
 
 	private final String name;
-	private Type value;
+	private MurmurObject value;
 
-	public Symbol(String name, Type value) {
+	public Symbol(String name, MurmurObject value) {
 		super(value.getType());
 		this.name = name;
 		this.value = value;
@@ -51,11 +50,11 @@ public abstract class Symbol<Type extends MurmurObject>
 		return name;
 	}
 
-	public Type getValue() {
+	public MurmurObject getValue() {
 		return value;
 	}
 	
-	public void setValue(Type value) {
+	public void setValue(MurmurObject value) {
 		this.value = value;
 	}
 	
@@ -199,57 +198,79 @@ public abstract class Symbol<Type extends MurmurObject>
 
 	@Override
 	public MurmurObject opPlusAssign(MurmurObject other) {
-		return value.opPlusAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opPlusAssign(other);
+		return value = value.opPlus(other);
 	}
 
 	@Override
 	public MurmurObject opMinusAssign(MurmurObject other) {
-		return value.opMinusAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opMinusAssign(other);
+		return value = value.opMinus(other);
 	}
 
 	@Override
 	public MurmurObject opMultiplyAssign(MurmurObject other) {
-		return value.opMultiplyAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opMultiplyAssign(other);
+		return value = value.opMultiply(other);
 	}
 
 	@Override
 	public MurmurObject opDivideAssign(MurmurObject other) {
-		return value.opDivideAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opDivideAssign(other);
+		return value = value.opDivide(other);
 	}
 
 	@Override
 	public MurmurObject opModuloAssign(MurmurObject other) {
-		return value.opModuloAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opModuloAssign(other);
+		return value = value.opModulo(other);
 	}
 
 	@Override
 	public MurmurObject opBitAndAssign(MurmurObject other) {
-		return value.opBitAndAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opBitAndAssign(other);
+		return value = value.opBitAnd(other);
 	}
 
 	@Override
 	public MurmurObject opBitXorAssign(MurmurObject other) {
-		return value.opBitXorAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opBitXorAssign(other);
+		return value = value.opBitXor(other);
 	}
 
 	@Override
 	public MurmurObject opBitOrAssign(MurmurObject other) {
-		return value.opBitOrAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opBitOrAssign(other);
+		return value = value.opBitOr(other);
 	}
 
 	@Override
 	public MurmurObject opShiftLeftAssign(MurmurObject other) {
-		return value.opShiftLeftAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opShiftLeftAssign(other);
+		return value = value.opShiftLeft(other);
 	}
 
 	@Override
 	public MurmurObject opShiftRightAssign(MurmurObject other) {
-		return value.opShiftRightAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opShiftRightAssign(other);
+		return value = value.opShiftRight(other);
 	}
 
 	@Override
 	public MurmurObject opConcatAssign(MurmurObject other) {
-		return value.opConcatAssign(other);
+		if(value instanceof ReferenceType)
+			return ((ReferenceType)value).opConcatAssign(other);
+		return value = value.opConcat(other);
 	}
 
 	@Override

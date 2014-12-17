@@ -105,28 +105,6 @@ public abstract class MurmurObject {
 	
 	public abstract MurmurObject opIndex(MurmurObject other);
 	
-	public abstract MurmurObject opPlusAssign(MurmurObject other);
-	
-	public abstract MurmurObject opMinusAssign(MurmurObject other);
-	
-	public abstract MurmurObject opMultiplyAssign(MurmurObject other);
-	
-	public abstract MurmurObject opDivideAssign(MurmurObject other);
-	
-	public abstract MurmurObject opModuloAssign(MurmurObject other);
-	
-	public abstract MurmurObject opBitAndAssign(MurmurObject other);
-	
-	public abstract MurmurObject opBitXorAssign(MurmurObject other);
-	
-	public abstract MurmurObject opBitOrAssign(MurmurObject other);
-	
-	public abstract MurmurObject opShiftLeftAssign(MurmurObject other);
-	
-	public abstract MurmurObject opShiftRightAssign(MurmurObject other);
-	
-	public abstract MurmurObject opConcatAssign(MurmurObject other);
-	
 	public abstract MurmurObject opConcat(MurmurObject other);
 	
 }

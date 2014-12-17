@@ -32,7 +32,7 @@ import io.cloudchaser.murmur.types.MurmurFunction;
  * @author Mihail K
  * @since 0.1
  */
-public class FunctionSymbol extends ComponentSymbol<MurmurFunction> {
+public class FunctionSymbol extends ComponentSymbol {
 
 	public FunctionSymbol(String name, MurmurFunction value,
 			MurmurComponent parent) {

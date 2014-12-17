@@ -41,8 +41,8 @@ import io.cloudchaser.murmur.types.MurmurNull;
 import io.cloudchaser.murmur.types.MurmurObject;
 import io.cloudchaser.murmur.types.MurmurReturn;
 import io.cloudchaser.murmur.types.MurmurString;
-import io.cloudchaser.murmur.types.MurmurType;
 import static io.cloudchaser.murmur.types.MurmurType.TYPE;
+import io.cloudchaser.murmur.types.ReferenceType;
 
 import java.util.ArrayList;
 import java.util.Deque;
@@ -705,87 +705,41 @@ public class MurmurASTVisitor
 	
 	public MurmurObject visitCompoundAssignmentExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
-		MurmurObject right = visitExpression(ctx.right);
+		MurmurObject right = desymbolize(visitExpression(ctx.right));
 		
-		// Check if the type defines an operator.
-		if(left.getType() == MurmurType.ARRAY) {
-			// Use Add-Assignment operator.
-			switch(ctx.operator.getText()) {
-				case "+=":
-					return left.opPlusAssign(desymbolize(right));
-				case "-=":
-					return left.opMinusAssign(desymbolize(right));
-				case "*=":
-					return left.opMultiplyAssign(desymbolize(right));
-				case "/=":
-					return left.opDivideAssign(desymbolize(right));
-				case "%=":
-					return left.opModuloAssign(desymbolize(right));
-				case "&=":
-					return left.opBitAndAssign(desymbolize(right));
-				case "^=":
-					return left.opBitXorAssign(desymbolize(right));
-				case "|=":
-					return left.opBitOrAssign(desymbolize(right));
-				case "<<=":
-					return left.opShiftLeftAssign(desymbolize(right));
-				case ">>=":
-					return left.opShiftRightAssign(desymbolize(right));
-				case "~=":
-					return left.opConcatAssign(desymbolize(right));
-				default:
-					// Unsupported assignment type.
-					throw new UnsupportedOperationException();
-			}
-		} else {
-			// Check that this is an lvalue.
-			if(!(left instanceof Symbol)) {
+		// Check that this is a reference type.
+		if(!(left instanceof ReferenceType)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Invoke the relevant operator.
+		ReferenceType ref = (ReferenceType)left;
+		switch(ctx.operator.getText()) {
+			case "+=":
+				return ref.opPlusAssign(right);
+			case "-=":
+				return ref.opMinusAssign(right);
+			case "*=":
+				return ref.opMultiplyAssign(right);
+			case "/=":
+				return ref.opDivideAssign(right);
+			case "%=":
+				return ref.opModuloAssign(right);
+			case "&=":
+				return ref.opBitAndAssign(right);
+			case "^=":
+				return ref.opBitXorAssign(right);
+			case "|=":
+				return ref.opBitOrAssign(right);
+			case "<<=":
+				return ref.opShiftLeftAssign(right);
+			case ">>=":
+				return ref.opShiftRightAssign(right);
+			case "~=":
+				return ref.opConcatAssign(right);
+			default:
+				// Unsupported assignment type.
 				throw new UnsupportedOperationException();
-			}
-			
-			// Compound-Assign the value to the symbol.
-			MurmurObject value;
-			switch(ctx.operator.getText()) {
-				case "+=":
-					value = left.opPlus(desymbolize(right));
-					break;
-				case "-=":
-					value = left.opMinus(desymbolize(right));
-					break;
-				case "*=":
-					value = left.opMultiply(desymbolize(right));
-					break;
-				case "/=":
-					value = left.opDivide(desymbolize(right));
-					break;
-				case "%=":
-					value = left.opModulo(desymbolize(right));
-					break;
-				case "&=":
-					value = left.opBitAnd(desymbolize(right));
-					break;
-				case "^=":
-					value = left.opBitXor(desymbolize(right));
-					break;
-				case "|=":
-					value = left.opBitOr(desymbolize(right));
-					break;
-				case "<<=":
-					value = left.opShiftLeft(desymbolize(right));
-					break;
-				case ">>=":
-					value = left.opShiftRight(desymbolize(right));
-					break;
-				case "~=":
-					value = left.opConcat(desymbolize(right));
-					break;
-				default:
-					// Unsupported assignment type.
-					throw new UnsupportedOperationException();
-			}
-			
-			((Symbol)left).setValue(value);
-			return value;
 		}
 	}
 	
