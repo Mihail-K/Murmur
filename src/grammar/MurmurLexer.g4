@@ -398,6 +398,10 @@ NotEqualsOperator
 	:	'!='
 	;
 
+RangeOperator
+	:	'..'
+	;
+
 RightShiftOperator
 	:	'>>'
 	;

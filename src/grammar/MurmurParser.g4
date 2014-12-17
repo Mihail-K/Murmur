@@ -251,7 +251,7 @@ expression
 
 	//	Set notation.
 	|	'[' left = expression?
-		operator = ','
+		operator = '..'
 		right = expression? ']'
 		
 	//	Array notation.
