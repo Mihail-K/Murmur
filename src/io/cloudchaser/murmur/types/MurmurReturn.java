@@ -189,5 +189,10 @@ public class MurmurReturn extends MurmurObject {
 	public MurmurObject opConcat(MurmurObject other) {
 		return value.opConcat(other);
 	}
+
+	@Override
+	public String toString() {
+		return "MurmurReturn{" + "value=" + value + '}';
+	}
 	
 }

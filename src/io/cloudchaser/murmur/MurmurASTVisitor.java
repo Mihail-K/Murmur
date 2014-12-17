@@ -34,6 +34,7 @@ import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurFunction;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurObject;
+import io.cloudchaser.murmur.types.MurmurReturn;
 import io.cloudchaser.murmur.types.MurmurType;
 
 import java.util.ArrayList;
@@ -99,7 +100,7 @@ public class MurmurASTVisitor
 	@Override
 	public MurmurObject visitStatement(MurmurParser.StatementContext ctx) {
 		if(ctx.keywordStatement() != null) {
-			visitKeywordStatement(ctx.keywordStatement());
+			return visitKeywordStatement(ctx.keywordStatement());
 		} else {
 			// Print results for debug.
 			System.out.println(visitExpression(ctx.expression()));
@@ -155,8 +156,9 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitReturnStatement(MurmurParser.KeywordStatementContext ctx) {
-		// TODO
-		return null;
+		// Wrap return value.
+		MurmurObject value = visitExpression(ctx.expression());
+		return new MurmurReturn(desymbolize(value));
 	}
 	
 	public MurmurObject visitThrowStatement(MurmurParser.KeywordStatementContext ctx) {
@@ -506,6 +508,22 @@ public class MurmurASTVisitor
 		ctx.expression().stream().forEach((argument) ->
 				args.add(desymbolize(visitExpression(argument))));
 		return args;
+	}
+	
+	@Override
+	public MurmurObject visitBlock(MurmurParser.BlockContext ctx) {
+		// Execute statements in sequence.
+		for(MurmurParser.StatementContext statement : ctx.statement()) {
+			MurmurObject result = visitStatement(statement);
+			
+			// Check for a return value.
+			if(result instanceof MurmurReturn) {
+				return ((MurmurReturn)result).getValue();
+			}
+		}
+		
+		// TODO
+		return null;
 	}
 	
 	public MurmurObject visitFunctionCallExpression(MurmurParser.ExpressionContext ctx) {
