@@ -147,6 +147,10 @@ expression
 	//	Lambdas.
 	|	lambda
 		
+	//	Instantiation.
+	|	operator = 'new'
+		name = Identifier
+		
 	//	Postfixed.
 	|	left = expression
 		operator = ('++' | '--')

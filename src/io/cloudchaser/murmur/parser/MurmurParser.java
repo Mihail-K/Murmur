@@ -109,7 +109,7 @@ public class MurmurParser extends Parser {
 			setState(37);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftArrowElement) | (1L << RightArrowElement) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement) | (1L << BreakKeyword) | (1L << ContinueKeyword) | (1L << LetKeyword))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ReturnKeyword - 64)) | (1L << (SuperKeyword - 64)) | (1L << (ThisKeyword - 64)) | (1L << (ThrowKeyword - 64)) | (1L << (Identifier - 64)))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftArrowElement) | (1L << RightArrowElement) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement) | (1L << BreakKeyword) | (1L << ContinueKeyword) | (1L << LetKeyword) | (1L << NewKeyword))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ReturnKeyword - 64)) | (1L << (SuperKeyword - 64)) | (1L << (ThisKeyword - 64)) | (1L << (ThrowKeyword - 64)) | (1L << (Identifier - 64)))) != 0)) {
 				{
 				{
 				setState(34); statement();
@@ -365,7 +365,7 @@ public class MurmurParser extends Parser {
 			setState(82);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftArrowElement) | (1L << RightArrowElement) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement) | (1L << BreakKeyword) | (1L << ContinueKeyword) | (1L << LetKeyword))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ReturnKeyword - 64)) | (1L << (SuperKeyword - 64)) | (1L << (ThisKeyword - 64)) | (1L << (ThrowKeyword - 64)) | (1L << (Identifier - 64)))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftArrowElement) | (1L << RightArrowElement) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement) | (1L << BreakKeyword) | (1L << ContinueKeyword) | (1L << LetKeyword) | (1L << NewKeyword))) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & ((1L << (ReturnKeyword - 64)) | (1L << (SuperKeyword - 64)) | (1L << (ThisKeyword - 64)) | (1L << (ThrowKeyword - 64)) | (1L << (Identifier - 64)))) != 0)) {
 				{
 				{
 				setState(79); statement();
@@ -946,8 +946,8 @@ public class MurmurParser extends Parser {
 		public ExpressionContext clause;
 		public Token operator;
 		public ExpressionContext right;
-		public ExpressionContext inner;
 		public Token name;
+		public ExpressionContext inner;
 		public ExpressionContext index;
 		public TerminalNode Identifier() { return getToken(MurmurParser.Identifier, 0); }
 		public ExpressionListContext expressionList() {
@@ -998,7 +998,7 @@ public class MurmurParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(205);
+			setState(207);
 			switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
 			case 1:
 				{
@@ -1053,51 +1053,57 @@ public class MurmurParser extends Parser {
 				break;
 			case 7:
 				{
-				setState(187); match(LeftBracketElement);
-				setState(189);
-				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement))) != 0) || ((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & ((1L << (SuperKeyword - 65)) | (1L << (ThisKeyword - 65)) | (1L << (Identifier - 65)))) != 0)) {
-					{
-					setState(188); ((ExpressionContext)_localctx).left = expression(0);
-					}
-				}
-
-				setState(191); ((ExpressionContext)_localctx).operator = match(RangeOperator);
-				setState(193);
-				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement))) != 0) || ((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & ((1L << (SuperKeyword - 65)) | (1L << (ThisKeyword - 65)) | (1L << (Identifier - 65)))) != 0)) {
-					{
-					setState(192); ((ExpressionContext)_localctx).right = expression(0);
-					}
-				}
-
-				setState(195); match(RightBracketElement);
+				setState(187); ((ExpressionContext)_localctx).operator = match(NewKeyword);
+				setState(188); ((ExpressionContext)_localctx).name = match(Identifier);
 				}
 				break;
 			case 8:
 				{
-				setState(196); ((ExpressionContext)_localctx).operator = match(LeftBracketElement);
-				setState(198);
+				setState(189); match(LeftBracketElement);
+				setState(191);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement))) != 0) || ((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & ((1L << (SuperKeyword - 65)) | (1L << (ThisKeyword - 65)) | (1L << (Identifier - 65)))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement) | (1L << NewKeyword))) != 0) || ((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & ((1L << (SuperKeyword - 65)) | (1L << (ThisKeyword - 65)) | (1L << (Identifier - 65)))) != 0)) {
 					{
-					setState(197); expressionList();
+					setState(190); ((ExpressionContext)_localctx).left = expression(0);
 					}
 				}
 
-				setState(200); match(RightBracketElement);
+				setState(193); ((ExpressionContext)_localctx).operator = match(RangeOperator);
+				setState(195);
+				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement) | (1L << NewKeyword))) != 0) || ((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & ((1L << (SuperKeyword - 65)) | (1L << (ThisKeyword - 65)) | (1L << (Identifier - 65)))) != 0)) {
+					{
+					setState(194); ((ExpressionContext)_localctx).right = expression(0);
+					}
+				}
+
+				setState(197); match(RightBracketElement);
 				}
 				break;
 			case 9:
 				{
-				setState(201); match(LeftParenElement);
-				setState(202); ((ExpressionContext)_localctx).inner = expression(0);
-				setState(203); match(RightParenElement);
+				setState(198); ((ExpressionContext)_localctx).operator = match(LeftBracketElement);
+				setState(200);
+				_la = _input.LA(1);
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement) | (1L << NewKeyword))) != 0) || ((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & ((1L << (SuperKeyword - 65)) | (1L << (ThisKeyword - 65)) | (1L << (Identifier - 65)))) != 0)) {
+					{
+					setState(199); expressionList();
+					}
+				}
+
+				setState(202); match(RightBracketElement);
+				}
+				break;
+			case 10:
+				{
+				setState(203); match(LeftParenElement);
+				setState(204); ((ExpressionContext)_localctx).inner = expression(0);
+				setState(205); match(RightParenElement);
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(276);
+			setState(278);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,28,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -1105,23 +1111,23 @@ public class MurmurParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(274);
+					setState(276);
 					switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
 					case 1:
 						{
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(207);
+						setState(209);
 						if (!(precpred(_ctx, 17))) throw new FailedPredicateException(this, "precpred(_ctx, 17)");
-						setState(208);
+						setState(210);
 						((ExpressionContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << DivideOperator) | (1L << ModuloOperator) | (1L << MultiplyOperator))) != 0)) ) {
 							((ExpressionContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(209); ((ExpressionContext)_localctx).right = expression(18);
+						setState(211); ((ExpressionContext)_localctx).right = expression(18);
 						}
 						break;
 					case 2:
@@ -1129,16 +1135,16 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(210);
+						setState(212);
 						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
-						setState(211);
+						setState(213);
 						((ExpressionContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==AddOperator || _la==SubtractOperator) ) {
 							((ExpressionContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(212); ((ExpressionContext)_localctx).right = expression(17);
+						setState(214); ((ExpressionContext)_localctx).right = expression(17);
 						}
 						break;
 					case 3:
@@ -1146,16 +1152,16 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(213);
+						setState(215);
 						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
-						setState(214);
+						setState(216);
 						((ExpressionContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==LeftShiftOperator || _la==RightShiftOperator) ) {
 							((ExpressionContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(215); ((ExpressionContext)_localctx).right = expression(16);
+						setState(217); ((ExpressionContext)_localctx).right = expression(16);
 						}
 						break;
 					case 4:
@@ -1163,16 +1169,16 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(216);
+						setState(218);
 						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
-						setState(217);
+						setState(219);
 						((ExpressionContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GreaterOrEqualOperator) | (1L << GreaterThanOperator) | (1L << LessOrEqualOperator) | (1L << LessThanOperator))) != 0)) ) {
 							((ExpressionContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(218); ((ExpressionContext)_localctx).right = expression(15);
+						setState(220); ((ExpressionContext)_localctx).right = expression(15);
 						}
 						break;
 					case 5:
@@ -1180,16 +1186,16 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(219);
+						setState(221);
 						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(220);
+						setState(222);
 						((ExpressionContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==EqualsOperator || _la==NotEqualsOperator) ) {
 							((ExpressionContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(221); ((ExpressionContext)_localctx).right = expression(14);
+						setState(223); ((ExpressionContext)_localctx).right = expression(14);
 						}
 						break;
 					case 6:
@@ -1197,10 +1203,10 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(222);
+						setState(224);
 						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
-						setState(223); ((ExpressionContext)_localctx).operator = match(BinaryAndOperator);
-						setState(224); ((ExpressionContext)_localctx).right = expression(13);
+						setState(225); ((ExpressionContext)_localctx).operator = match(BinaryAndOperator);
+						setState(226); ((ExpressionContext)_localctx).right = expression(13);
 						}
 						break;
 					case 7:
@@ -1208,10 +1214,10 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(225);
+						setState(227);
 						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(226); ((ExpressionContext)_localctx).operator = match(BinaryXorOperator);
-						setState(227); ((ExpressionContext)_localctx).right = expression(12);
+						setState(228); ((ExpressionContext)_localctx).operator = match(BinaryXorOperator);
+						setState(229); ((ExpressionContext)_localctx).right = expression(12);
 						}
 						break;
 					case 8:
@@ -1219,10 +1225,10 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(228);
+						setState(230);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(229); ((ExpressionContext)_localctx).operator = match(BinaryOrOperator);
-						setState(230); ((ExpressionContext)_localctx).right = expression(11);
+						setState(231); ((ExpressionContext)_localctx).operator = match(BinaryOrOperator);
+						setState(232); ((ExpressionContext)_localctx).right = expression(11);
 						}
 						break;
 					case 9:
@@ -1230,10 +1236,10 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(231);
+						setState(233);
 						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(232); ((ExpressionContext)_localctx).operator = match(LogicalAndOperator);
-						setState(233); ((ExpressionContext)_localctx).right = expression(10);
+						setState(234); ((ExpressionContext)_localctx).operator = match(LogicalAndOperator);
+						setState(235); ((ExpressionContext)_localctx).right = expression(10);
 						}
 						break;
 					case 10:
@@ -1241,10 +1247,10 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(234);
+						setState(236);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(235); ((ExpressionContext)_localctx).operator = match(LogicalOrOperator);
-						setState(236); ((ExpressionContext)_localctx).right = expression(9);
+						setState(237); ((ExpressionContext)_localctx).operator = match(LogicalOrOperator);
+						setState(238); ((ExpressionContext)_localctx).right = expression(9);
 						}
 						break;
 					case 11:
@@ -1252,12 +1258,12 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.clause = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(237);
+						setState(239);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(238); ((ExpressionContext)_localctx).operator = match(TernaryConditionOperator);
-						setState(239); expression(0);
-						setState(240); match(ColonElement);
-						setState(241); expression(8);
+						setState(240); ((ExpressionContext)_localctx).operator = match(TernaryConditionOperator);
+						setState(241); expression(0);
+						setState(242); match(ColonElement);
+						setState(243); expression(8);
 						}
 						break;
 					case 12:
@@ -1265,16 +1271,16 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(243);
+						setState(245);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(244);
+						setState(246);
 						((ExpressionContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AssignOperator) | (1L << CompoundAddOperator) | (1L << CompoundBinaryAndOperator) | (1L << CompoundBinaryOrOperator) | (1L << CompoundBinaryXorOperator) | (1L << CompoundConcatOperator) | (1L << CompoundDivideOperator) | (1L << CompoundLeftShiftOperator) | (1L << CompoundModuloOperator) | (1L << CompoundMultiplyOperator) | (1L << CompoundRightShiftOperator) | (1L << CompoundSubtractOperator))) != 0)) ) {
 							((ExpressionContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(245); ((ExpressionContext)_localctx).right = expression(5);
+						setState(247); ((ExpressionContext)_localctx).right = expression(5);
 						}
 						break;
 					case 13:
@@ -1282,10 +1288,10 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(246);
+						setState(248);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(247); ((ExpressionContext)_localctx).operator = match(BinaryNotOperator);
-						setState(248); ((ExpressionContext)_localctx).right = expression(5);
+						setState(249); ((ExpressionContext)_localctx).operator = match(BinaryNotOperator);
+						setState(250); ((ExpressionContext)_localctx).right = expression(5);
 						}
 						break;
 					case 14:
@@ -1293,9 +1299,9 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(249);
+						setState(251);
 						if (!(precpred(_ctx, 25))) throw new FailedPredicateException(this, "precpred(_ctx, 25)");
-						setState(250);
+						setState(252);
 						((ExpressionContext)_localctx).operator = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==DecrementOperator || _la==IncrementOperator) ) {
@@ -1309,10 +1315,10 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(251);
+						setState(253);
 						if (!(precpred(_ctx, 24))) throw new FailedPredicateException(this, "precpred(_ctx, 24)");
-						setState(252); ((ExpressionContext)_localctx).operator = match(DotOperator);
-						setState(253); ((ExpressionContext)_localctx).name = match(Identifier);
+						setState(254); ((ExpressionContext)_localctx).operator = match(DotOperator);
+						setState(255); ((ExpressionContext)_localctx).name = match(Identifier);
 						}
 						break;
 					case 16:
@@ -1320,11 +1326,11 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(254);
+						setState(256);
 						if (!(precpred(_ctx, 23))) throw new FailedPredicateException(this, "precpred(_ctx, 23)");
-						setState(255); ((ExpressionContext)_localctx).operator = match(LeftBracketElement);
-						setState(256); ((ExpressionContext)_localctx).index = expression(0);
-						setState(257); match(RightBracketElement);
+						setState(257); ((ExpressionContext)_localctx).operator = match(LeftBracketElement);
+						setState(258); ((ExpressionContext)_localctx).index = expression(0);
+						setState(259); match(RightBracketElement);
 						}
 						break;
 					case 17:
@@ -1332,9 +1338,9 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(259);
+						setState(261);
 						if (!(precpred(_ctx, 22))) throw new FailedPredicateException(this, "precpred(_ctx, 22)");
-						setState(260); lambda();
+						setState(262); lambda();
 						}
 						break;
 					case 18:
@@ -1342,18 +1348,18 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.left = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(261);
+						setState(263);
 						if (!(precpred(_ctx, 21))) throw new FailedPredicateException(this, "precpred(_ctx, 21)");
-						setState(262); ((ExpressionContext)_localctx).operator = match(LeftParenElement);
-						setState(264);
+						setState(264); ((ExpressionContext)_localctx).operator = match(LeftParenElement);
+						setState(266);
 						_la = _input.LA(1);
-						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement))) != 0) || ((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & ((1L << (SuperKeyword - 65)) | (1L << (ThisKeyword - 65)) | (1L << (Identifier - 65)))) != 0)) {
+						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral) | (1L << AddOperator) | (1L << BinaryNotOperator) | (1L << DecrementOperator) | (1L << IncrementOperator) | (1L << LogicalNotOperator) | (1L << SubtractOperator) | (1L << LeftBraceElement) | (1L << LeftBracketElement) | (1L << LeftParenElement) | (1L << NewKeyword))) != 0) || ((((_la - 65)) & ~0x3f) == 0 && ((1L << (_la - 65)) & ((1L << (SuperKeyword - 65)) | (1L << (ThisKeyword - 65)) | (1L << (Identifier - 65)))) != 0)) {
 							{
-							setState(263); expressionList();
+							setState(265); expressionList();
 							}
 						}
 
-						setState(266); match(RightParenElement);
+						setState(268); match(RightParenElement);
 						}
 						break;
 					case 19:
@@ -1361,16 +1367,16 @@ public class MurmurParser extends Parser {
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						_localctx.clause = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(267);
+						setState(269);
 						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(268); ((ExpressionContext)_localctx).operator = match(TernaryConditionOperator);
-						setState(269); statement();
-						setState(272);
+						setState(270); ((ExpressionContext)_localctx).operator = match(TernaryConditionOperator);
+						setState(271); statement();
+						setState(274);
 						switch ( getInterpreter().adaptivePredict(_input,26,_ctx) ) {
 						case 1:
 							{
-							setState(270); match(ColonElement);
-							setState(271); statement();
+							setState(272); match(ColonElement);
+							setState(273); statement();
 							}
 							break;
 						}
@@ -1379,7 +1385,7 @@ public class MurmurParser extends Parser {
 					}
 					} 
 				}
-				setState(278);
+				setState(280);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,28,_ctx);
 			}
@@ -1421,24 +1427,24 @@ public class MurmurParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(284);
+			setState(286);
 			_la = _input.LA(1);
 			if (_la==LeftParenElement) {
 				{
-				setState(279); match(LeftParenElement);
-				setState(281);
+				setState(281); match(LeftParenElement);
+				setState(283);
 				_la = _input.LA(1);
 				if (_la==Identifier) {
 					{
-					setState(280); identifierList();
+					setState(282); identifierList();
 					}
 				}
 
-				setState(283); match(RightParenElement);
+				setState(285); match(RightParenElement);
 				}
 			}
 
-			setState(286); block();
+			setState(288); block();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1477,7 +1483,7 @@ public class MurmurParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(288);
+			setState(290);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IntegerLiteral) | (1L << DecimalLiteral) | (1L << BooleanLiteral) | (1L << CharacterLiteral) | (1L << StringLiteral) | (1L << NullLiteral))) != 0) || _la==SuperKeyword || _la==ThisKeyword) ) {
 			_errHandler.recoverInline(this);
@@ -1528,7 +1534,7 @@ public class MurmurParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3M\u0125\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3M\u0127\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\3\2\7\2&\n\2\f\2\16\2)\13\2\3\3\3\3\5\3-\n\3\3\3\3\3\5\3\61\n\3\3\3\3"+
@@ -1541,21 +1547,21 @@ public class MurmurParser extends Parser {
 		"\3\13\3\13\5\13\u0093\n\13\3\13\3\13\3\f\3\f\3\f\7\f\u009a\n\f\f\f\16"+
 		"\f\u009d\13\f\3\r\3\r\3\r\5\r\u00a2\n\r\3\16\3\16\3\16\7\16\u00a7\n\16"+
 		"\f\16\16\16\u00aa\13\16\3\17\3\17\3\17\7\17\u00af\n\17\f\17\16\17\u00b2"+
-		"\13\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\5\20"+
-		"\u00c0\n\20\3\20\3\20\5\20\u00c4\n\20\3\20\3\20\3\20\5\20\u00c9\n\20\3"+
-		"\20\3\20\3\20\3\20\3\20\5\20\u00d0\n\20\3\20\3\20\3\20\3\20\3\20\3\20"+
+		"\13\17\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20"+
+		"\3\20\5\20\u00c2\n\20\3\20\3\20\5\20\u00c6\n\20\3\20\3\20\3\20\5\20\u00cb"+
+		"\n\20\3\20\3\20\3\20\3\20\3\20\5\20\u00d2\n\20\3\20\3\20\3\20\3\20\3\20"+
 		"\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20"+
 		"\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20"+
 		"\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20"+
-		"\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\5\20\u010b\n\20\3\20\3\20"+
-		"\3\20\3\20\3\20\3\20\5\20\u0113\n\20\7\20\u0115\n\20\f\20\16\20\u0118"+
-		"\13\20\3\21\3\21\5\21\u011c\n\21\3\21\5\21\u011f\n\21\3\21\3\21\3\22\3"+
+		"\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\3\20\5\20\u010d\n\20\3\20"+
+		"\3\20\3\20\3\20\3\20\3\20\5\20\u0115\n\20\7\20\u0117\n\20\f\20\16\20\u011a"+
+		"\13\20\3\21\3\21\5\21\u011e\n\21\3\21\5\21\u0121\n\21\3\21\3\21\3\22\3"+
 		"\22\3\22\2\3\36\23\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"\2\r\3\2;"+
 		"<\4\2DDJJ\4\2\t\t--\4\2\33\33!!\4\2\f\f&&\4\2\34\34()\4\2\"\",,\4\2\37"+
-		" #$\4\2\36\36**\4\2\n\n\20\32\4\2\3\bCD\u0151\2\'\3\2\2\2\4:\3\2\2\2\6"+
+		" #$\4\2\36\36**\4\2\n\n\20\32\4\2\3\bCD\u0154\2\'\3\2\2\2\4:\3\2\2\2\6"+
 		"N\3\2\2\2\bP\3\2\2\2\nY\3\2\2\2\fd\3\2\2\2\16q\3\2\2\2\20v\3\2\2\2\22"+
 		"\u0081\3\2\2\2\24\u008e\3\2\2\2\26\u0096\3\2\2\2\30\u009e\3\2\2\2\32\u00a3"+
-		"\3\2\2\2\34\u00ab\3\2\2\2\36\u00cf\3\2\2\2 \u011e\3\2\2\2\"\u0122\3\2"+
+		"\3\2\2\2\34\u00ab\3\2\2\2\36\u00d1\3\2\2\2 \u0120\3\2\2\2\"\u0124\3\2"+
 		"\2\2$&\5\4\3\2%$\3\2\2\2&)\3\2\2\2\'%\3\2\2\2\'(\3\2\2\2(\3\3\2\2\2)\'"+
 		"\3\2\2\2*,\5\n\6\2+-\7\61\2\2,+\3\2\2\2,-\3\2\2\2-;\3\2\2\2.\60\5\20\t"+
 		"\2/\61\7\61\2\2\60/\3\2\2\2\60\61\3\2\2\2\61;\3\2\2\2\62\64\5\6\4\2\63"+
@@ -1590,51 +1596,51 @@ public class MurmurParser extends Parser {
 		"\2\u00aa\u00a8\3\2\2\2\u00ab\u00b0\5\36\20\2\u00ac\u00ad\7\17\2\2\u00ad"+
 		"\u00af\5\36\20\2\u00ae\u00ac\3\2\2\2\u00af\u00b2\3\2\2\2\u00b0\u00ae\3"+
 		"\2\2\2\u00b0\u00b1\3\2\2\2\u00b1\35\3\2\2\2\u00b2\u00b0\3\2\2\2\u00b3"+
-		"\u00b4\b\20\1\2\u00b4\u00b5\t\4\2\2\u00b5\u00d0\5\36\20\26\u00b6\u00b7"+
-		"\t\5\2\2\u00b7\u00d0\5\36\20\25\u00b8\u00b9\t\6\2\2\u00b9\u00d0\5\36\20"+
-		"\24\u00ba\u00d0\5\"\22\2\u00bb\u00d0\7J\2\2\u00bc\u00d0\5 \21\2\u00bd"+
-		"\u00bf\7\66\2\2\u00be\u00c0\5\36\20\2\u00bf\u00be\3\2\2\2\u00bf\u00c0"+
-		"\3\2\2\2\u00c0\u00c1\3\2\2\2\u00c1\u00c3\7+\2\2\u00c2\u00c4\5\36\20\2"+
-		"\u00c3\u00c2\3\2\2\2\u00c3\u00c4\3\2\2\2\u00c4\u00c5\3\2\2\2\u00c5\u00d0"+
-		"\7\67\2\2\u00c6\u00c8\7\66\2\2\u00c7\u00c9\5\34\17\2\u00c8\u00c7\3\2\2"+
-		"\2\u00c8\u00c9\3\2\2\2\u00c9\u00ca\3\2\2\2\u00ca\u00d0\7\67\2\2\u00cb"+
-		"\u00cc\78\2\2\u00cc\u00cd\5\36\20\2\u00cd\u00ce\79\2\2\u00ce\u00d0\3\2"+
-		"\2\2\u00cf\u00b3\3\2\2\2\u00cf\u00b6\3\2\2\2\u00cf\u00b8\3\2\2\2\u00cf"+
-		"\u00ba\3\2\2\2\u00cf\u00bb\3\2\2\2\u00cf\u00bc\3\2\2\2\u00cf\u00bd\3\2"+
-		"\2\2\u00cf\u00c6\3\2\2\2\u00cf\u00cb\3\2\2\2\u00d0\u0116\3\2\2\2\u00d1"+
-		"\u00d2\f\23\2\2\u00d2\u00d3\t\7\2\2\u00d3\u0115\5\36\20\24\u00d4\u00d5"+
-		"\f\22\2\2\u00d5\u00d6\t\4\2\2\u00d6\u0115\5\36\20\23\u00d7\u00d8\f\21"+
-		"\2\2\u00d8\u00d9\t\b\2\2\u00d9\u0115\5\36\20\22\u00da\u00db\f\20\2\2\u00db"+
-		"\u00dc\t\t\2\2\u00dc\u0115\5\36\20\21\u00dd\u00de\f\17\2\2\u00de\u00df"+
-		"\t\n\2\2\u00df\u0115\5\36\20\20\u00e0\u00e1\f\16\2\2\u00e1\u00e2\7\13"+
-		"\2\2\u00e2\u0115\5\36\20\17\u00e3\u00e4\f\r\2\2\u00e4\u00e5\7\16\2\2\u00e5"+
-		"\u0115\5\36\20\16\u00e6\u00e7\f\f\2\2\u00e7\u00e8\7\r\2\2\u00e8\u0115"+
-		"\5\36\20\r\u00e9\u00ea\f\13\2\2\u00ea\u00eb\7%\2\2\u00eb\u0115\5\36\20"+
-		"\f\u00ec\u00ed\f\n\2\2\u00ed\u00ee\7\'\2\2\u00ee\u0115\5\36\20\13\u00ef"+
-		"\u00f0\f\t\2\2\u00f0\u00f1\7.\2\2\u00f1\u00f2\5\36\20\2\u00f2\u00f3\7"+
-		"\60\2\2\u00f3\u00f4\5\36\20\n\u00f4\u0115\3\2\2\2\u00f5\u00f6\f\7\2\2"+
-		"\u00f6\u00f7\t\13\2\2\u00f7\u0115\5\36\20\7\u00f8\u00f9\f\6\2\2\u00f9"+
-		"\u00fa\7\f\2\2\u00fa\u0115\5\36\20\7\u00fb\u00fc\f\33\2\2\u00fc\u0115"+
-		"\t\5\2\2\u00fd\u00fe\f\32\2\2\u00fe\u00ff\7\35\2\2\u00ff\u0115\7J\2\2"+
-		"\u0100\u0101\f\31\2\2\u0101\u0102\7\66\2\2\u0102\u0103\5\36\20\2\u0103"+
-		"\u0104\7\67\2\2\u0104\u0115\3\2\2\2\u0105\u0106\f\30\2\2\u0106\u0115\5"+
-		" \21\2\u0107\u0108\f\27\2\2\u0108\u010a\78\2\2\u0109\u010b\5\34\17\2\u010a"+
-		"\u0109\3\2\2\2\u010a\u010b\3\2\2\2\u010b\u010c\3\2\2\2\u010c\u0115\79"+
-		"\2\2\u010d\u010e\f\b\2\2\u010e\u010f\7.\2\2\u010f\u0112\5\4\3\2\u0110"+
-		"\u0111\7\60\2\2\u0111\u0113\5\4\3\2\u0112\u0110\3\2\2\2\u0112\u0113\3"+
-		"\2\2\2\u0113\u0115\3\2\2\2\u0114\u00d1\3\2\2\2\u0114\u00d4\3\2\2\2\u0114"+
-		"\u00d7\3\2\2\2\u0114\u00da\3\2\2\2\u0114\u00dd\3\2\2\2\u0114\u00e0\3\2"+
-		"\2\2\u0114\u00e3\3\2\2\2\u0114\u00e6\3\2\2\2\u0114\u00e9\3\2\2\2\u0114"+
-		"\u00ec\3\2\2\2\u0114\u00ef\3\2\2\2\u0114\u00f5\3\2\2\2\u0114\u00f8\3\2"+
-		"\2\2\u0114\u00fb\3\2\2\2\u0114\u00fd\3\2\2\2\u0114\u0100\3\2\2\2\u0114"+
-		"\u0105\3\2\2\2\u0114\u0107\3\2\2\2\u0114\u010d\3\2\2\2\u0115\u0118\3\2"+
-		"\2\2\u0116\u0114\3\2\2\2\u0116\u0117\3\2\2\2\u0117\37\3\2\2\2\u0118\u0116"+
-		"\3\2\2\2\u0119\u011b\78\2\2\u011a\u011c\5\26\f\2\u011b\u011a\3\2\2\2\u011b"+
-		"\u011c\3\2\2\2\u011c\u011d\3\2\2\2\u011d\u011f\79\2\2\u011e\u0119\3\2"+
-		"\2\2\u011e\u011f\3\2\2\2\u011f\u0120\3\2\2\2\u0120\u0121\5\b\5\2\u0121"+
-		"!\3\2\2\2\u0122\u0123\t\f\2\2\u0123#\3\2\2\2!\',\60\648:?NT_hlt|\u0085"+
-		"\u0089\u0092\u009b\u00a1\u00a8\u00b0\u00bf\u00c3\u00c8\u00cf\u010a\u0112"+
-		"\u0114\u0116\u011b\u011e";
+		"\u00b4\b\20\1\2\u00b4\u00b5\t\4\2\2\u00b5\u00d2\5\36\20\26\u00b6\u00b7"+
+		"\t\5\2\2\u00b7\u00d2\5\36\20\25\u00b8\u00b9\t\6\2\2\u00b9\u00d2\5\36\20"+
+		"\24\u00ba\u00d2\5\"\22\2\u00bb\u00d2\7J\2\2\u00bc\u00d2\5 \21\2\u00bd"+
+		"\u00be\7A\2\2\u00be\u00d2\7J\2\2\u00bf\u00c1\7\66\2\2\u00c0\u00c2\5\36"+
+		"\20\2\u00c1\u00c0\3\2\2\2\u00c1\u00c2\3\2\2\2\u00c2\u00c3\3\2\2\2\u00c3"+
+		"\u00c5\7+\2\2\u00c4\u00c6\5\36\20\2\u00c5\u00c4\3\2\2\2\u00c5\u00c6\3"+
+		"\2\2\2\u00c6\u00c7\3\2\2\2\u00c7\u00d2\7\67\2\2\u00c8\u00ca\7\66\2\2\u00c9"+
+		"\u00cb\5\34\17\2\u00ca\u00c9\3\2\2\2\u00ca\u00cb\3\2\2\2\u00cb\u00cc\3"+
+		"\2\2\2\u00cc\u00d2\7\67\2\2\u00cd\u00ce\78\2\2\u00ce\u00cf\5\36\20\2\u00cf"+
+		"\u00d0\79\2\2\u00d0\u00d2\3\2\2\2\u00d1\u00b3\3\2\2\2\u00d1\u00b6\3\2"+
+		"\2\2\u00d1\u00b8\3\2\2\2\u00d1\u00ba\3\2\2\2\u00d1\u00bb\3\2\2\2\u00d1"+
+		"\u00bc\3\2\2\2\u00d1\u00bd\3\2\2\2\u00d1\u00bf\3\2\2\2\u00d1\u00c8\3\2"+
+		"\2\2\u00d1\u00cd\3\2\2\2\u00d2\u0118\3\2\2\2\u00d3\u00d4\f\23\2\2\u00d4"+
+		"\u00d5\t\7\2\2\u00d5\u0117\5\36\20\24\u00d6\u00d7\f\22\2\2\u00d7\u00d8"+
+		"\t\4\2\2\u00d8\u0117\5\36\20\23\u00d9\u00da\f\21\2\2\u00da\u00db\t\b\2"+
+		"\2\u00db\u0117\5\36\20\22\u00dc\u00dd\f\20\2\2\u00dd\u00de\t\t\2\2\u00de"+
+		"\u0117\5\36\20\21\u00df\u00e0\f\17\2\2\u00e0\u00e1\t\n\2\2\u00e1\u0117"+
+		"\5\36\20\20\u00e2\u00e3\f\16\2\2\u00e3\u00e4\7\13\2\2\u00e4\u0117\5\36"+
+		"\20\17\u00e5\u00e6\f\r\2\2\u00e6\u00e7\7\16\2\2\u00e7\u0117\5\36\20\16"+
+		"\u00e8\u00e9\f\f\2\2\u00e9\u00ea\7\r\2\2\u00ea\u0117\5\36\20\r\u00eb\u00ec"+
+		"\f\13\2\2\u00ec\u00ed\7%\2\2\u00ed\u0117\5\36\20\f\u00ee\u00ef\f\n\2\2"+
+		"\u00ef\u00f0\7\'\2\2\u00f0\u0117\5\36\20\13\u00f1\u00f2\f\t\2\2\u00f2"+
+		"\u00f3\7.\2\2\u00f3\u00f4\5\36\20\2\u00f4\u00f5\7\60\2\2\u00f5\u00f6\5"+
+		"\36\20\n\u00f6\u0117\3\2\2\2\u00f7\u00f8\f\7\2\2\u00f8\u00f9\t\13\2\2"+
+		"\u00f9\u0117\5\36\20\7\u00fa\u00fb\f\6\2\2\u00fb\u00fc\7\f\2\2\u00fc\u0117"+
+		"\5\36\20\7\u00fd\u00fe\f\33\2\2\u00fe\u0117\t\5\2\2\u00ff\u0100\f\32\2"+
+		"\2\u0100\u0101\7\35\2\2\u0101\u0117\7J\2\2\u0102\u0103\f\31\2\2\u0103"+
+		"\u0104\7\66\2\2\u0104\u0105\5\36\20\2\u0105\u0106\7\67\2\2\u0106\u0117"+
+		"\3\2\2\2\u0107\u0108\f\30\2\2\u0108\u0117\5 \21\2\u0109\u010a\f\27\2\2"+
+		"\u010a\u010c\78\2\2\u010b\u010d\5\34\17\2\u010c\u010b\3\2\2\2\u010c\u010d"+
+		"\3\2\2\2\u010d\u010e\3\2\2\2\u010e\u0117\79\2\2\u010f\u0110\f\b\2\2\u0110"+
+		"\u0111\7.\2\2\u0111\u0114\5\4\3\2\u0112\u0113\7\60\2\2\u0113\u0115\5\4"+
+		"\3\2\u0114\u0112\3\2\2\2\u0114\u0115\3\2\2\2\u0115\u0117\3\2\2\2\u0116"+
+		"\u00d3\3\2\2\2\u0116\u00d6\3\2\2\2\u0116\u00d9\3\2\2\2\u0116\u00dc\3\2"+
+		"\2\2\u0116\u00df\3\2\2\2\u0116\u00e2\3\2\2\2\u0116\u00e5\3\2\2\2\u0116"+
+		"\u00e8\3\2\2\2\u0116\u00eb\3\2\2\2\u0116\u00ee\3\2\2\2\u0116\u00f1\3\2"+
+		"\2\2\u0116\u00f7\3\2\2\2\u0116\u00fa\3\2\2\2\u0116\u00fd\3\2\2\2\u0116"+
+		"\u00ff\3\2\2\2\u0116\u0102\3\2\2\2\u0116\u0107\3\2\2\2\u0116\u0109\3\2"+
+		"\2\2\u0116\u010f\3\2\2\2\u0117\u011a\3\2\2\2\u0118\u0116\3\2\2\2\u0118"+
+		"\u0119\3\2\2\2\u0119\37\3\2\2\2\u011a\u0118\3\2\2\2\u011b\u011d\78\2\2"+
+		"\u011c\u011e\5\26\f\2\u011d\u011c\3\2\2\2\u011d\u011e\3\2\2\2\u011e\u011f"+
+		"\3\2\2\2\u011f\u0121\79\2\2\u0120\u011b\3\2\2\2\u0120\u0121\3\2\2\2\u0121"+
+		"\u0122\3\2\2\2\u0122\u0123\5\b\5\2\u0123!\3\2\2\2\u0124\u0125\t\f\2\2"+
+		"\u0125#\3\2\2\2!\',\60\648:?NT_hlt|\u0085\u0089\u0092\u009b\u00a1\u00a8"+
+		"\u00b0\u00c1\u00c5\u00ca\u00d1\u010c\u0114\u0116\u0118\u011d\u0120";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
