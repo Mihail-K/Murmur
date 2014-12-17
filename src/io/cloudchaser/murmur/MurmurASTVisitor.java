@@ -486,11 +486,11 @@ public class MurmurASTVisitor
 	
 	public MurmurObject visitArrayIndexExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
-		MurmurObject right = visitExpression(ctx.right);
+		MurmurObject index = visitExpression(ctx.index);
 		
 		// Dereference symbols.
-		return left.opIndex(right instanceof Symbol ?
-				((Symbol)right).getValue() : right);
+		return left.opIndex(index instanceof Symbol ?
+				((Symbol)index).getValue() : index);
 	}
 	
 	public List<MurmurObject> visitArrayInitializerList(MurmurParser.ExpressionListContext ctx) {
