@@ -27,6 +27,7 @@ package io.cloudchaser.murmur.symbol;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurObject;
 import io.cloudchaser.murmur.types.MurmurString;
+import io.cloudchaser.murmur.types.ReferenceType;
 
 /**
  *
@@ -35,7 +36,7 @@ import io.cloudchaser.murmur.types.MurmurString;
  * @since 0.1
  */
 public abstract class Symbol<Type extends MurmurObject>
-		extends MurmurObject {
+		extends MurmurObject implements ReferenceType {
 
 	private final String name;
 	private Type value;

@@ -39,7 +39,8 @@ import java.util.Map;
  * @author Mihail K
  * @since 0.1
  */
-public class MurmurInstance extends MurmurObject {
+public class MurmurInstance extends MurmurObject
+		implements ReferenceType {
 	
 	private class InstanceLocalContext
 			implements SymbolContext {

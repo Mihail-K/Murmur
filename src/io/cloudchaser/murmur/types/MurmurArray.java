@@ -35,7 +35,8 @@ import java.util.List;
  * @author Mihail K
  * @since 0.1
  */
-public class MurmurArray extends MurmurObject {
+public class MurmurArray extends MurmurObject
+		implements ReferenceType {
 	
 	private final List<MurmurObject> elements;
 
