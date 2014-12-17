@@ -129,6 +129,11 @@ public class MurmurInstance extends MurmurObject {
 	}
 
 	@Override
+	public MurmurString asString() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
 	public MurmurObject opPositive() {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}

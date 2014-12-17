@@ -48,6 +48,13 @@ public abstract class MurmurObject {
 	 */
 	public abstract MurmurInteger asInteger();
 	
+	/**
+	 * Converts this Object to a string, if possible.
+	 * 
+	 * @return This Object as a string.
+	 */
+	public abstract MurmurString asString();
+	
 	public abstract MurmurObject opPositive();
 	
 	public abstract MurmurObject opNegative();

@@ -56,6 +56,11 @@ public class MurmurReturn extends MurmurObject {
 	}
 
 	@Override
+	public MurmurString asString() {
+		return value.asString();
+	}
+
+	@Override
 	public MurmurObject opPositive() {
 		return value.opPositive();
 	}

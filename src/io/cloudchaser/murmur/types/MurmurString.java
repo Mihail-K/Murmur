@@ -46,6 +46,11 @@ public class MurmurString extends MurmurObject {
 	}
 
 	@Override
+	public MurmurString asString() {
+		return this;
+	}
+
+	@Override
 	public MurmurObject opPositive() {
 		// Strings don't support integer arithmetic.
 		throw new UnsupportedOperationException();
@@ -275,14 +280,9 @@ public class MurmurString extends MurmurObject {
 
 	@Override
 	public MurmurObject opConcat(MurmurObject other) {
-		// Check for supported operation.
-		if(other.getType() == STRING) {
-			return new MurmurString(value + 
-					((MurmurString)other).value);
-		}
-		
-		// Unsupported.
-		throw new UnsupportedOperationException();
+		// Convert to string and do concat.
+		MurmurString string = other.asString();
+		return new MurmurString(value + string.value);
 	}
 
 	@Override

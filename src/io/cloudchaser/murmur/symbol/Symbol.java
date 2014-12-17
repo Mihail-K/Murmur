@@ -26,6 +26,7 @@ package io.cloudchaser.murmur.symbol;
 
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurObject;
+import io.cloudchaser.murmur.types.MurmurString;
 
 /**
  *
@@ -63,6 +64,11 @@ public abstract class Symbol<Type extends MurmurObject>
 	@Override
 	public MurmurInteger asInteger() {
 		return value.asInteger();
+	}
+
+	@Override
+	public MurmurString asString() {
+		return value.asString();
 	}
 
 	@Override

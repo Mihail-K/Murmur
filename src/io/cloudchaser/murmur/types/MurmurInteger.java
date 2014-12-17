@@ -67,6 +67,11 @@ public class MurmurInteger extends MurmurObject {
 	}
 
 	@Override
+	public MurmurString asString() {
+		return new MurmurString(Long.toString(value));
+	}
+
+	@Override
 	public MurmurObject opPositive() {
 		return create(+value);
 	}

@@ -61,6 +61,11 @@ public class MurmurBoolean extends MurmurObject {
 	public MurmurInteger asInteger() {
 		return MurmurInteger.create(value ? 1 : 0);
 	}
+	
+	@Override
+	public MurmurString asString() {
+		return new MurmurString(Boolean.toString(value));
+	}
 
 	@Override
 	public MurmurObject opPositive() {

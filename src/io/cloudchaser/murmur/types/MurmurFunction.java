@@ -137,6 +137,11 @@ public class MurmurFunction extends MurmurObject {
 	}
 
 	@Override
+	public MurmurString asString() {
+		return new MurmurString("function");
+	}
+
+	@Override
 	public MurmurObject opPositive() {
 		// Functions don't support integer arithmetic.
 		throw new UnsupportedOperationException();

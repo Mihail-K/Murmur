@@ -44,6 +44,11 @@ public final class MurmurNull extends MurmurObject {
 	public MurmurInteger asInteger() {
 		return MurmurInteger.ZERO;
 	}
+	
+	@Override
+	public MurmurString asString() {
+		return new MurmurString("null");
+	}
 
 	@Override
 	public MurmurObject opPositive() {

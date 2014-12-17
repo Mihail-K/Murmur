@@ -55,6 +55,11 @@ public class MurmurArray extends MurmurObject {
 	}
 
 	@Override
+	public MurmurString asString() {
+		return new MurmurString("array");
+	}
+
+	@Override
 	public MurmurObject opPositive() {
 		// Arrays don't support integer arithmetic.
 		throw new UnsupportedOperationException();

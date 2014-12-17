@@ -130,6 +130,11 @@ public class MurmurComponent extends MurmurObject {
 	}
 
 	@Override
+	public MurmurString asString() {
+		return new MurmurString(name);
+	}
+
+	@Override
 	public MurmurObject opPositive() {
 		// Components don't support integer arithmetic.
 		throw new UnsupportedOperationException();
