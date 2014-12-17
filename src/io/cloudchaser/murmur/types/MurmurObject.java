@@ -98,4 +98,6 @@ public abstract class MurmurObject {
 	
 	public abstract MurmurObject opIndex(MurmurObject other);
 	
+	public abstract MurmurObject opAddAssign(MurmurObject other);
+	
 }

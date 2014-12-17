@@ -296,6 +296,12 @@ public class MurmurInteger extends MurmurObject {
 		// Unsupported.
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public MurmurObject opAddAssign(MurmurObject other) {
+		// Unused. Integer values are immutable.
+		throw new UnsupportedOperationException();
+	}
 	
 	@Override
 	public int hashCode() {

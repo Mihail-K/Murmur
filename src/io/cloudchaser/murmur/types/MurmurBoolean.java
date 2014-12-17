@@ -244,6 +244,12 @@ public class MurmurBoolean extends MurmurObject {
 		// Booleans don't support array indexing.
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public MurmurObject opAddAssign(MurmurObject other) {
+		// Booleans don't support compound assignment.
+		throw new UnsupportedOperationException();
+	}
 	
 	@Override
 	public int hashCode() {

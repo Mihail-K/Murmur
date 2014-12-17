@@ -239,6 +239,13 @@ public class MurmurArray extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opAddAssign(MurmurObject other) {
+		// Append the element.
+		elements.add(other);
+		return this;
+	}
+
+	@Override
 	public int hashCode() {
 		return elements.hashCode();
 	}

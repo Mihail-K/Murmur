@@ -288,6 +288,12 @@ public class MurmurFunction extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opAddAssign(MurmurObject other) {
+		// Functions don't support compound assignment.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public String toString() {
 		return "MurmurFunction{context=" + context +
 				", parameters=" + parameters +

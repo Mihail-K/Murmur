@@ -34,6 +34,7 @@ import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurFunction;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurObject;
+import io.cloudchaser.murmur.types.MurmurType;
 
 import java.util.ArrayList;
 import java.util.Deque;
@@ -547,8 +548,33 @@ public class MurmurASTVisitor
 		}
 		
 		// Assign the value to the symbol.
-		((Symbol)left).setValue(right);
-		return right;
+		MurmurObject value = right instanceof Symbol ?
+				((Symbol)right).getValue() : right;
+		((Symbol)left).setValue(value);
+		return value;
+	}
+	
+	public MurmurObject visitPlusAssignmentExpression(MurmurParser.ExpressionContext ctx) {
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		
+		// Check that this is an lvalue.
+		if(!(left instanceof Symbol)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		Symbol symbol = (Symbol)left;
+		if(symbol.getValue().getType() == MurmurType.ARRAY) {
+			// Use Add-Assignment operator.
+			return left.opAddAssign(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
+		} else {
+			// Add-Assign the value to the symbol.
+			MurmurObject value = left.opPlus(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
+			((Symbol)left).setValue(value);
+			return value;
+		}
 	}
 	
 	public MurmurObject visitMemberExpression(MurmurParser.ExpressionContext ctx) {
@@ -700,6 +726,9 @@ public class MurmurASTVisitor
 				case ">>":
 					// Expression: a >> b
 					return visitShiftRightExpression(ctx);
+				case "+=":
+					// Expression: a += b
+					return visitPlusAssignmentExpression(ctx);
 				default:
 					// Unknown operator.
 					throw new RuntimeException();
