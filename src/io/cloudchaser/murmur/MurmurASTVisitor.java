@@ -31,12 +31,14 @@ import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
 import io.cloudchaser.murmur.types.MurmurArray;
 import io.cloudchaser.murmur.types.MurmurBoolean;
+import io.cloudchaser.murmur.types.MurmurComponent;
 import io.cloudchaser.murmur.types.MurmurFunction;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurNull;
 import io.cloudchaser.murmur.types.MurmurObject;
 import io.cloudchaser.murmur.types.MurmurReturn;
 import io.cloudchaser.murmur.types.MurmurType;
+import static io.cloudchaser.murmur.types.MurmurType.TYPE;
 
 import java.util.ArrayList;
 import java.util.Deque;
@@ -112,6 +114,8 @@ public class MurmurASTVisitor
 	public MurmurObject visitStatement(MurmurParser.StatementContext ctx) {
 		if(ctx.keywordStatement() != null) {
 			return visitKeywordStatement(ctx.keywordStatement());
+		} else if(ctx.typeStatement() != null) {
+			return visitTypeStatement(ctx.typeStatement());
 		} else {
 			// Print results for debug.
 			System.out.println(visitExpression(ctx.expression()));
@@ -219,8 +223,8 @@ public class MurmurASTVisitor
 		return null;
 	}
 	
-	/* - Classes - */
-	/* - - - - - - */
+	/* - Component Types - */
+	/* - - - - - - - - - -*/
 	
 	public MurmurObject visitTypeField(MurmurParser.TypeElementContext ctx) {
 		// TODO
@@ -236,6 +240,52 @@ public class MurmurASTVisitor
 	public MurmurObject visitTypeElement(MurmurParser.TypeElementContext ctx) {
 		// TODO
 		return null;
+	}
+
+	@Override
+	public MurmurObject visitTypeDeclaration(MurmurParser.TypeDeclarationContext ctx) {
+		return super.visitTypeDeclaration(ctx); //To change body of generated methods, choose Tools | Templates.
+	}
+	
+	public List<MurmurComponent> visitTypeParents(MurmurParser.TypeStatementContext ctx) {
+		if(ctx.parents == null) return new ArrayList<>();
+		
+		List<MurmurComponent> types = new ArrayList<>();
+		ctx.parents.stream().forEach((identifier) -> {
+			// Resolve component type name.
+			Symbol symbol = context.peek().getSymbol(identifier.getText());
+			
+			// Check that the type exists.
+			if(symbol == null) {
+				throw new NullPointerException();
+			}
+			
+			// Check that this is a component type.
+			MurmurObject object = symbol.getValue();
+			if(object.getType() != TYPE) {
+				throw new UnsupportedOperationException();
+			}
+			
+			// Add it to the list.
+			types.add((MurmurComponent)object);
+		});
+		
+		return types;
+	}
+	
+	@Override
+	public MurmurObject visitTypeStatement(MurmurParser.TypeStatementContext ctx) {
+		Symbol symbol;
+		String name = ctx.name.getText();
+		
+		// Visit parent and local types.
+		List<MurmurComponent> types = visitTypeParents(ctx);
+		types.add((MurmurComponent)visitTypeDeclaration(ctx.typeDeclaration()));
+		
+		// Build the finished Murmur component object.
+		MurmurObject component = new MurmurComponent(name, context.peek(), types);
+		context.peek().addSymbol(symbol = new LetSymbol(name, component));
+		return symbol.getValue();
 	}
 	
 	/* - Expressions - */
