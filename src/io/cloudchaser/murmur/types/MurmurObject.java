@@ -96,4 +96,6 @@ public abstract class MurmurObject {
 	
 	public abstract MurmurObject opLogicalOr(MurmurObject other);
 	
+	public abstract MurmurObject opIndex(MurmurObject other);
+	
 }

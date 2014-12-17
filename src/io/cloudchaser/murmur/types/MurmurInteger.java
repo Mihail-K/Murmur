@@ -292,6 +292,23 @@ public class MurmurInteger extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opIndex(MurmurObject other) {
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public int hashCode() {
+		return Long.hashCode(value);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof MurmurInteger)) return false;
+		return ((MurmurInteger)o).value == value;
+	}
+
+	@Override
 	public String toString() {
 		return "MurmurInteger{" + "value=" + value + '}';
 	}

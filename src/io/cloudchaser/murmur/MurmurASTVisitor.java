@@ -33,6 +33,7 @@ import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurFunction;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurObject;
+
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
@@ -483,8 +484,12 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitArrayIndexExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
+		return left.opIndex(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
 	}
 	
 	public List<MurmurObject> visitFunctionArguments(MurmurParser.ExpressionListContext ctx) {

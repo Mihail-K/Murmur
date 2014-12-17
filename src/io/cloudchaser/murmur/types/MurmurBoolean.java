@@ -240,6 +240,23 @@ public class MurmurBoolean extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opIndex(MurmurObject other) {
+		// Booleans don't support array indexing.
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public int hashCode() {
+		return Boolean.hashCode(value);
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof MurmurBoolean)) return false;
+		return ((MurmurBoolean)o).value == value;
+	}
+
+	@Override
 	public String toString() {
 		return "MurmurBoolean{" + "value=" + value + '}';
 	}

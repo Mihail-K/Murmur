@@ -185,4 +185,19 @@ public abstract class Symbol<Type extends MurmurObject>
 		return value.opLogicalOr(other);
 	}
 
+	@Override
+	public MurmurObject opIndex(MurmurObject other) {
+		return value.opIndex(other);
+	}
+	
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return value.equals(o);
+	}
+
 }

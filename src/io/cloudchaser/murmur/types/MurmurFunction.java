@@ -282,6 +282,12 @@ public class MurmurFunction extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opIndex(MurmurObject other) {
+		// Functions don't support array indexing.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public String toString() {
 		return "MurmurFunction{context=" + context +
 				", parameters=" + parameters +
