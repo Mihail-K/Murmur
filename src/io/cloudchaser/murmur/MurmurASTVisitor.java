@@ -82,18 +82,28 @@ public class MurmurASTVisitor
 	
 	public MurmurASTVisitor() {
 		context = new LinkedList<>();
-		context.push(new MurmurBaseContext());
 	}
 	
+	/**
+	 * Removes symbol binding from a murmur value, if present.
+	 * 
+	 * @param object The object to de-symbolize.
+	 * @return A murmur object.
+	 */
 	private static MurmurObject desymbolize(MurmurObject object) {
 		return object instanceof Symbol ? ((Symbol)object).getValue() : object;
 	}
 
 	@Override
 	public MurmurObject visitCompilationUnit(MurmurParser.CompilationUnitContext ctx) {
+		// Push initial context.
+		context.push(new MurmurBaseContext());
+		
 		// Visit children.
 		ctx.statement().stream().forEach(this::visitStatement);
 		
+		// Pop initial context.
+		context.pop();
 		return null;
 	}
 
@@ -136,7 +146,6 @@ public class MurmurASTVisitor
 		ctx.initializerElement().stream().forEach((element) -> {
 			String name = element.Identifier().getText();
 			MurmurObject value = visitExpression(element.expression());
-			System.out.println(name + " : " + value);
 			
 			// Create a symbol entry.
 			context.peek().addSymbol(new LetSymbol(name, value));
@@ -564,22 +573,64 @@ public class MurmurASTVisitor
 		return value;
 	}
 	
-	public MurmurObject visitPlusAssignmentExpression(MurmurParser.ExpressionContext ctx) {
+	public MurmurObject visitCompoundAssignmentExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
 		
-		// Check that this is an lvalue.
-		if(!(left instanceof Symbol)) {
-			throw new UnsupportedOperationException();
-		}
-		
-		Symbol symbol = (Symbol)left;
-		if(symbol.getValue().getType() == MurmurType.ARRAY) {
+		// Check if the type defines an operator.
+		if(left.getType() == MurmurType.ARRAY) {
 			// Use Add-Assignment operator.
-			return left.opAddAssign(desymbolize(right));
+			switch(ctx.operator.getText()) {
+				case "+=":
+					return left.opAddAssign(desymbolize(right));
+				default:
+					// Unsupported assignment type.
+					throw new UnsupportedOperationException();
+			}
 		} else {
-			// Add-Assign the value to the symbol.
-			MurmurObject value = left.opPlus(desymbolize(right));
+			// Check that this is an lvalue.
+			if(!(left instanceof Symbol)) {
+				throw new UnsupportedOperationException();
+			}
+			
+			// Compound-Assign the value to the symbol.
+			MurmurObject value;
+			switch(ctx.operator.getText()) {
+				case "+=":
+					value = left.opPlus(desymbolize(right));
+					break;
+				case "-=":
+					value = left.opMinus(desymbolize(right));
+					break;
+				case "*=":
+					value = left.opMultiply(desymbolize(right));
+					break;
+				case "/=":
+					value = left.opDivide(desymbolize(right));
+					break;
+				case "%=":
+					value = left.opModulo(desymbolize(right));
+					break;
+				case "&=":
+					value = left.opBitAnd(desymbolize(right));
+					break;
+				case "^=":
+					value = left.opBitXor(desymbolize(right));
+					break;
+				case "|=":
+					value = left.opBitOr(desymbolize(right));
+					break;
+				case "<<=":
+					value = left.opShiftLeft(desymbolize(right));
+					break;
+				case ">>=":
+					value = left.opShiftRight(desymbolize(right));
+					break;
+				default:
+					// Unsupported assignment type.
+					throw new UnsupportedOperationException();
+			}
+			
 			((Symbol)left).setValue(value);
 			return value;
 		}
@@ -737,12 +788,9 @@ public class MurmurASTVisitor
 				case ">>":
 					// Expression: a >> b
 					return visitShiftRightExpression(ctx);
-				case "+=":
-					// Expression: a += b
-					return visitPlusAssignmentExpression(ctx);
 				default:
-					// Unknown operator.
-					throw new RuntimeException();
+					// Expression: a compound b
+					return visitCompoundAssignmentExpression(ctx);
 			}
 		}
 		

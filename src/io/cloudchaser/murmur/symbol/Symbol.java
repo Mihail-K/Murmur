@@ -40,7 +40,7 @@ public abstract class Symbol<Type extends MurmurObject>
 	private Type value;
 
 	public Symbol(String name, Type value) {
-		super(null);
+		super(value.getType());
 		this.name = name;
 		this.value = value;
 	}
