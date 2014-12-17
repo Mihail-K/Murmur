@@ -1055,6 +1055,18 @@ public class MurmurASTVisitor
 		if(ctx.NullLiteral() != null) {
 			return visitNullLiteral(ctx);
 		}
+		// 'this' literal.
+		if(ctx.getText().equals("this")) {
+			Symbol symbol = context.peek().getSymbol("this");
+			
+			// Check that there is a 'this' defined.
+			if(symbol == null) {
+				throw new UnsupportedOperationException();
+			}
+			
+			// Return the symbol.
+			return symbol;
+		}
 		
 		// Unknown literal type.
 		throw new RuntimeException();
