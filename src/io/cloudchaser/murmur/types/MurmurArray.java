@@ -26,6 +26,7 @@ package io.cloudchaser.murmur.types;
 
 import static io.cloudchaser.murmur.types.MurmurType.ARRAY;
 import static io.cloudchaser.murmur.types.MurmurType.INTEGER;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -235,6 +236,22 @@ public class MurmurArray extends MurmurObject {
 		
 		// Unsupported.
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public int hashCode() {
+		return elements.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof MurmurArray)) return false;
+		return ((MurmurArray)o).elements.equals(elements);
+	}
+
+	@Override
+	public String toString() {
+		return "MurmurArray{elements=" + elements + '}';
 	}
 	
 }

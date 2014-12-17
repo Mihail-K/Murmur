@@ -200,4 +200,9 @@ public abstract class Symbol<Type extends MurmurObject>
 		return value.equals(o);
 	}
 
+	@Override
+	public String toString() {
+		return "Symbol{" + "name=" + name + ", value=" + value + '}';
+	}
+
 }

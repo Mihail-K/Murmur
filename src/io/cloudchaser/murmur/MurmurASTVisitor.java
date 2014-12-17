@@ -29,6 +29,7 @@ import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
 import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
+import io.cloudchaser.murmur.types.MurmurArray;
 import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurFunction;
 import io.cloudchaser.murmur.types.MurmurInteger;
@@ -492,6 +493,21 @@ public class MurmurASTVisitor
 				((Symbol)right).getValue() : right);
 	}
 	
+	public List<MurmurObject> visitArrayInitializerList(MurmurParser.ExpressionListContext ctx) {
+		if(ctx == null) return new ArrayList<>();
+		List<MurmurObject> elements = new ArrayList<>();
+		ctx.expression().stream().forEach((expression) -> {
+				System.out.println((expression.expressionList() != null) + " : " + visitExpression(expression));
+				elements.add(visitExpression(expression));
+		});
+		return elements;
+	}
+	
+	public MurmurObject visitArrayValueExpression(MurmurParser.ExpressionContext ctx) {
+		List<MurmurObject> elements = visitArrayInitializerList(ctx.expressionList());
+		return new MurmurArray(elements);
+	}
+	
 	public List<MurmurObject> visitFunctionArguments(MurmurParser.ExpressionListContext ctx) {
 		if(ctx == null) return null;
 		List<MurmurObject> args = new ArrayList<>();
@@ -647,8 +663,11 @@ public class MurmurASTVisitor
 					// Expression: a(b, c, ...)
 					return visitFunctionCallExpression(ctx);
 				case "[":
-					// Expression: a[b]
-					return visitArrayIndexExpression(ctx);
+					if(ctx.left != null)
+						// Expression: a[b]
+						return visitArrayIndexExpression(ctx);
+					// Expression: [a, b, c, ...]
+					return visitArrayValueExpression(ctx);
 				case "++":
 					if(ctx.left != null)
 						// Expression: a++
