@@ -35,6 +35,7 @@ import io.cloudchaser.murmur.types.MurmurComponent;
 import io.cloudchaser.murmur.types.MurmurComponent.ComponentField;
 import io.cloudchaser.murmur.types.MurmurComponent.ComponentFunction;
 import io.cloudchaser.murmur.types.MurmurFunction;
+import io.cloudchaser.murmur.types.MurmurInstance;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurNull;
 import io.cloudchaser.murmur.types.MurmurObject;
@@ -243,6 +244,11 @@ public class MurmurASTVisitor
 	public MurmurComponent.ComponentFunction visitTypeFunction(MurmurParser.TypeElementContext ctx) {
 		String name = ctx.name.getText();
 		MurmurObject value = visitExpression(ctx.expression());
+		
+		// Adjust names.
+		if(name.equals("this")) {
+			name = "~ctor";
+		}
 		
 		// Check that this is a function.
 		if(!(value instanceof MurmurFunction)) {
@@ -625,21 +631,37 @@ public class MurmurASTVisitor
 		List<MurmurObject> args = visitFunctionArguments(ctx.expressionList());
 		
 		// Check that this is a function.
-		if(!(left instanceof MurmurFunction)) {
+		if(left instanceof MurmurFunction) {
+			// Step into a new context.
+			MurmurFunction function = (MurmurFunction)left;
+			context.push(function.createLocal(args));
+
+			// Execute function body.
+			MurmurObject result = visitBlock(function.getBody());
+
+			// Leave the function context.
+			context.pop();
+			return result;
+		} else if(left instanceof MurmurComponent) {
+			// Create a new instance of the component.
+			MurmurComponent component = (MurmurComponent)left;
+			MurmurInstance instance = new MurmurInstance(component);
+			
+			// Lookup and call the construtor.
+			Symbol symbol = instance.getContext().getSymbol("~ctor");
+			MurmurFunction ctor = (MurmurFunction)symbol.getValue();
+			context.push(ctor.createLocal(args));
+			
+			// Execute constructor body.
+			visitBlock(ctor.getBody());
+			
+			// Leave the constructor.
+			context.pop();
+			return instance;
+		} else {
 			// TODO : Objects can define an invoke operator.
 			throw new UnsupportedOperationException();
 		}
-		
-		// Step into a new context.
-		MurmurFunction function = (MurmurFunction)left;
-		context.push(function.createLocal(args));
-		
-		// Execute function body.
-		MurmurObject result = visitBlock(function.getBody());
-		
-		// Leave the function context.
-		context.pop();
-		return result;
 	}
 	
 	public MurmurObject visitAssignmentExpression(MurmurParser.ExpressionContext ctx) {
@@ -779,6 +801,25 @@ public class MurmurASTVisitor
 		List<String> parameters = visitLambdaParameterList(ctx.identifierList());
 		return new MurmurFunction(context.peek(), parameters, ctx.block());
 	}
+	
+	public MurmurObject visitInstantiationExpression(MurmurParser.ExpressionContext ctx) {
+		Symbol symbol = context.peek().getSymbol(ctx.Identifier().getText());
+		
+		// Check that the symbol exists.
+		if(symbol == null) {
+			// TODO
+			throw new NullPointerException();
+		}
+		
+		// Check that this is a type.
+		MurmurObject object = symbol.getValue();
+		if(!(object instanceof MurmurComponent)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Return the type.
+		return object;
+	}
 
 	@Override
 	public MurmurObject visitExpression(MurmurParser.ExpressionContext ctx) {
@@ -895,6 +936,9 @@ public class MurmurASTVisitor
 				case ">>":
 					// Expression: a >> b
 					return visitShiftRightExpression(ctx);
+				case "new":
+					// Expression: new a
+					return visitInstantiationExpression(ctx);
 				default:
 					// Expression: a compound b
 					return visitCompoundAssignmentExpression(ctx);
