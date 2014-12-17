@@ -37,8 +37,9 @@ import java.util.Map;
  *
  * @author Mihail K
  * @since 0.1
- */
-public class MurmurComponent extends MurmurObject {
+ **/
+public class MurmurComponent extends MurmurObject
+		implements InvokableType {
 	
 	public static class ComponentField {
 		
@@ -305,6 +306,22 @@ public class MurmurComponent extends MurmurObject {
 	public MurmurObject opConcat(MurmurObject other) {
 		// Components don't support concatenation.
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opInvoke(InvocationDelegate delegate, List<MurmurObject> args) {
+		// Create a new Murmur instance from this context.
+		MurmurInstance instance = new MurmurInstance(this);
+
+		// Lookup and call the construtor.
+		Symbol local = instance.getContext().getLocal("~ctor");
+		MurmurFunction ctor = (MurmurFunction)local.getValue();
+		
+		// Invoke the constructor.
+		delegate.invokeFunction(ctor.createLocal(args), ctor.getBody());
+		
+		// Return the created instance.
+		return instance;
 	}
 
 	@Override

@@ -39,8 +39,9 @@ import java.util.Map;
  *
  * @author Mihail K
  * @since 0.1
- */
-public class MurmurFunction extends MurmurObject {
+ **/
+public class MurmurFunction extends MurmurObject
+		implements InvokableType {
 	
 	private class FunctionLocalContext
 			implements SymbolContext {
@@ -310,6 +311,14 @@ public class MurmurFunction extends MurmurObject {
 	public MurmurObject opConcat(MurmurObject other) {
 		// Unsupported.
 		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public MurmurObject opInvoke(InvocationDelegate delegate,
+			List<MurmurObject> args) {
+		// Create a context and invoke.
+		SymbolContext local = createLocal(args);
+		return delegate.invokeFunction(local, body);
 	}
 
 	@Override

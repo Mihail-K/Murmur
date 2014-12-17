@@ -29,6 +29,7 @@ import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
 import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
+import io.cloudchaser.murmur.types.InvokableType;
 import io.cloudchaser.murmur.types.MurmurArray;
 import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurComponent;
@@ -654,38 +655,24 @@ public class MurmurASTVisitor
 		MurmurObject left = desymbolize(visitExpression(ctx.left));
 		List<MurmurObject> args = visitFunctionArguments(ctx.expressionList());
 		
-		// Check that this is a function.
-		if(left instanceof MurmurFunction) {
-			// Step into a new context.
-			MurmurFunction function = (MurmurFunction)left;
-			context.push(function.createLocal(args));
-
-			// Execute function body.
-			MurmurObject result = visitBlock(function.getBody());
-
-			// Leave the function context.
-			context.pop();
-			return result;
-		} else if(left instanceof MurmurComponent) {
-			// Create a new instance of the component.
-			MurmurComponent component = (MurmurComponent)left;
-			MurmurInstance instance = new MurmurInstance(component);
-			
-			// Lookup and call the construtor.
-			Symbol symbol = instance.getContext().getLocal("~ctor");
-			MurmurFunction ctor = (MurmurFunction)symbol.getValue();
-			context.push(ctor.createLocal(args));
-			
-			// Execute constructor body.
-			visitBlock(ctor.getBody());
-			
-			// Leave the constructor.
-			context.pop();
-			return instance;
-		} else {
-			// TODO : Objects can define an invoke operator.
+		// Check that this is an invokable type.
+		if(!(left instanceof InvokableType)) {
 			throw new UnsupportedOperationException();
 		}
+		
+		// Invoke and return the result.
+		InvokableType invoke = (InvokableType)left;
+		return invoke.opInvoke((local, body) -> {
+			// Step into the local context.
+			context.push(local);
+			
+			// Execute the function.
+			MurmurObject result = visitBlock(body);
+			
+			// Step out of the context.
+			context.pop();
+			return result;
+		}, args);
 	}
 	
 	public MurmurObject visitAssignmentExpression(MurmurParser.ExpressionContext ctx) {

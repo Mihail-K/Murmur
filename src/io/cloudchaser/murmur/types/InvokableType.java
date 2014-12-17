@@ -24,33 +24,22 @@
 
 package io.cloudchaser.murmur.types;
 
+import java.util.List;
+
 /**
  *
  * @author Mihail K
  * @since 0.1
  **/
-public interface ReferenceType {
+public interface InvokableType {
 	
-	MurmurObject opPlusAssign(MurmurObject other);
-	
-	MurmurObject opMinusAssign(MurmurObject other);
-	
-	MurmurObject opMultiplyAssign(MurmurObject other);
-	
-	MurmurObject opDivideAssign(MurmurObject other);
-	
-	MurmurObject opModuloAssign(MurmurObject other);
-	
-	MurmurObject opBitAndAssign(MurmurObject other);
-	
-	MurmurObject opBitXorAssign(MurmurObject other);
-	
-	MurmurObject opBitOrAssign(MurmurObject other);
-	
-	MurmurObject opShiftLeftAssign(MurmurObject other);
-	
-	MurmurObject opShiftRightAssign(MurmurObject other);
-	
-	MurmurObject opConcatAssign(MurmurObject other);
+	/**
+	 * Invoke this object as a function.
+	 * 
+	 * @param delegate The delegate handling the invocation.
+	 * @param args The list of arguments being passed.
+	 * @return The result of the invocation.
+	 */
+	MurmurObject opInvoke(InvocationDelegate delegate, List<MurmurObject> args);
 	
 }
