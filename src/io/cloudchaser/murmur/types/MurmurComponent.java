@@ -40,6 +40,36 @@ import java.util.Map;
  */
 public class MurmurComponent extends MurmurObject {
 	
+	public static class ComponentField {
+		
+		private final String name;
+
+		public ComponentField(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+		
+	}
+	
+	public static class ComponentFunction
+			extends ComponentField {
+		
+		private final MurmurFunction function;
+
+		public ComponentFunction(String name, MurmurFunction function) {
+			super(name);
+			this.function = function;
+		}
+
+		public MurmurFunction getFunction() {
+			return function;
+		}
+		
+	}
+	
 	/**
 	 * The declared name of this component;
 	 */
@@ -53,7 +83,7 @@ public class MurmurComponent extends MurmurObject {
 	/**
 	 * The table of members defined in this component.
 	 */
-	private final Map<String, Symbol> members;
+	private final Map<String, ComponentField> members;
 	
 	/**
 	 * The list of components that make up this one, if any.
@@ -86,7 +116,7 @@ public class MurmurComponent extends MurmurObject {
 		return context;
 	}
 	
-	public Map<String, Symbol> getMembers() {
+	public Map<String, ComponentField> getMembers() {
 		return members;
 	}
 	

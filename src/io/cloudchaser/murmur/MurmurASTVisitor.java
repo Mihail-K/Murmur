@@ -26,15 +26,14 @@ package io.cloudchaser.murmur;
 
 import io.cloudchaser.murmur.parser.MurmurParser;
 import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
-import io.cloudchaser.murmur.symbol.ComponentSymbol;
-import io.cloudchaser.murmur.symbol.FieldSymbol;
-import io.cloudchaser.murmur.symbol.FunctionSymbol;
 import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
 import io.cloudchaser.murmur.types.MurmurArray;
 import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurComponent;
+import io.cloudchaser.murmur.types.MurmurComponent.ComponentField;
+import io.cloudchaser.murmur.types.MurmurComponent.ComponentFunction;
 import io.cloudchaser.murmur.types.MurmurFunction;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurNull;
@@ -56,7 +55,7 @@ import java.util.Map;
  * @since 0.1
  */
 public class MurmurASTVisitor
-		extends MurmurParserBaseVisitor<MurmurObject> {
+		extends MurmurParserBaseVisitor {
 	
 	private static class MurmurBaseContext
 			implements SymbolContext {
@@ -229,7 +228,7 @@ public class MurmurASTVisitor
 	/* - Component Types - */
 	/* - - - - - - - - - - */
 	
-	public MurmurObject visitTypeField(MurmurParser.TypeElementContext ctx) {
+	public MurmurComponent.ComponentField visitTypeField(MurmurParser.TypeElementContext ctx) {
 		String name = ctx.name.getText();
 		
 		// Validate field name.
@@ -238,10 +237,10 @@ public class MurmurASTVisitor
 		}
 		
 		// Create the field.
-		return new FieldSymbol(name, MurmurNull.NULL, null);
+		return new ComponentField(name);
 	}
 	
-	public MurmurObject visitTypeFunction(MurmurParser.TypeElementContext ctx) {
+	public MurmurComponent.ComponentFunction visitTypeFunction(MurmurParser.TypeElementContext ctx) {
 		String name = ctx.name.getText();
 		MurmurObject value = visitExpression(ctx.expression());
 		
@@ -252,11 +251,11 @@ public class MurmurASTVisitor
 		
 		// Create the function.
 		MurmurFunction function = (MurmurFunction)value;
-		return new FunctionSymbol(name, function, null);
+		return new ComponentFunction(name, function);
 	}
 
 	@Override
-	public MurmurObject visitTypeElement(MurmurParser.TypeElementContext ctx) {
+	public MurmurComponent.ComponentField visitTypeElement(MurmurParser.TypeElementContext ctx) {
 		// Determine the element type.
 		if(ctx.expression() != null) {
 			return visitTypeFunction(ctx);
@@ -272,9 +271,8 @@ public class MurmurASTVisitor
 		// Build component members list.
 		if(ctx.typeElement() != null) {
 			ctx.typeElement().stream().forEach((element) -> {
-				ComponentSymbol symbol = (ComponentSymbol)visitTypeElement(element);
+				MurmurComponent.ComponentField symbol = visitTypeElement(element);
 				component.getMembers().put(symbol.getName(), symbol);
-				symbol.setParent(component);
 			});
 		}
 		
