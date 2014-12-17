@@ -61,6 +61,11 @@ public abstract class Symbol extends MurmurObject
 	
 	/* - Delegates - */
 	/* - - - - - - - */
+	
+	@Override
+	public Symbol getMember(String name) {
+		return value.getMember(name);
+	}
 
 	@Override
 	public MurmurInteger asInteger() {

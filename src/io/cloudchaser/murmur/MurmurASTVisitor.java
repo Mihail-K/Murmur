@@ -146,8 +146,8 @@ public class MurmurASTVisitor
 		ctx.identifierList().Identifier()
 				.stream().forEach((identifier) -> {
 			String name = identifier.getText();
+			Symbol target = instance.getMember(name);
 			Symbol source = context.peek().getLocal(name);
-			Symbol target = instance.getContext().getLocal(name);
 			
 			// Check that the symbol exists.
 			if(source == null || target == null) {
@@ -732,16 +732,10 @@ public class MurmurASTVisitor
 	
 	public MurmurObject visitMemberExpression(MurmurParser.ExpressionContext ctx) {
 		String name = ctx.Identifier().getText();
-		MurmurObject left = desymbolize(visitExpression(ctx.left));
+		MurmurObject left = visitExpression(ctx.left);
 		
-		// TODO : Other types will have members too.
-		if(!(left instanceof MurmurInstance)) {
-			throw new UnsupportedOperationException();
-		}
-		
-		// Get the symbol from the object.
-		MurmurInstance instance = (MurmurInstance)left;
-		return instance.getContext().getLocal(name);
+		// Find and return the member.
+		return left.getMember(name);
 	}
 	
 	public MurmurObject visitSetNotationExpression(MurmurParser.ExpressionContext ctx) {

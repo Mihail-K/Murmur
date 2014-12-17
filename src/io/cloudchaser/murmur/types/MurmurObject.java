@@ -24,6 +24,8 @@
 
 package io.cloudchaser.murmur.types;
 
+import io.cloudchaser.murmur.symbol.Symbol;
+
 /**
  *
  * @author Mihail K
@@ -39,6 +41,11 @@ public abstract class MurmurObject {
 
 	public MurmurType getType() {
 		return type;
+	}
+	
+	public Symbol getMember(String name) {
+		// Default implementation.
+		return null;
 	}
 	
 	/**

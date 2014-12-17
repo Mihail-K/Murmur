@@ -123,6 +123,11 @@ public class MurmurInstance extends MurmurObject
 	public MurmurComponent getComponentType() {
 		return component;
 	}
+	
+	@Override
+	public Symbol getMember(String name) {
+		return context.getLocal(name);
+	}
 
 	@Override
 	public MurmurInteger asInteger() {
