@@ -229,6 +229,11 @@ expression
 		statement
 		(':'
 		 statement)?
+		
+	//	Concatenation.
+	|	left = expression
+		operator = '~'
+		right = expression
 
 	//	Assignment.
 	|	<assoc = right>
@@ -247,11 +252,6 @@ expression
 		|	'<<='
 		|	'~='
 		)
-		right = expression
-		
-	//	Concatenation.
-	|	left = expression
-		operator = '~'
 		right = expression
 
 	//	Set notation.

@@ -1273,14 +1273,8 @@ public class MurmurParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(245);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(246);
-						((ExpressionContext)_localctx).operator = _input.LT(1);
-						_la = _input.LA(1);
-						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AssignOperator) | (1L << CompoundAddOperator) | (1L << CompoundBinaryAndOperator) | (1L << CompoundBinaryOrOperator) | (1L << CompoundBinaryXorOperator) | (1L << CompoundConcatOperator) | (1L << CompoundDivideOperator) | (1L << CompoundLeftShiftOperator) | (1L << CompoundModuloOperator) | (1L << CompoundMultiplyOperator) | (1L << CompoundRightShiftOperator) | (1L << CompoundSubtractOperator))) != 0)) ) {
-							((ExpressionContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
-						}
-						consume();
-						setState(247); ((ExpressionContext)_localctx).right = expression(5);
+						setState(246); ((ExpressionContext)_localctx).operator = match(BinaryNotOperator);
+						setState(247); ((ExpressionContext)_localctx).right = expression(6);
 						}
 						break;
 					case 13:
@@ -1290,8 +1284,14 @@ public class MurmurParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
 						setState(248);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(249); ((ExpressionContext)_localctx).operator = match(BinaryNotOperator);
-						setState(250); ((ExpressionContext)_localctx).right = expression(5);
+						setState(249);
+						((ExpressionContext)_localctx).operator = _input.LT(1);
+						_la = _input.LA(1);
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << AssignOperator) | (1L << CompoundAddOperator) | (1L << CompoundBinaryAndOperator) | (1L << CompoundBinaryOrOperator) | (1L << CompoundBinaryXorOperator) | (1L << CompoundConcatOperator) | (1L << CompoundDivideOperator) | (1L << CompoundLeftShiftOperator) | (1L << CompoundModuloOperator) | (1L << CompoundMultiplyOperator) | (1L << CompoundRightShiftOperator) | (1L << CompoundSubtractOperator))) != 0)) ) {
+							((ExpressionContext)_localctx).operator = (Token)_errHandler.recoverInline(this);
+						}
+						consume();
+						setState(250); ((ExpressionContext)_localctx).right = expression(4);
 						}
 						break;
 					case 14:
@@ -1619,9 +1619,9 @@ public class MurmurParser extends Parser {
 		"\f\13\2\2\u00ec\u00ed\7%\2\2\u00ed\u0117\5\36\20\f\u00ee\u00ef\f\n\2\2"+
 		"\u00ef\u00f0\7\'\2\2\u00f0\u0117\5\36\20\13\u00f1\u00f2\f\t\2\2\u00f2"+
 		"\u00f3\7.\2\2\u00f3\u00f4\5\36\20\2\u00f4\u00f5\7\60\2\2\u00f5\u00f6\5"+
-		"\36\20\n\u00f6\u0117\3\2\2\2\u00f7\u00f8\f\7\2\2\u00f8\u00f9\t\13\2\2"+
-		"\u00f9\u0117\5\36\20\7\u00fa\u00fb\f\6\2\2\u00fb\u00fc\7\f\2\2\u00fc\u0117"+
-		"\5\36\20\7\u00fd\u00fe\f\33\2\2\u00fe\u0117\t\5\2\2\u00ff\u0100\f\32\2"+
+		"\36\20\n\u00f6\u0117\3\2\2\2\u00f7\u00f8\f\7\2\2\u00f8\u00f9\7\f\2\2\u00f9"+
+		"\u0117\5\36\20\b\u00fa\u00fb\f\6\2\2\u00fb\u00fc\t\13\2\2\u00fc\u0117"+
+		"\5\36\20\6\u00fd\u00fe\f\33\2\2\u00fe\u0117\t\5\2\2\u00ff\u0100\f\32\2"+
 		"\2\u0100\u0101\7\35\2\2\u0101\u0117\7J\2\2\u0102\u0103\f\31\2\2\u0103"+
 		"\u0104\7\66\2\2\u0104\u0105\5\36\20\2\u0105\u0106\7\67\2\2\u0106\u0117"+
 		"\3\2\2\2\u0107\u0108\f\30\2\2\u0108\u0117\5 \21\2\u0109\u010a\f\27\2\2"+
