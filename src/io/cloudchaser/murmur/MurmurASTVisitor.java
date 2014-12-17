@@ -651,8 +651,7 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitFunctionCallExpression(MurmurParser.ExpressionContext ctx) {
-		MurmurObject left = visitExpression(ctx.left);
-		left = left instanceof Symbol ? ((Symbol)left).getValue() : left;
+		MurmurObject left = desymbolize(visitExpression(ctx.left));
 		List<MurmurObject> args = visitFunctionArguments(ctx.expressionList());
 		
 		// Check that this is a function.

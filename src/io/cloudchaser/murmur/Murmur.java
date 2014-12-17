@@ -31,6 +31,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -47,18 +49,22 @@ public class Murmur {
 	/**
 	 * 
 	 * @param args
-	 * @throws IOException 
 	 */
-    public static void main(String[] args) throws IOException {
-		Reader reader = new BufferedReader(new FileReader(args[0]));
-		ANTLRInputStream input = new ANTLRInputStream(reader);
-		MurmurLexer lexer = new MurmurLexer(input);
-		TokenStream tokens = new CommonTokenStream(lexer);
-		MurmurParser parser = new MurmurParser(tokens);
-		
-		// Build a symbol table for the file.
-		ParseTreeVisitor visitor = new MurmurASTVisitor();
-		visitor.visit(parser.compilationUnit());
+    public static void main(String[] args) {
+		try {
+			Reader reader = new BufferedReader(new FileReader(args[0]));
+			ANTLRInputStream input = new ANTLRInputStream(reader);
+			MurmurLexer lexer = new MurmurLexer(input);
+			TokenStream tokens = new CommonTokenStream(lexer);
+			MurmurParser parser = new MurmurParser(tokens);
+			
+			// Build a symbol table for the file.
+			ParseTreeVisitor visitor = new MurmurASTVisitor();
+			visitor.visit(parser.compilationUnit());
+		} catch(IOException ex) {
+			Logger.getLogger(Murmur.class.getName())
+					.log(Level.SEVERE, null, ex);
+		}
     }
 	
 }
