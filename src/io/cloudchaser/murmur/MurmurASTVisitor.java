@@ -496,10 +496,8 @@ public class MurmurASTVisitor
 	public List<MurmurObject> visitArrayInitializerList(MurmurParser.ExpressionListContext ctx) {
 		if(ctx == null) return new ArrayList<>();
 		List<MurmurObject> elements = new ArrayList<>();
-		ctx.expression().stream().forEach((expression) -> {
-				System.out.println((expression.expressionList() != null) + " : " + visitExpression(expression));
-				elements.add(visitExpression(expression));
-		});
+		ctx.expression().stream().forEach((expression) ->
+				elements.add(visitExpression(expression)));
 		return elements;
 	}
 	
@@ -547,8 +545,6 @@ public class MurmurASTVisitor
 		if(!(left instanceof Symbol)) {
 			throw new UnsupportedOperationException();
 		}
-		
-		System.out.println(left);
 		
 		// Assign the value to the symbol.
 		((Symbol)left).setValue(right);
