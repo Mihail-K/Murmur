@@ -34,6 +34,7 @@ import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurComponent;
 import io.cloudchaser.murmur.types.MurmurComponent.ComponentField;
 import io.cloudchaser.murmur.types.MurmurComponent.ComponentFunction;
+import io.cloudchaser.murmur.types.MurmurDecimal;
 import io.cloudchaser.murmur.types.MurmurFunction;
 import io.cloudchaser.murmur.types.MurmurInstance;
 import io.cloudchaser.murmur.types.MurmurInteger;
@@ -979,8 +980,9 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitDecimalLiteral(MurmurParser.LiteralContext ctx) {
-		// TODO
-		return null;
+		String text = ctx.getText().toLowerCase();
+		double value = Double.parseDouble(text);
+		return MurmurDecimal.create(value);
 	}
 	
 	public MurmurObject visitBooleanLiteral(MurmurParser.LiteralContext ctx) {
