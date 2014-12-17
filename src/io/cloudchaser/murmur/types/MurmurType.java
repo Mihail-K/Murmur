@@ -37,6 +37,7 @@ public enum MurmurType {
 	BOOLEAN("boolean"),
 	CHARACTER("character"),
 	STRING("string"),
+	ARRAY("array"),
 	
 	FUNCTION("function"),
 	OBJECT("object"),
