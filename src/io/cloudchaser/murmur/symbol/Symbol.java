@@ -191,8 +191,58 @@ public abstract class Symbol<Type extends MurmurObject>
 	}
 
 	@Override
-	public MurmurObject opAddAssign(MurmurObject other) {
-		return value.opAddAssign(other);
+	public MurmurObject opPlusAssign(MurmurObject other) {
+		return value.opPlusAssign(other);
+	}
+
+	@Override
+	public MurmurObject opMinusAssign(MurmurObject other) {
+		return value.opMinusAssign(other);
+	}
+
+	@Override
+	public MurmurObject opMultiplyAssign(MurmurObject other) {
+		return value.opMultiplyAssign(other);
+	}
+
+	@Override
+	public MurmurObject opDivideAssign(MurmurObject other) {
+		return value.opDivideAssign(other);
+	}
+
+	@Override
+	public MurmurObject opModuloAssign(MurmurObject other) {
+		return value.opModuloAssign(other);
+	}
+
+	@Override
+	public MurmurObject opBitAndAssign(MurmurObject other) {
+		return value.opBitAndAssign(other);
+	}
+
+	@Override
+	public MurmurObject opBitXorAssign(MurmurObject other) {
+		return value.opBitXorAssign(other);
+	}
+
+	@Override
+	public MurmurObject opBitOrAssign(MurmurObject other) {
+		return value.opBitOrAssign(other);
+	}
+
+	@Override
+	public MurmurObject opShiftLeftAssign(MurmurObject other) {
+		return value.opShiftLeftAssign(other);
+	}
+
+	@Override
+	public MurmurObject opShiftRightAssign(MurmurObject other) {
+		return value.opShiftRightAssign(other);
+	}
+
+	@Override
+	public MurmurObject opConcatAssign(MurmurObject other) {
+		return value.opConcatAssign(other);
 	}
 
 	@Override

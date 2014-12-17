@@ -263,9 +263,76 @@ public class MurmurArray extends MurmurObject {
 	}
 
 	@Override
-	public MurmurObject opAddAssign(MurmurObject other) {
+	public MurmurObject opPlusAssign(MurmurObject other) {
 		// Append the element.
 		elements.add(other);
+		return this;
+	}
+
+	@Override
+	public MurmurObject opMinusAssign(MurmurObject other) {
+		// Remove the element.
+		elements.remove(other);
+		return this;
+	}
+
+	@Override
+	public MurmurObject opMultiplyAssign(MurmurObject other) {
+		// Unused. Arrays don't support integer arithmetic.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opDivideAssign(MurmurObject other) {
+		// Unused. Arrays don't support integer arithmetic.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opModuloAssign(MurmurObject other) {
+		// Unused. Arrays don't support integer arithmetic.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opBitAndAssign(MurmurObject other) {
+		// Unused. Arrays don't support bit arithmetic.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opBitXorAssign(MurmurObject other) {
+		// Unused. Arrays don't support bit arithmetic.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opBitOrAssign(MurmurObject other) {
+		// Unused. Arrays don't support bit arithmetic.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opShiftLeftAssign(MurmurObject other) {
+		// Unused. Arrays don't support bitshift.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opShiftRightAssign(MurmurObject other) {
+		// Unused. Arrays don't support bitshift.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opConcatAssign(MurmurObject other) {
+		if(other.getType() == ARRAY) {
+			// Append all elements.
+			elements.addAll(((MurmurArray)other).elements);
+		} else {
+			// Append the element.
+			elements.add(other);
+		}
 		return this;
 	}
 

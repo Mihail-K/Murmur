@@ -246,8 +246,68 @@ public class MurmurBoolean extends MurmurObject {
 	}
 
 	@Override
-	public MurmurObject opAddAssign(MurmurObject other) {
-		// Booleans don't support compound assignment.
+	public MurmurObject opPlusAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opMinusAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opMultiplyAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opDivideAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opModuloAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opBitAndAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opBitXorAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opBitOrAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opShiftLeftAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opShiftRightAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurObject opConcatAssign(MurmurObject other) {
+		// Unused. Boolean values are immutable.
 		throw new UnsupportedOperationException();
 	}
 

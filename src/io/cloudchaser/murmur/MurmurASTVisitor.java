@@ -582,7 +582,27 @@ public class MurmurASTVisitor
 			// Use Add-Assignment operator.
 			switch(ctx.operator.getText()) {
 				case "+=":
-					return left.opAddAssign(desymbolize(right));
+					return left.opPlusAssign(desymbolize(right));
+				case "-=":
+					return left.opMinusAssign(desymbolize(right));
+				case "*=":
+					return left.opMultiplyAssign(desymbolize(right));
+				case "/=":
+					return left.opDivideAssign(desymbolize(right));
+				case "%=":
+					return left.opModuloAssign(desymbolize(right));
+				case "&=":
+					return left.opBitAndAssign(desymbolize(right));
+				case "^=":
+					return left.opBitXorAssign(desymbolize(right));
+				case "|=":
+					return left.opBitOrAssign(desymbolize(right));
+				case "<<=":
+					return left.opShiftLeftAssign(desymbolize(right));
+				case ">>=":
+					return left.opShiftRightAssign(desymbolize(right));
+				case "~=":
+					return left.opConcatAssign(desymbolize(right));
 				default:
 					// Unsupported assignment type.
 					throw new UnsupportedOperationException();
