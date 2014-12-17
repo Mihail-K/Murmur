@@ -80,14 +80,22 @@ public class MurmurArray extends MurmurObject {
 
 	@Override
 	public MurmurObject opPlus(MurmurObject other) {
-		// Arrays don't support integer arithmetic.
-		throw new UnsupportedOperationException();
+		// Create a copy and append the element.
+		List<MurmurObject> copy = new ArrayList<>(elements);
+		copy.add(other);
+		
+		// Return the new array.
+		return new MurmurArray(copy);
 	}
 
 	@Override
 	public MurmurObject opMinus(MurmurObject other) {
-		// Arrays don't support integer arithmetic.
-		throw new UnsupportedOperationException();
+		// Create a copy, and remove the element.
+		List<MurmurObject> copy = new ArrayList<>(elements);
+		copy.remove(other);
+		
+		// Return the new array.
+		return new MurmurArray(copy);
 	}
 
 	@Override
