@@ -55,4 +55,12 @@ public interface SymbolContext {
 	 */
 	Symbol getSymbol(String name);
 	
+	/**
+	 * Search for a symbol by name, in the local context.
+	 * 
+	 * @param name The name of the symbol to look for.
+	 * @return The symbol, if found. Otherwise, <code>null</code>.
+	 */
+	Symbol getLocal(String name);
+	
 }
