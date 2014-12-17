@@ -125,8 +125,9 @@ public class MurmurInstance extends MurmurObject
 	}
 	
 	@Override
-	public Symbol getMember(String name) {
-		return context.getLocal(name);
+	public MurmurObject getMember(String name) {
+		Symbol symbol = context.getLocal(name);
+		return symbol == null ? MurmurVoid.VOID : symbol;
 	}
 
 	@Override

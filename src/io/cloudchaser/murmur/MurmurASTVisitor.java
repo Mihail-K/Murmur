@@ -44,6 +44,7 @@ import io.cloudchaser.murmur.types.MurmurObject;
 import io.cloudchaser.murmur.types.MurmurReturn;
 import io.cloudchaser.murmur.types.MurmurString;
 import static io.cloudchaser.murmur.types.MurmurType.TYPE;
+import io.cloudchaser.murmur.types.MurmurVoid;
 import io.cloudchaser.murmur.types.ReferenceType;
 
 import java.util.ArrayList;
@@ -146,19 +147,21 @@ public class MurmurASTVisitor
 		ctx.identifierList().Identifier()
 				.stream().forEach((identifier) -> {
 			String name = identifier.getText();
-			Symbol target = instance.getMember(name);
+			MurmurObject target = instance.getMember(name);
 			Symbol source = context.peek().getLocal(name);
 			
 			// Check that the symbol exists.
-			if(source == null || target == null) {
+			if(source == null || target == null ||
+					!(target instanceof Symbol)) {
 				throw new NullPointerException();
 			}
 			
 			// Bind the symbol, by name.
-			target.setValue(source.getValue());
+			((Symbol)target).setValue(source.getValue());
 		});
 		
-		return null;
+		// Return void value.
+		return MurmurVoid.VOID;
 	}
 	
 	public MurmurObject visitRightArrowStatement(MurmurParser.KeywordStatementContext ctx) {
@@ -185,7 +188,8 @@ public class MurmurASTVisitor
 			context.peek().addSymbol(new LetSymbol(name, value));
 		});
 		
-		return null;
+		// Return void value.
+		return MurmurVoid.VOID;
 	}
 	
 	public MurmurObject visitLetStatement(MurmurParser.KeywordStatementContext ctx) {
@@ -230,7 +234,7 @@ public class MurmurASTVisitor
 					return visitThrowStatement(ctx);
 				default:
 					// Unknown operation.
-					throw new RuntimeException();
+					throw new UnsupportedOperationException();
 			}
 		}
 		
@@ -298,7 +302,9 @@ public class MurmurASTVisitor
 
 	@Override
 	public MurmurObject visitTypeDeclaration(MurmurParser.TypeDeclarationContext ctx) {
-		MurmurComponent component = new MurmurComponent("<local>", context.peek());
+		// Create a local component type.
+		MurmurComponent component = new MurmurComponent(
+				"<local>", context.peek());
 		
 		// Build component members list.
 		if(ctx.typeElement() != null) {
@@ -350,7 +356,9 @@ public class MurmurASTVisitor
 		// Build the finished Murmur component object.
 		MurmurObject component = new MurmurComponent(name, context.peek(), types);
 		context.peek().addSymbol(symbol = new LetSymbol(name, component));
-		return symbol.getValue();
+		
+		// Return void value.
+		return MurmurVoid.VOID;
 	}
 	
 	/* - Expressions - */
@@ -647,8 +655,8 @@ public class MurmurASTVisitor
 			}
 		}
 		
-		// TODO
-		return null;
+		// Return void value.
+		return MurmurVoid.VOID;
 	}
 	
 	public MurmurObject visitFunctionCallExpression(MurmurParser.ExpressionContext ctx) {

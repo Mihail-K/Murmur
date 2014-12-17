@@ -34,7 +34,7 @@ import io.cloudchaser.murmur.types.ReferenceType;
  *
  * @author Mihail K
  * @since 0.1
- */
+ **/
 public abstract class Symbol extends MurmurObject
 		implements ReferenceType {
 
@@ -63,7 +63,7 @@ public abstract class Symbol extends MurmurObject
 	/* - - - - - - - */
 	
 	@Override
-	public Symbol getMember(String name) {
+	public MurmurObject getMember(String name) {
 		return value.getMember(name);
 	}
 
