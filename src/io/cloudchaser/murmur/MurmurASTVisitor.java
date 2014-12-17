@@ -40,6 +40,7 @@ import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurNull;
 import io.cloudchaser.murmur.types.MurmurObject;
 import io.cloudchaser.murmur.types.MurmurReturn;
+import io.cloudchaser.murmur.types.MurmurString;
 import io.cloudchaser.murmur.types.MurmurType;
 import static io.cloudchaser.murmur.types.MurmurType.TYPE;
 
@@ -1038,8 +1039,9 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitStringLiteral(MurmurParser.LiteralContext ctx) {
-		// TODO
-		return null;
+		// Create a string and trim outer quotes.
+		String value = ctx.getText();
+		return new MurmurString(value.substring(1, value.length() - 1));
 	}
 	
 	public MurmurObject visitNullLiteral(MurmurParser.LiteralContext ctx) {
