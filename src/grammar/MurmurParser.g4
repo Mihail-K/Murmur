@@ -241,6 +241,7 @@ expression
 		|	'|='
 		|	'>>='
 		|	'<<='
+		|	'~='
 		)
 		right = expression
 		

@@ -306,8 +306,13 @@ CompoundBinaryOrOperator
 	:	'|='
 	;
 
+
 CompoundBinaryXorOperator
 	:	'^='
+	;
+
+CompoundConcatOperator
+	:	'~='
 	;
 
 CompoundDivideOperator
