@@ -587,8 +587,7 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitTernaryExpression(MurmurParser.ExpressionContext ctx) {
-		MurmurObject clause = visitExpression(ctx.clause);
-		clause = clause instanceof Symbol ? ((Symbol)clause).getValue() : clause;
+		MurmurObject clause = desymbolize(visitExpression(ctx.clause));
 		
 		// Check that the clause is boolean.
 		if(!(clause instanceof MurmurBoolean)) {
@@ -596,8 +595,7 @@ public class MurmurASTVisitor
 		}
 		
 		// Check the clause.
-		MurmurBoolean bool = (MurmurBoolean)clause;
-		if(bool.getValue()) {
+		if(((MurmurBoolean)clause).getValue()) {
 			// True; evaluate left.
 			return visitExpression(ctx.expression(1));
 		} else {
