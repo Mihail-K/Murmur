@@ -253,6 +253,10 @@ expression
 	|	'[' left = expression?
 		operator = ','
 		right = expression? ']'
+		
+	//	Array notation.
+	|	operator = '['
+		expressionList? ']'
 
 	//	Parenthesized.
 	|	'(' inner = expression ')'
