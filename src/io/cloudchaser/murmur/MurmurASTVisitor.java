@@ -26,6 +26,9 @@ package io.cloudchaser.murmur;
 
 import io.cloudchaser.murmur.parser.MurmurParser;
 import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
+import io.cloudchaser.murmur.symbol.ComponentSymbol;
+import io.cloudchaser.murmur.symbol.FieldSymbol;
+import io.cloudchaser.murmur.symbol.FunctionSymbol;
 import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
@@ -224,27 +227,59 @@ public class MurmurASTVisitor
 	}
 	
 	/* - Component Types - */
-	/* - - - - - - - - - -*/
+	/* - - - - - - - - - - */
 	
 	public MurmurObject visitTypeField(MurmurParser.TypeElementContext ctx) {
-		// TODO
-		return null;
+		String name = ctx.name.getText();
+		
+		// Validate field name.
+		if(name.equals("this")) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Create the field.
+		return new FieldSymbol(name, MurmurNull.NULL, null);
 	}
 	
 	public MurmurObject visitTypeFunction(MurmurParser.TypeElementContext ctx) {
-		// TODO
-		return null;
+		String name = ctx.name.getText();
+		MurmurObject value = visitExpression(ctx.expression());
+		
+		// Check that this is a function.
+		if(!(value instanceof MurmurFunction)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Create the function.
+		MurmurFunction function = (MurmurFunction)value;
+		return new FunctionSymbol(name, function, null);
 	}
 
 	@Override
 	public MurmurObject visitTypeElement(MurmurParser.TypeElementContext ctx) {
-		// TODO
-		return null;
+		// Determine the element type.
+		if(ctx.expression() != null) {
+			return visitTypeFunction(ctx);
+		} else {
+			return visitTypeField(ctx);
+		}
 	}
 
 	@Override
 	public MurmurObject visitTypeDeclaration(MurmurParser.TypeDeclarationContext ctx) {
-		return super.visitTypeDeclaration(ctx); //To change body of generated methods, choose Tools | Templates.
+		MurmurComponent component = new MurmurComponent("<local>", context.peek());
+		
+		// Build component members list.
+		if(ctx.typeElement() != null) {
+			ctx.typeElement().stream().forEach((element) -> {
+				ComponentSymbol symbol = (ComponentSymbol)visitTypeElement(element);
+				component.getMembers().put(symbol.getName(), symbol);
+				symbol.setParent(component);
+			});
+		}
+		
+		// Return the component.
+		return component;
 	}
 	
 	public List<MurmurComponent> visitTypeParents(MurmurParser.TypeStatementContext ctx) {

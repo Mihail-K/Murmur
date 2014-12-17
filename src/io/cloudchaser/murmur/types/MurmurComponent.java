@@ -27,11 +27,10 @@ package io.cloudchaser.murmur.types;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
 import static io.cloudchaser.murmur.types.MurmurType.TYPE;
-import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
 import java.util.Map;
 
 /**
@@ -71,7 +70,12 @@ public class MurmurComponent extends MurmurObject {
 		this.name = name;
 		this.context = context;
 		this.components = components;
+		
+		// Build memberlist.
 		members = new HashMap<>();
+		components.stream().forEach((component) -> {
+			members.putAll(component.getMembers());
+		});
 	}
 	
 	public String getName() {
@@ -121,14 +125,14 @@ public class MurmurComponent extends MurmurObject {
 
 	@Override
 	public MurmurObject opPlus(MurmurObject other) {
-		// TODO
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		// Components don't support integer arithmetic.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opMinus(MurmurObject other) {
-		// TODO
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		// Components don't support integer arithmetic.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

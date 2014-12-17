@@ -30,13 +30,25 @@ import io.cloudchaser.murmur.types.MurmurObject;
 /**
  *
  * @author Mihail K
+ * @param <Type>
  * @since 0.1
  */
-public class FieldSymbol extends ComponentSymbol {
+public abstract class ComponentSymbol<Type extends MurmurObject>
+		extends Symbol<Type> {
 	
-	public FieldSymbol(String name, MurmurObject value, MurmurComponent parent) {
-		super(name, value, parent);
+	private MurmurComponent parent;
+
+	public ComponentSymbol(String name, Type value, MurmurComponent parent) {
+		super(name, value);
+		this.parent = parent;
 	}
 
+	public MurmurComponent getParent() {
+		return parent;
+	}
+
+	public void setParent(MurmurComponent parent) {
+		this.parent = parent;
+	}
 	
 }
