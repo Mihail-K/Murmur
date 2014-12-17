@@ -68,13 +68,18 @@ public class MurmurFunction extends MurmurObject {
 				return context.getSymbol(name);
 			return symbol;
 		}
+
+		@Override
+		public Symbol getLocal(String name) {
+			return symbols.get(name);
+		}
 		
 	}
 	
 	/**
 	 * Function declaration context.
 	 */
-	private final SymbolContext context;
+	private SymbolContext context;
 	
 	/**
 	 * Function parameter list.
@@ -91,6 +96,10 @@ public class MurmurFunction extends MurmurObject {
 	
 	public SymbolContext getContext() {
 		return context;
+	}
+	
+	public void setContext(SymbolContext context) {
+		this.context = context;
 	}
 	
 	public List<String> getParameters() {

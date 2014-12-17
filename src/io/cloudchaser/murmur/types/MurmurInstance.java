@@ -55,8 +55,11 @@ public class MurmurInstance extends MurmurObject {
 					.stream().forEach((value) -> {
 				// Check if this is a function.
 				if(value instanceof ComponentFunction) {
-					// Create a function symbol.
+					// Bind the function to the local context.
 					ComponentFunction function = (ComponentFunction)value;
+					function.getFunction().setContext(this);
+					
+					// Create a function symbol.
 					addSymbol(new FunctionSymbol(value.getName(),
 							function.getFunction(), component));
 				} else {
@@ -83,6 +86,11 @@ public class MurmurInstance extends MurmurObject {
 			if(symbol == null && getParent() != null)
 				return getParent().getSymbol(name);
 			return symbol;
+		}
+
+		@Override
+		public Symbol getLocal(String name) {
+			return symbols.get(name);
 		}
 		
 	}
