@@ -81,6 +81,11 @@ public class MurmurASTVisitor
 		public Symbol getSymbol(String name) {
 			return symbols.get(name);
 		}
+
+		@Override
+		public Symbol getLocal(String name) {
+			return symbols.get(name);
+		}
 		
 	}
 	
@@ -648,7 +653,7 @@ public class MurmurASTVisitor
 			MurmurInstance instance = new MurmurInstance(component);
 			
 			// Lookup and call the construtor.
-			Symbol symbol = instance.getContext().getSymbol("~ctor");
+			Symbol symbol = instance.getContext().getLocal("~ctor");
 			MurmurFunction ctor = (MurmurFunction)symbol.getValue();
 			context.push(ctor.createLocal(args));
 			
@@ -766,8 +771,17 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitMemberExpression(MurmurParser.ExpressionContext ctx) {
-		// TODO
-		return null;
+		String name = ctx.Identifier().getText();
+		MurmurObject left = desymbolize(visitExpression(ctx.left));
+		
+		// TODO : Other types will have members too.
+		if(!(left instanceof MurmurInstance)) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Get the symbol from the object.
+		MurmurInstance instance = (MurmurInstance)left;
+		return instance.getContext().getLocal(name);
 	}
 	
 	public MurmurObject visitSetNotationExpression(MurmurParser.ExpressionContext ctx) {
