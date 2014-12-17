@@ -646,6 +646,9 @@ public class MurmurASTVisitor
 				case ">>=":
 					value = left.opShiftRight(desymbolize(right));
 					break;
+				case "~=":
+					value = left.opConcat(desymbolize(right));
+					break;
 				default:
 					// Unsupported assignment type.
 					throw new UnsupportedOperationException();
