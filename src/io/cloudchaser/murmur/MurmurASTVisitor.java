@@ -30,9 +30,14 @@ import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
 import io.cloudchaser.murmur.types.MurmurBoolean;
+import io.cloudchaser.murmur.types.MurmurFunction;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurObject;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,10 +74,11 @@ public class MurmurASTVisitor
 		
 	}
 	
-	private final SymbolContext context;
+	private final Deque<SymbolContext> context;
 	
 	public MurmurASTVisitor() {
-		context = new MurmurBaseContext();
+		context = new LinkedList<>();
+		context.push(new MurmurBaseContext());
 	}
 
 	@Override
@@ -125,7 +131,7 @@ public class MurmurASTVisitor
 			System.out.println(name + " : " + value);
 			
 			// Create a symbol entry.
-			context.addSymbol(new LetSymbol(name, value));
+			context.peek().addSymbol(new LetSymbol(name, value));
 		});
 		
 		return null;
@@ -481,21 +487,35 @@ public class MurmurASTVisitor
 		return null;
 	}
 	
-	public MurmurObject visitFunctionArguments(MurmurParser.ExpressionListContext ctx) {
-		// Visit the argument list.
-		ctx.expression().stream().forEach(this::visitExpression);
-		
-		// TODO
-		return null;
+	public List<MurmurObject> visitFunctionArguments(MurmurParser.ExpressionListContext ctx) {
+		if(ctx == null) return null;
+		List<MurmurObject> args = new ArrayList<>();
+		ctx.expression().stream().forEach((argument) ->
+				args.add(visitExpression(argument)));
+		return args;
 	}
 	
 	public MurmurObject visitFunctionCallExpression(MurmurParser.ExpressionContext ctx) {
-		if(ctx.expressionList() != null) {
-			visitFunctionArguments(ctx.expressionList());
+		MurmurObject left = visitExpression(ctx.left);
+		left = left instanceof Symbol ? ((Symbol)left).getValue() : left;
+		List<MurmurObject> args = visitFunctionArguments(ctx.expressionList());
+		
+		// Check that this is a function.
+		if(!(left instanceof MurmurFunction)) {
+			// TODO : Objects can define an invoke operator.
+			throw new UnsupportedOperationException();
 		}
 		
-		// TODO
-		return null;
+		// Step into a new context.
+		MurmurFunction function = (MurmurFunction)left;
+		context.push(function.createLocal(args));
+		
+		// Execute function body.
+		MurmurObject result = visitBlock(function.getBody());
+		
+		// Leave the function context.
+		context.pop();
+		return result;
 	}
 	
 	public MurmurObject visitAssignmentExpression(MurmurParser.ExpressionContext ctx) {
@@ -525,7 +545,7 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitIdentifierExpression(MurmurParser.ExpressionContext ctx) {
-		Symbol symbol = context.getSymbol(ctx.getText());
+		Symbol symbol = context.peek().getSymbol(ctx.getText());
 		
 		// Check that the symbol exists.
 		if(symbol == null) {
@@ -535,6 +555,20 @@ public class MurmurASTVisitor
 		
 		// Return the symbol.
 		return symbol;
+	}
+	
+	public List<String> visitLambdaParameterList(MurmurParser.IdentifierListContext ctx) {
+		if(ctx == null) return null;
+		List<String> parameters = new ArrayList<>();
+		ctx.Identifier().stream().forEach((parameter) ->
+				parameters.add(parameter.getText()));
+		return parameters;
+	}
+
+	@Override
+	public MurmurObject visitLambda(MurmurParser.LambdaContext ctx) {
+		List<String> parameters = visitLambdaParameterList(ctx.identifierList());
+		return new MurmurFunction(context.peek(), parameters, ctx.block());
 	}
 
 	@Override
