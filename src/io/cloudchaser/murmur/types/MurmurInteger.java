@@ -24,6 +24,7 @@
 
 package io.cloudchaser.murmur.types;
 
+import static io.cloudchaser.murmur.types.MurmurType.DECIMAL;
 import static io.cloudchaser.murmur.types.MurmurType.INTEGER;
 
 /**
@@ -101,6 +102,8 @@ public class MurmurInteger extends MurmurObject {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
 			return create(value + ((MurmurInteger)other).value);
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opPlus(other);
 		}
 		
 		// Unsupported.
@@ -112,6 +115,8 @@ public class MurmurInteger extends MurmurObject {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
 			return create(value - ((MurmurInteger)other).value);
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opMinus(other);
 		}
 		
 		// Unsupported.
@@ -123,6 +128,8 @@ public class MurmurInteger extends MurmurObject {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
 			return create(value * ((MurmurInteger)other).value);
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opMultiply(other);
 		}
 		
 		// Unsupported.
@@ -134,6 +141,8 @@ public class MurmurInteger extends MurmurObject {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
 			return create(value / ((MurmurInteger)other).value);
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opDivide(other);
 		}
 		
 		// Unsupported.
@@ -145,6 +154,8 @@ public class MurmurInteger extends MurmurObject {
 		// Check for supported operation.
 		if(other.getType() == INTEGER) {
 			return create(value % ((MurmurInteger)other).value);
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opModulo(other);
 		}
 		
 		// Unsupported.
@@ -179,6 +190,8 @@ public class MurmurInteger extends MurmurObject {
 		if(other.getType() == INTEGER) {
 			boolean result = value < ((MurmurInteger)other).value;
 			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opLessThan(other);
 		}
 		
 		// Unsupported.
@@ -191,6 +204,8 @@ public class MurmurInteger extends MurmurObject {
 		if(other.getType() == INTEGER) {
 			boolean result = value > ((MurmurInteger)other).value;
 			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opGreaterThan(other);
 		}
 		
 		// Unsupported.
@@ -203,6 +218,8 @@ public class MurmurInteger extends MurmurObject {
 		if(other.getType() == INTEGER) {
 			boolean result = value <= ((MurmurInteger)other).value;
 			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opLessOrEqual(other);
 		}
 		
 		// Unsupported.
@@ -215,6 +232,8 @@ public class MurmurInteger extends MurmurObject {
 		if(other.getType() == INTEGER) {
 			boolean result = value >= ((MurmurInteger)other).value;
 			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opGreaterOrEqual(other);
 		}
 		
 		// Unsupported.
@@ -227,6 +246,8 @@ public class MurmurInteger extends MurmurObject {
 		if(other.getType() == INTEGER) {
 			boolean result = value == ((MurmurInteger)other).value;
 			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opEquals(other);
 		}
 		
 		// Not equal.
@@ -239,6 +260,8 @@ public class MurmurInteger extends MurmurObject {
 		if(other.getType() == INTEGER) {
 			boolean result = value != ((MurmurInteger)other).value;
 			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+		} else if(other.getType() == DECIMAL) {
+			return asDecimal().opNotEquals(other);
 		}
 		
 		// Not equal.
