@@ -485,6 +485,15 @@ public class MurmurASTVisitor
 		}
 	}
 	
+	public MurmurObject visitConcatExpression(MurmurParser.ExpressionContext ctx) {
+		MurmurObject left = visitExpression(ctx.left);
+		MurmurObject right = visitExpression(ctx.right);
+		
+		// Dereference symbols.
+		return left.opConcat(right instanceof Symbol ?
+				((Symbol)right).getValue() : right);
+	}
+	
 	public MurmurObject visitArrayIndexExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject index = visitExpression(ctx.index);
@@ -658,6 +667,9 @@ public class MurmurASTVisitor
 					// Expression: !a
 					return visitLogicalNotExpression(ctx);
 				case "~":
+					if(ctx.left != null)
+						// Expression: a ~ b
+						return visitConcatExpression(ctx);
 					// Expression: ~a
 					return visitBinaryNotExpression(ctx);
 				case "&":

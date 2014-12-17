@@ -100,4 +100,6 @@ public abstract class MurmurObject {
 	
 	public abstract MurmurObject opAddAssign(MurmurObject other);
 	
+	public abstract MurmurObject opConcat(MurmurObject other);
+	
 }

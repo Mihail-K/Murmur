@@ -247,6 +247,22 @@ public class MurmurArray extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opConcat(MurmurObject other) {
+		// Check for array type.
+		if(other.getType() == ARRAY) {
+			// Create a new array, and append the other.
+			List<MurmurObject> copy = new ArrayList<>(elements);
+			copy.addAll(((MurmurArray)other).elements);
+			
+			// Return the new array.
+			return new MurmurArray(copy);
+		}
+		
+		// Concat single element.
+		return opPlus(other);
+	}
+
+	@Override
 	public MurmurObject opAddAssign(MurmurObject other) {
 		// Append the element.
 		elements.add(other);

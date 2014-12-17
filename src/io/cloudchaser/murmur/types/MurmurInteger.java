@@ -302,6 +302,12 @@ public class MurmurInteger extends MurmurObject {
 		// Unused. Integer values are immutable.
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public MurmurObject opConcat(MurmurObject other) {
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
 	
 	@Override
 	public int hashCode() {

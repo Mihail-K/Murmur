@@ -294,6 +294,12 @@ public class MurmurFunction extends MurmurObject {
 	}
 
 	@Override
+	public MurmurObject opConcat(MurmurObject other) {
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public String toString() {
 		return "MurmurFunction{context=" + context +
 				", parameters=" + parameters +

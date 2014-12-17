@@ -194,6 +194,11 @@ public abstract class Symbol<Type extends MurmurObject>
 	public MurmurObject opAddAssign(MurmurObject other) {
 		return value.opAddAssign(other);
 	}
+
+	@Override
+	public MurmurObject opConcat(MurmurObject other) {
+		return value.opConcat(other);
+	}
 	
 	@Override
 	public int hashCode() {

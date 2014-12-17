@@ -250,6 +250,12 @@ public class MurmurBoolean extends MurmurObject {
 		// Booleans don't support compound assignment.
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public MurmurObject opConcat(MurmurObject other) {
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
 	
 	@Override
 	public int hashCode() {
