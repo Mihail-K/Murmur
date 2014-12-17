@@ -712,8 +712,8 @@ public class MurmurASTVisitor
 				case ".":
 					// Expression: a.b
 					return visitMemberExpression(ctx);
-				case ",":
-					// Expression: [a, b]
+				case "..":
+					// Expression: [a .. b]
 					return visitSetNotationExpression(ctx);
 				case "+":
 					if(ctx.left != null)
@@ -844,9 +844,18 @@ public class MurmurASTVisitor
 		
 		// Check for base.
 		if(text.startsWith("0x")) {
+			// Hexadecimal
 			text = text.replaceAll("(0x|_|l)", "");
 			value = Long.parseLong(text, 16);
+		} else if(text.startsWith("0b")) {
+			// Binary
+			text = text.replaceAll("(0b|_|l)", "");
+			value = Long.parseLong(text, 2);
+		} else if(text.startsWith("0")) {
+			// Octal
+			value = Long.parseLong(text, 8);
 		} else {
+			// Decimal
 			text = text.replaceAll("(_|l)", "");
 			value = Long.parseLong(text);
 		}
