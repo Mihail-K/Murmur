@@ -130,6 +130,11 @@ public class MurmurComponent extends MurmurObject {
 	}
 
 	@Override
+	public MurmurDecimal asDecimal() {
+		return MurmurDecimal.ZERO;
+	}
+
+	@Override
 	public MurmurString asString() {
 		return new MurmurString(name);
 	}

@@ -137,6 +137,11 @@ public class MurmurFunction extends MurmurObject {
 	}
 
 	@Override
+	public MurmurDecimal asDecimal() {
+		return MurmurDecimal.ZERO;
+	}
+
+	@Override
 	public MurmurString asString() {
 		return new MurmurString("function");
 	}

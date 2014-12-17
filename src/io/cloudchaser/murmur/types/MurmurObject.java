@@ -49,6 +49,13 @@ public abstract class MurmurObject {
 	public abstract MurmurInteger asInteger();
 	
 	/**
+	 * Converts this Object to a decimal, if possible.
+	 * 
+	 * @return This Object as a decimal.
+	 **/
+	public abstract MurmurDecimal asDecimal();
+	
+	/**
 	 * Converts this Object to a string, if possible.
 	 * 
 	 * @return This Object as a string.

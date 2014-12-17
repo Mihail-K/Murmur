@@ -56,6 +56,11 @@ public class MurmurArray extends MurmurObject
 	}
 
 	@Override
+	public MurmurDecimal asDecimal() {
+		return MurmurDecimal.create(elements.size());
+	}
+
+	@Override
 	public MurmurString asString() {
 		return new MurmurString("array");
 	}

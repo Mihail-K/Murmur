@@ -44,6 +44,11 @@ public final class MurmurNull extends MurmurObject {
 	public MurmurInteger asInteger() {
 		return MurmurInteger.ZERO;
 	}
+
+	@Override
+	public MurmurDecimal asDecimal() {
+		return MurmurDecimal.ZERO;
+	}
 	
 	@Override
 	public MurmurString asString() {

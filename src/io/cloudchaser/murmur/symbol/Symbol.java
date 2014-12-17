@@ -24,6 +24,7 @@
 
 package io.cloudchaser.murmur.symbol;
 
+import io.cloudchaser.murmur.types.MurmurDecimal;
 import io.cloudchaser.murmur.types.MurmurInteger;
 import io.cloudchaser.murmur.types.MurmurObject;
 import io.cloudchaser.murmur.types.MurmurString;
@@ -64,6 +65,11 @@ public abstract class Symbol extends MurmurObject
 	@Override
 	public MurmurInteger asInteger() {
 		return value.asInteger();
+	}
+
+	@Override
+	public MurmurDecimal asDecimal() {
+		return value.asDecimal();
 	}
 
 	@Override

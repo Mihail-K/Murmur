@@ -46,6 +46,11 @@ public class MurmurString extends MurmurObject {
 	}
 
 	@Override
+	public MurmurDecimal asDecimal() {
+		return MurmurDecimal.ZERO;
+	}
+
+	@Override
 	public MurmurString asString() {
 		return this;
 	}

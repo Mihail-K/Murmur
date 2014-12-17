@@ -67,6 +67,11 @@ public class MurmurInteger extends MurmurObject {
 	}
 
 	@Override
+	public MurmurDecimal asDecimal() {
+		return MurmurDecimal.create(value);
+	}
+
+	@Override
 	public MurmurString asString() {
 		return new MurmurString(Long.toString(value));
 	}
