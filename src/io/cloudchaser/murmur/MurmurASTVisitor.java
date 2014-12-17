@@ -33,6 +33,7 @@ import io.cloudchaser.murmur.types.MurmurArray;
 import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurFunction;
 import io.cloudchaser.murmur.types.MurmurInteger;
+import io.cloudchaser.murmur.types.MurmurNull;
 import io.cloudchaser.murmur.types.MurmurObject;
 import io.cloudchaser.murmur.types.MurmurReturn;
 import io.cloudchaser.murmur.types.MurmurType;
@@ -883,8 +884,8 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitNullLiteral(MurmurParser.LiteralContext ctx) {
-		// TODO
-		return null;
+		// Return the null literal.
+		return MurmurNull.NULL;
 	}
 
 	@Override
