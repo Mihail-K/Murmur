@@ -25,12 +25,13 @@
 package io.cloudchaser.murmur.types;
 
 import static io.cloudchaser.murmur.types.MurmurType.DECIMAL;
+import static io.cloudchaser.murmur.types.MurmurType.INTEGER;
 
 /**
  *
  * @author Mihail K
  * @since 0.1
- */
+ **/
 public class MurmurDecimal extends MurmurObject {
 	
 	/**
@@ -101,6 +102,8 @@ public class MurmurDecimal extends MurmurObject {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
 			return create(value + ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return create(value + other.asDecimal().value);
 		}
 		
 		// Unsupported.
@@ -112,6 +115,8 @@ public class MurmurDecimal extends MurmurObject {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
 			return create(value - ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return create(value - other.asDecimal().value);
 		}
 		
 		// Unsupported.
@@ -123,6 +128,8 @@ public class MurmurDecimal extends MurmurObject {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
 			return create(value * ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return create(value * other.asDecimal().value);
 		}
 		
 		// Unsupported.
@@ -134,6 +141,8 @@ public class MurmurDecimal extends MurmurObject {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
 			return create(value / ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return create(value / other.asDecimal().value);
 		}
 		
 		// Unsupported.
@@ -145,6 +154,8 @@ public class MurmurDecimal extends MurmurObject {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
 			return create(value % ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return create(value % other.asDecimal().value);
 		}
 		
 		// Unsupported.
@@ -167,8 +178,9 @@ public class MurmurDecimal extends MurmurObject {
 	public MurmurObject opLessThan(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
-			boolean result = value < ((MurmurDecimal)other).value;
-			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+			return MurmurBoolean.create(value < ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return MurmurBoolean.create(value < other.asDecimal().value);
 		}
 		
 		// Unsupported.
@@ -179,8 +191,9 @@ public class MurmurDecimal extends MurmurObject {
 	public MurmurObject opGreaterThan(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
-			boolean result = value > ((MurmurDecimal)other).value;
-			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+			return MurmurBoolean.create(value > ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return MurmurBoolean.create(value > other.asDecimal().value);
 		}
 		
 		// Unsupported.
@@ -191,8 +204,9 @@ public class MurmurDecimal extends MurmurObject {
 	public MurmurObject opLessOrEqual(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
-			boolean result = value <= ((MurmurDecimal)other).value;
-			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+			return MurmurBoolean.create(value <= ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return MurmurBoolean.create(value <= other.asDecimal().value);
 		}
 		
 		// Unsupported.
@@ -203,8 +217,9 @@ public class MurmurDecimal extends MurmurObject {
 	public MurmurObject opGreaterOrEqual(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
-			boolean result = value >= ((MurmurDecimal)other).value;
-			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+			return MurmurBoolean.create(value >= ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return MurmurBoolean.create(value >= other.asDecimal().value);
 		}
 		
 		// Unsupported.
@@ -215,8 +230,9 @@ public class MurmurDecimal extends MurmurObject {
 	public MurmurObject opEquals(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
-			boolean result = value == ((MurmurDecimal)other).value;
-			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+			return MurmurBoolean.create(value == ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return MurmurBoolean.create(value == other.asDecimal().value);
 		}
 		
 		// Not equal.
@@ -227,8 +243,9 @@ public class MurmurDecimal extends MurmurObject {
 	public MurmurObject opNotEquals(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
-			boolean result = value != ((MurmurDecimal)other).value;
-			return result ? MurmurBoolean.TRUE : MurmurBoolean.FALSE;
+			return MurmurBoolean.create(value != ((MurmurDecimal)other).value);
+		} else if(other.getType() == INTEGER) {
+			return MurmurBoolean.create(value != other.asDecimal().value);
 		}
 		
 		// Not equal.
