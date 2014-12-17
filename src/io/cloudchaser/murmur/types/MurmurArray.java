@@ -239,8 +239,8 @@ public class MurmurArray extends MurmurObject
 			long index = ((MurmurInteger)other).getValue();
 			
 			// Check for valid index.
-			if(index > elements.size() ||
-					index < -elements.size() - 1) {
+			if(index >= elements.size() ||
+					index < -elements.size()) {
 				throw new IndexOutOfBoundsException();
 			}
 			
