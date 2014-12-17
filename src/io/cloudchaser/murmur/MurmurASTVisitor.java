@@ -136,7 +136,25 @@ public class MurmurASTVisitor
 	/* - - - - - - - - */
 	
 	public MurmurObject visitLeftArrowStatement(MurmurParser.KeywordStatementContext ctx) {
-		// TODO
+		// Get the current instance context.
+		Symbol symbol = context.peek().getSymbol("this");
+		MurmurInstance instance = (MurmurInstance)symbol.getValue();
+		
+		ctx.identifierList().Identifier()
+				.stream().forEach((identifier) -> {
+			String name = identifier.getText();
+			Symbol source = context.peek().getLocal(name);
+			Symbol target = instance.getContext().getLocal(name);
+			
+			// Check that the symbol exists.
+			if(source == null || target == null) {
+				throw new NullPointerException();
+			}
+			
+			// Bind the symbol, by name.
+			target.setValue(source.getValue());
+		});
+		
 		return null;
 	}
 	
