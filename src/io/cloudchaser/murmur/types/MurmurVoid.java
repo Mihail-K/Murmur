@@ -29,189 +29,194 @@ package io.cloudchaser.murmur.types;
  * @author Mihail K
  * @since 0.1
  **/
-public final class MurmurNull extends MurmurObject {
+public class MurmurVoid extends MurmurObject {
 	
 	/**
-	 * Singleton murmur NULL value.
+	 * Singleton murmur void value.
 	 */
-	public static final MurmurNull NULL = new MurmurNull();
+	public static final MurmurVoid VOID = new MurmurVoid();
 
-	private MurmurNull() {
-		super(MurmurType.NULL);
+	private MurmurVoid() {
+		super(MurmurType.VOID);
 	}
 
 	@Override
 	public MurmurInteger asInteger() {
-		return MurmurInteger.ZERO;
+		// Cannot operate on void.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurDecimal asDecimal() {
-		return MurmurDecimal.ZERO;
+		// Cannot operate on void.
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public MurmurString asString() {
-		return new MurmurString("null");
+		// Cannot operate on void.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opPositive() {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opNegative() {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opIncrement() {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opDecrement() {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opPlus(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opMinus(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opMultiply(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opDivide(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opModulo(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opShiftLeft(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opShiftRight(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opLessThan(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opGreaterThan(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opLessOrEqual(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opGreaterOrEqual(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opEquals(MurmurObject other) {
-		return MurmurBoolean.create(other.getType() == MurmurType.NULL);
+		// Cannot operate on void.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opNotEquals(MurmurObject other) {
-		return MurmurBoolean.create(other.getType() != MurmurType.NULL);
+		// Cannot operate on void.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opBitNot() {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opBitAnd(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opBitXor(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opBitOr(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opLogicalNot() {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opLogicalAnd(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opLogicalOr(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opIndex(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public MurmurObject opConcat(MurmurObject other) {
-		// Cannot operate on null.
+		// Cannot operate on void.
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		return o instanceof MurmurNull;
+		return o instanceof MurmurVoid;
 	}
 
 	@Override
@@ -221,7 +226,7 @@ public final class MurmurNull extends MurmurObject {
 
 	@Override
 	public String toString() {
-		return "MurmurNull{ }";
+		return "MurmurVoid{ }";
 	}
 	
 }

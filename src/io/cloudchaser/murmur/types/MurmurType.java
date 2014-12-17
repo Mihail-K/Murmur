@@ -28,7 +28,7 @@ package io.cloudchaser.murmur.types;
  *
  * @author Mihail K
  * @since 0.1
- */
+ **/
 public enum MurmurType {
 	
 	NULL("null"),
@@ -41,7 +41,8 @@ public enum MurmurType {
 	
 	FUNCTION("function"),
 	OBJECT("object"),
-	TYPE("type");
+	TYPE("type"),
+	VOID("void");
 	
 	public final String name;
 	
