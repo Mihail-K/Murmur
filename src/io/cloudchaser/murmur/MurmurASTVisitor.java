@@ -54,10 +54,8 @@ import io.cloudchaser.murmur.types.ReferenceType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -68,37 +66,6 @@ import java.util.regex.Pattern;
  */
 public class MurmurASTVisitor
 		extends MurmurParserBaseVisitor {
-	
-	private static class MurmurBaseContext
-			implements SymbolContext {
-		
-		private final Map<String, Symbol> symbols;
-
-		public MurmurBaseContext() {
-			symbols = new HashMap<>();
-		}
-
-		@Override
-		public SymbolContext getParent() {
-			return null;
-		}
-
-		@Override
-		public void addSymbol(Symbol symbol) {
-			symbols.put(symbol.getName(), symbol);
-		}
-
-		@Override
-		public Symbol getSymbol(String name) {
-			return symbols.get(name);
-		}
-
-		@Override
-		public Symbol getLocal(String name) {
-			return symbols.get(name);
-		}
-		
-	}
 	
 	/**
 	 * The context stack.
