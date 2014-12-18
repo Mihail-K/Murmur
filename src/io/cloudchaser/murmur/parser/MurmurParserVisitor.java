@@ -36,6 +36,12 @@ public interface MurmurParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypeDeclaration(@NotNull MurmurParser.TypeDeclarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MurmurParser#initializerElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInitializerElement(@NotNull MurmurParser.InitializerElementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MurmurParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

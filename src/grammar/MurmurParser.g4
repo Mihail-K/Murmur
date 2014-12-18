@@ -48,17 +48,17 @@ statement
 
 keywordStatement
 	//	Flow control.
-	:	('break' | 'continue')
-	|	'return' expression?
-	|	'throw' expression
+	:	operator = ('break' | 'continue')
+	|	operator = 'return' expression?
+	|	operator = 'throw' expression
 
 	//	Let statement.
-	|	'let' initializerList
-	|	'let' identifierList '->' expression
+	|	operator = 'let' initializerList
+	|	operator = 'let' identifierList '->' expression
 
 	//	Self-assignment.
-	|	'<-' identifierList
-	|	'->' identifierList
+	|	operator = '<-' identifierList
+	|	operator = '->' identifierList
 	;
 
 /* - Blocks  - */
@@ -74,8 +74,8 @@ block
 
 typeStatement
 	//	name = type { ... }
-	:	Identifier '='
-		(Identifier '+')*
+	:	name = Identifier '='
+		(parents += Identifier '+')*
 		typeDeclaration
 	;
 
@@ -88,7 +88,8 @@ typeDeclaration
 
 typeElement
 	//	Fields and functions.
-	:	(Identifier | 'this') ('=' expression)?
+	:	name = (Identifier | 'this')
+		('=' expression)?
 	;
 
 /* - Interface Types - */
@@ -96,8 +97,8 @@ typeElement
 
 iTypeStatement
 	//	name = itype { ... }
-	:	Identifier '='
-		(Identifier '+')*
+	:	name = Identifier '='
+		(parents += Identifier '+')*
 		iTypeDeclaration
 	;
 
@@ -110,9 +111,8 @@ iTypeDeclaration
 
 iTypeElement
 	//	name = ( ... )
-	:	Identifier '=' '('
-		identifierList?
-		')'
+	:	name = Identifier '='
+		'(' identifierList?	')'
 	;
 
 /* - Expressions - */
@@ -123,9 +123,13 @@ identifierList
 		(',' Identifier)*
 	;
 
-initializerList
+initializerElement
 	:	Identifier ('=' expression)?
-		(',' Identifier ('=' expression)?)*
+	;
+
+initializerList
+	:	initializerElement
+		(',' initializerElement)*
 	;
 
 expressionList
@@ -143,78 +147,101 @@ expression
 	//	Lambdas.
 	|	lambda
 		
-	//	Postfixed.
-	|	expression ('++' | '--')
-	|	expression '.' Identifier
-	|	expression '[' expression ']'
+	//	Instantiation.
+	|	operator = 'new'
+		name = Identifier
+	|	operator = 'require'
+		value = StringLiteral
 		
-	|	expression lambda
-	|	expression '(' expressionList? ')'
+	//	Postfixed.
+	|	left = expression
+		operator = ('++' | '--')
+	|	left = expression
+		operator = '.'
+		name = Identifier
+	|	left = expression
+		operator = '['
+		index = expression ']'
+		
+	|	left = expression lambda
+	|	left = expression
+		operator = '('
+		expressionList? ')'
 
 	//	Prefixed.
-	|	('+' | '-') expression
-	|	('++' | '--') expression
-	|	('!' | '~') expression
+	|	operator = ('+' | '-')
+		right = expression
+	|	operator = ('++' | '--')
+		right = expression
+	|	operator = ('!' | '~')
+		right = expression
 
 	//	Multiplicative.
-	|	expression
-		('*' | '/' | '%')
-		expression
+	|	left = expression
+		operator = ('*' | '/' | '%')
+		right = expression
 		
 	//	Additive.
-	|	expression
-		('+' | '-' | '~')
-		expression
+	|	left = expression
+		operator = ('+' | '-')
+		right = expression
 
 	//	Bit Shift.
-	|	expression
-		('<<' | '>>')
-		expression
+	|	left = expression
+		operator = ('<<' | '>>')
+		right = expression
 
 	//	Comparison.
-	|	expression
-		('<' | '>' | '<=' | '>=')
-		expression
+	|	left = expression
+		operator = ('<' | '>' | '<=' | '>=')
+		right = expression
 
 	//	Equality
-	|	expression
-		('==' | '!=')
-		expression
+	|	left = expression
+		operator = ('==' | '!=')
+		right = expression
 
 	//	Bitwise.
-	|	expression
-		'&'
-		expression
-	|	expression
-		'^'
-		expression
-	|	expression
-		'|'
+	|	left = expression
+		operator = '&'
+		right = expression
+	|	left = expression
+		operator = '^'
+		right = expression
+	|	left = expression
+		operator = '|'
+		right = expression
 		
 	//	Logical.
-	|	expression
-		'&&'
-		expression
-	|	expression
-		'||'
-		expression
+	|	left = expression
+		operator = '&&'
+		right = expression
+	|	left = expression
+		operator = '||'
+		right = expression
 
 	//	Ternary.
-	|	expression
-		'?'
+	|	clause = expression
+		operator = '?'
 		expression
 		':'
 		expression
-	|	expression
-		'?'
+	|	clause = expression
+		operator = '?'
 		statement
 		(':'
 		 statement)?
+		
+	//	Concatenation.
+	|	left = expression
+		operator = '~'
+		right = expression
 
 	//	Assignment.
 	|	<assoc = right>
-		expression
-		(	'='
+		left = expression
+		operator = (
+			'='
 		|	'+='
 		|	'-='
 		|	'*='
@@ -225,15 +252,21 @@ expression
 		|	'|='
 		|	'>>='
 		|	'<<='
+		|	'~='
 		)
-		expression
+		right = expression
 
 	//	Set notation.
-	|	'[' expression? ','
-		expression? ']'
+	|	'[' left = expression?
+		operator = '..'
+		right = expression? ']'
+		
+	//	Array notation.
+	|	operator = '['
+		expressionList? ']'
 
 	//	Parenthesized.
-	|	'(' expression ')'
+	|	'(' inner = expression ')'
 	;
 
 lambda

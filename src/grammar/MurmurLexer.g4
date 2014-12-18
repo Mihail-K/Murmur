@@ -306,8 +306,13 @@ CompoundBinaryOrOperator
 	:	'|='
 	;
 
+
 CompoundBinaryXorOperator
 	:	'^='
+	;
+
+CompoundConcatOperator
+	:	'~='
 	;
 
 CompoundDivideOperator
@@ -396,6 +401,10 @@ MultiplyOperator
 
 NotEqualsOperator
 	:	'!='
+	;
+
+RangeOperator
+	:	'..'
 	;
 
 RightShiftOperator
@@ -490,6 +499,10 @@ ModuleKeyword
 
 NewKeyword
 	:	'new'
+	;
+
+RequireKeyword
+	:	'require'
 	;
 
 ReturnKeyword
