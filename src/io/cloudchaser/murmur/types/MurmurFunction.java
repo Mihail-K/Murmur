@@ -318,7 +318,7 @@ public class MurmurFunction extends MurmurObject
 			List<MurmurObject> args) {
 		// Create a context and invoke.
 		SymbolContext local = createLocal(args);
-		return delegate.invokeFunction(local, body);
+		return delegate.invokeFunction(local, this);
 	}
 
 	@Override

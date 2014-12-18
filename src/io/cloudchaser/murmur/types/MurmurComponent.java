@@ -318,7 +318,7 @@ public class MurmurComponent extends MurmurObject
 		MurmurFunction ctor = (MurmurFunction)local.getValue();
 		
 		// Invoke the constructor.
-		delegate.invokeFunction(ctor.createLocal(args), ctor.getBody());
+		delegate.invokeFunction(ctor.createLocal(args), ctor);
 		
 		// Return the created instance.
 		return instance;
