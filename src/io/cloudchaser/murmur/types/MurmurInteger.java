@@ -67,6 +67,48 @@ public class MurmurInteger extends MurmurObject {
 	public Object toJavaObject() {
 		return value;
 	}
+	
+	@Override
+	public boolean isCompatible(Class<?> type) {
+		return type.isAssignableFrom(long.class) ||
+				type.isAssignableFrom(Long.class) ||
+				type.isAssignableFrom(int.class) ||
+				type.isAssignableFrom(Integer.class) ||
+				type.isAssignableFrom(short.class) ||
+				type.isAssignableFrom(Short.class) ||
+				type.isAssignableFrom(byte.class) ||
+				type.isAssignableFrom(Byte.class);
+	}
+	
+	@Override
+	public Object getAsJavaType(Class<?> type) {
+		// Java long type.
+		if(type.isAssignableFrom(long.class) ||
+				type.isAssignableFrom(Long.class)) {
+			return value;
+		}
+
+		// Java int type.
+		if(type.isAssignableFrom(int.class) ||
+				type.isAssignableFrom(Integer.class)) {
+			return (int)value;
+		}
+
+		// Java short type.
+		if(type.isAssignableFrom(short.class) ||
+				type.isAssignableFrom(Short.class)) {
+			return (short)value;
+		}
+
+		// Java byte type.
+		if(type.isAssignableFrom(byte.class) ||
+				type.isAssignableFrom(Byte.class)) {
+			return (byte)value;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public MurmurInteger asInteger() {
