@@ -26,7 +26,6 @@ package io.cloudchaser.murmur;
 
 import io.cloudchaser.murmur.parser.MurmurLexer;
 import io.cloudchaser.murmur.parser.MurmurParser;
-import io.cloudchaser.murmur.types.InvokableType;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
