@@ -310,7 +310,7 @@ public class MurmurASTVisitor
 	}
 	
 	public List<MurmurComponent> visitTypeParents(MurmurParser.TypeStatementContext ctx) {
-		if(ctx.parents == null) return Collections.emptyList();
+		if(ctx.parents == null) return new ArrayList<>();
 		
 		List<MurmurComponent> types = new ArrayList<>();
 		ctx.parents.stream().forEach((identifier) -> {
@@ -337,7 +337,6 @@ public class MurmurASTVisitor
 	
 	@Override
 	public MurmurObject visitTypeStatement(MurmurParser.TypeStatementContext ctx) {
-		Symbol symbol;
 		String name = ctx.name.getText();
 		
 		// Visit parent and local types.
@@ -346,7 +345,7 @@ public class MurmurASTVisitor
 		
 		// Build the finished Murmur component object.
 		MurmurObject component = new MurmurComponent(name, context.peek(), types);
-		context.peek().addSymbol(symbol = new LetSymbol(name, component));
+		context.peek().addSymbol(new LetSymbol(name, component));
 		
 		// Return void value.
 		return MurmurVoid.VOID;
