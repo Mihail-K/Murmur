@@ -56,6 +56,11 @@ public class MurmurBoolean extends MurmurObject {
 	public boolean getValue() {
 		return value;
 	}
+	
+	@Override
+	public Object toJavaObject() {
+		return value;
+	}
 
 	@Override
 	public MurmurInteger asInteger() {

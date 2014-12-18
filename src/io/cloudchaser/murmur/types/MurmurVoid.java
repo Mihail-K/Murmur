@@ -39,6 +39,12 @@ public class MurmurVoid extends MurmurObject {
 	private MurmurVoid() {
 		super(MurmurType.VOID);
 	}
+	
+	@Override
+	public Object toJavaObject() {
+		// Cannot convert nonexistant value.
+		throw new RuntimeException();
+	}
 
 	@Override
 	public MurmurInteger asInteger() {

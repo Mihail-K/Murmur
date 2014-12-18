@@ -45,6 +45,11 @@ public class MurmurCharacter extends MurmurObject {
 	public long getValue() {
 		return value;
 	}
+	
+	@Override
+	public Object toJavaObject() {
+		return value;
+	}
 
 	@Override
 	public MurmurInteger asInteger() {

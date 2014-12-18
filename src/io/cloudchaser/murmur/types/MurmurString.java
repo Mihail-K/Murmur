@@ -39,6 +39,11 @@ public class MurmurString extends MurmurObject {
 		super(STRING);
 		this.value = value;
 	}
+	
+	@Override
+	public Object toJavaObject() {
+		return value;
+	}
 
 	@Override
 	public MurmurInteger asInteger() {

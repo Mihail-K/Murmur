@@ -49,6 +49,19 @@ public class MurmurArray extends MurmurObject
 		super(ARRAY);
 		this.elements = elements;
 	}
+	
+	@Override
+	public Object toJavaObject() {
+		// Create an array of elements from the list.
+		Object[] values = new Object[elements.size()];
+		for(int idx = 0; idx < values.length; idx++) {
+			// Shallow case for list containing itself.
+			MurmurObject element = elements.get(idx);
+			values[idx] = element == this ? values :
+					element.toJavaObject();
+		}
+		return values;
+	}
 
 	@Override
 	public MurmurInteger asInteger() {

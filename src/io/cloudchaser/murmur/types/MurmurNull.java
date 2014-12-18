@@ -39,6 +39,11 @@ public final class MurmurNull extends MurmurObject {
 	private MurmurNull() {
 		super(MurmurType.NULL);
 	}
+	
+	@Override
+	public Object toJavaObject() {
+		return null;
+	}
 
 	@Override
 	public MurmurInteger asInteger() {
@@ -54,7 +59,6 @@ public final class MurmurNull extends MurmurObject {
 	public MurmurString asString() {
 		return new MurmurString("null");
 	}
-
 
 	@Override
 	public MurmurObject opPositive() {

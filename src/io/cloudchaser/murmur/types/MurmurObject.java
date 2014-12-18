@@ -47,7 +47,7 @@ public abstract class MurmurObject {
 	 * @return A Java object.
 	 */
 	public Object toJavaObject() {
-		return null;
+		return this;
 	}
 	
 	public MurmurObject getMember(String name) {

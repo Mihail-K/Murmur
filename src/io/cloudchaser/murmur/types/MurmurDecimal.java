@@ -61,6 +61,11 @@ public class MurmurDecimal extends MurmurObject {
 	public double getValue() {
 		return value;
 	}
+	
+	@Override
+	public Object toJavaObject() {
+		return value;
+	}
 
 	@Override
 	public MurmurInteger asInteger() {

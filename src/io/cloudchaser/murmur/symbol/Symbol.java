@@ -63,6 +63,11 @@ public abstract class Symbol extends MurmurObject
 	/* - - - - - - - */
 	
 	@Override
+	public Object toJavaObject() {
+		return value.toJavaObject();
+	}
+	
+	@Override
 	public MurmurObject getMember(String name) {
 		return value.getMember(name);
 	}
