@@ -47,7 +47,6 @@ import io.cloudchaser.murmur.types.MurmurNull;
 import io.cloudchaser.murmur.types.MurmurObject;
 import io.cloudchaser.murmur.types.MurmurReturn;
 import io.cloudchaser.murmur.types.MurmurString;
-import static io.cloudchaser.murmur.types.MurmurType.TYPE;
 import io.cloudchaser.murmur.types.MurmurVoid;
 import io.cloudchaser.murmur.types.ReferenceType;
 
@@ -311,7 +310,7 @@ public class MurmurASTVisitor
 	}
 	
 	public List<MurmurComponent> visitTypeParents(MurmurParser.TypeStatementContext ctx) {
-		if(ctx.parents == null) return new ArrayList<>();
+		if(ctx.parents == null) return Collections.emptyList();
 		
 		List<MurmurComponent> types = new ArrayList<>();
 		ctx.parents.stream().forEach((identifier) -> {
@@ -325,7 +324,7 @@ public class MurmurASTVisitor
 			
 			// Check that this is a component type.
 			MurmurObject object = symbol.getValue();
-			if(object.getType() != TYPE) {
+			if(object instanceof MurmurComponent) {
 				throw new UnsupportedOperationException();
 			}
 			
