@@ -24,6 +24,7 @@
 
 package io.cloudchaser.murmur.types;
 
+import static io.cloudchaser.murmur.types.JavaTypeUtils.getPrimitive;
 import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
 import java.lang.reflect.Field;
 
@@ -78,21 +79,15 @@ public class JavaInstance extends JavaObject {
 
 	@Override
 	public boolean isCompatible(Class<?> type) {
-		return type.isAssignableFrom(this.type) ||
-				type.isAssignableFrom(
-						JavaTypeUtils.getPrimitive(type));
+		return type.isAssignableFrom(instance.getClass()) ||
+				type.isAssignableFrom(getPrimitive(instance.getClass()));
 	}
 
 	@Override
 	public Object getAsJavaType(Class<?> type) {
 		// Java object type.
-		if(type.isAssignableFrom(type)) {
-			return instance;
-		}
-		
-		// Java primitive type.
-		if(type.isAssignableFrom(
-				JavaTypeUtils.getPrimitive(type))) {
+		if(type.isAssignableFrom(instance.getClass()) ||
+				type.isAssignableFrom(getPrimitive(instance.getClass()))) {
 			return instance;
 		}
 		
