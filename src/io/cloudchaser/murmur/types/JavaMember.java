@@ -105,16 +105,8 @@ public class JavaMember extends JavaObject
 	@Override
 	public MurmurObject opInvoke(List<MurmurObject> arguments) {
 		try {
-			// TODO
-			if(arguments == null) {
-				// No arguments.
-				Method method = type.getMethod(name);
-				method.invoke(instance);
-				return MurmurNull.NULL;
-			} else {
-				// Build a parameter list and invoke the function.
-				return invokeFunction(name, type, instance, arguments);
-			}
+			// Build a parameter list and invoke the function.
+			return invokeFunction(name, type, instance, arguments);
 		} catch(IllegalAccessException | IllegalArgumentException |
 				InvocationTargetException | NoSuchMethodException |
 				SecurityException ex) {
