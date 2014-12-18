@@ -42,18 +42,38 @@ public class JavaClass extends MurmurObject
 		super(TYPE);
 		this.javaClass = javaClass;
 	}
+	
+	public Class<?> getJavaClass() {
+		return javaClass;
+	}
 
 	@Override
 	public MurmurObject getMember(String name) {
 		try {
-			// Check if this is a field.
+			// Check if this is a static field.
 			Field field = javaClass.getField(name);
 			return new JavaMember(name, field.getType(), field.get(null));
 		} catch (NoSuchFieldException | SecurityException |
 				IllegalArgumentException | IllegalAccessException ex) {
-			// Assume this is a method.
-			return new JavaMember(name, javaClass, null);
+			// Assume this is a static method.
+			return new JavaMember(name, javaClass);
 		}
+	}
+
+	@Override
+	public boolean isCompatible(Class<?> type) {
+		return type.isAssignableFrom(Class.class);
+	}
+
+	@Override
+	public Object getAsJavaType(Class<?> type) {
+		// Java meta class object.
+		if(type.isAssignableFrom(Class.class)) {
+			return javaClass;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -229,7 +249,8 @@ public class JavaClass extends MurmurObject
 	public MurmurObject opInvoke(MurmurObject argument) {
 		try {
 			// TODO
-			return new JavaInstance(javaClass.newInstance());
+			Object instance = javaClass.newInstance();
+			return new JavaInstance(instance, javaClass);
 		} catch(IllegalAccessException | IllegalArgumentException |
 				InstantiationException ex) {
 			throw new RuntimeException(ex);
