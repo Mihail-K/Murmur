@@ -24,20 +24,26 @@
 
 package io.cloudchaser.murmur.types;
 
+import static io.cloudchaser.murmur.types.MurmurType.FUNCTION;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Mihail K
  * @since 0.1
  **/
-public final class MurmurNull extends MurmurObject {
+public class JavaFunction extends MurmurObject
+		implements JavaInvokableType {
 	
-	/**
-	 * Singleton murmur NULL value.
-	 */
-	public static final MurmurNull NULL = new MurmurNull();
+	private final Method method;
 
-	private MurmurNull() {
-		super(MurmurType.NULL);
+	public JavaFunction(Method method) {
+		super(FUNCTION);
+		this.method = method;
 	}
 
 	@Override
@@ -49,12 +55,11 @@ public final class MurmurNull extends MurmurObject {
 	public MurmurDecimal asDecimal() {
 		return MurmurDecimal.ZERO;
 	}
-	
+
 	@Override
 	public MurmurString asString() {
-		return new MurmurString("null");
+		return new MurmurString("function");
 	}
-
 
 	@Override
 	public MurmurObject opPositive() {
@@ -209,20 +214,28 @@ public final class MurmurNull extends MurmurObject {
 		// Cannot operate on null.
 		throw new UnsupportedOperationException();
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		return o instanceof MurmurNull;
+	
+	private Object[] buildArgumentList(List<MurmurObject> args) {
+		Object[] javaArgs = new Object[args.size()];
+		for(int idx = 0; idx < javaArgs.length; idx++) {
+			// Convert the element to a Java object.
+			javaArgs[idx] = args.get(idx).toJavaObject();
+		}
+		
+		// Return the converted arguments.
+		return javaArgs;
 	}
 
 	@Override
-	public int hashCode() {
-		return 0;
-	}
-
-	@Override
-	public String toString() {
-		return "MurmurNull{ }";
+	public MurmurObject opInvoke(
+			Object instance, List<MurmurObject> args) {
+		try {
+			method.invoke(instance, buildArgumentList(args));
+			return null;
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+			Logger.getLogger(JavaFunction.class.getName()).log(Level.SEVERE, null, ex);
+			return null;
+		}
 	}
 	
 }
