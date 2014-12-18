@@ -36,10 +36,9 @@ public interface JavaInvokableType {
 	/**
 	 * Invoke this object as a Java language function.
 	 * 
-	 * @param instance The instance for the invocation.
 	 * @param args The list of arguments being passed.
 	 * @return The result of the invocation.
 	 **/
-	MurmurObject opInvoke(Object instance, List<MurmurObject> args);
+	MurmurObject opInvoke(List<MurmurObject> args);
 	
 }

@@ -41,10 +41,12 @@ public class JavaFunction extends MurmurObject
 		implements JavaInvokableType {
 	
 	private final Method method;
+	private final Object instance;
 
-	public JavaFunction(Method method) {
+	public JavaFunction(Method method, Object instance) {
 		super(FUNCTION);
 		this.method = method;
+		this.instance = instance;
 	}
 
 	@Override
@@ -239,7 +241,7 @@ public class JavaFunction extends MurmurObject
 		Object[] javaArgs = new Object[args.size()];
 		for(int idx = 0; idx < javaArgs.length; idx++) {
 			// Check if the parameter expects a murmur type.
-			if(MurmurObject.class.isAssignableFrom(params[idx].getType())) {
+			if(params[idx].getType().isAssignableFrom(MurmurObject.class)) {
 				// Convert the element to a Java object.
 				javaArgs[idx] = args.get(idx).toJavaObject();
 			} else {
@@ -253,9 +255,9 @@ public class JavaFunction extends MurmurObject
 	}
 
 	@Override
-	public MurmurObject opInvoke(
-			Object instance, List<MurmurObject> args) {
+	public MurmurObject opInvoke(List<MurmurObject> args) {
 		try {
+			// TODO
 			method.invoke(instance, buildArgumentList(args));
 			return null;
 		} catch(IllegalAccessException | IllegalArgumentException |
