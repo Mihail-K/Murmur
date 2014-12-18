@@ -30,12 +30,22 @@ import static io.cloudchaser.murmur.types.MurmurType.BOOLEAN;
  *
  * @author Mihail K
  * @since 0.1
- */
+ **/
 public class MurmurBoolean extends MurmurObject {
 	
+	/**
+	 * Singleton constant for boolean true.
+	 */
 	public static final MurmurBoolean TRUE = new MurmurBoolean(true);
+	
+	/**
+	 * Singleton constant for boolean false.
+	 */
 	public static final MurmurBoolean FALSE = new MurmurBoolean(false);
 	
+	/**
+	 * Boolean object state.
+	 */
 	private final boolean value;
 
 	private MurmurBoolean(boolean value) {
@@ -93,96 +103,6 @@ public class MurmurBoolean extends MurmurObject {
 	@Override
 	public MurmurString asString() {
 		return MurmurString.create(Boolean.toString(value));
-	}
-
-	@Override
-	public MurmurObject opPositive() {
-		// Booleans don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opNegative() {
-		// Booleans don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opIncrement() {
-		// Booleans don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opDecrement() {
-		// Booleans don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opPlus(MurmurObject other) {
-		// Booleans don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opMinus(MurmurObject other) {
-		// Booleans don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opMultiply(MurmurObject other) {
-		// Booleans don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opDivide(MurmurObject other) {
-		// Booleans don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opModulo(MurmurObject other) {
-		// Booleans don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftLeft(MurmurObject other) {
-		// Booleans don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftRight(MurmurObject other) {
-		// Booleans don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLessThan(MurmurObject other) {
-		// Booleans don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opGreaterThan(MurmurObject other) {
-		// Booleans don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLessOrEqual(MurmurObject other) {
-		// Booleans don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opGreaterOrEqual(MurmurObject other) {
-		// Booleans don't support inequality.
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -271,18 +191,6 @@ public class MurmurBoolean extends MurmurObject {
 		// Unsupported.
 		throw new UnsupportedOperationException();
 	}
-
-	@Override
-	public MurmurObject opIndex(MurmurObject other) {
-		// Booleans don't support array indexing.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opConcat(MurmurObject other) {
-		// Unsupported.
-		throw new UnsupportedOperationException();
-	}
 	
 	@Override
 	public int hashCode() {
@@ -297,7 +205,7 @@ public class MurmurBoolean extends MurmurObject {
 
 	@Override
 	public String toString() {
-		return "MurmurBoolean{" + "value=" + value + '}';
+		return "MurmurBoolean{value=" + value + '}';
 	}
 	
 }

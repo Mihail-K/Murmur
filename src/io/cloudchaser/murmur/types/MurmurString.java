@@ -74,108 +74,8 @@ public class MurmurString extends MurmurObject {
 	}
 
 	@Override
-	public MurmurInteger asInteger() {
-		return MurmurInteger.ZERO;
-	}
-
-	@Override
-	public MurmurDecimal asDecimal() {
-		return MurmurDecimal.ZERO;
-	}
-
-	@Override
 	public MurmurString asString() {
 		return this;
-	}
-
-	@Override
-	public MurmurObject opPositive() {
-		// Strings don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opNegative() {
-		// Strings don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opIncrement() {
-		// Strings don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opDecrement() {
-		// Strings don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opPlus(MurmurObject other) {
-		// Strings don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opMinus(MurmurObject other) {
-		// Strings don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opMultiply(MurmurObject other) {
-		// Strings don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opDivide(MurmurObject other) {
-		// Strings don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opModulo(MurmurObject other) {
-		// Strings don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftLeft(MurmurObject other) {
-		// Strings don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftRight(MurmurObject other) {
-		// Strings don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLessThan(MurmurObject other) {
-		// Strings don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opGreaterThan(MurmurObject other) {
-		// Strings don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLessOrEqual(MurmurObject other) {
-		// Strings don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opGreaterOrEqual(MurmurObject other) {
-		// Strings don't support inequality.
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -200,48 +100,6 @@ public class MurmurString extends MurmurObject {
 		
 		// Not equal.
 		return MurmurBoolean.TRUE;
-	}
-
-	@Override
-	public MurmurObject opBitNot() {
-		// Strings don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitAnd(MurmurObject other) {
-		// Strings don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitXor(MurmurObject other) {
-		// Strings don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitOr(MurmurObject other) {
-		// Strings don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalNot() {
-		// Strings don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalAnd(MurmurObject other) {
-		// Strings don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalOr(MurmurObject other) {
-		// Strings don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
