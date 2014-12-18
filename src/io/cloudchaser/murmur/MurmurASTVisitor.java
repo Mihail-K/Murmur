@@ -32,6 +32,7 @@ import io.cloudchaser.murmur.symbol.SymbolContext;
 import io.cloudchaser.murmur.types.InvokableType;
 import io.cloudchaser.murmur.types.MurmurArray;
 import io.cloudchaser.murmur.types.MurmurBoolean;
+import io.cloudchaser.murmur.types.MurmurCharacter;
 import io.cloudchaser.murmur.types.MurmurComponent;
 import io.cloudchaser.murmur.types.MurmurComponent.ComponentField;
 import io.cloudchaser.murmur.types.MurmurComponent.ComponentFunction;
@@ -53,6 +54,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -976,8 +979,43 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitCharacterLiteral(MurmurParser.LiteralContext ctx) {
-		// TODO
-		return null;
+		Pattern pattern = Pattern.compile("\\'(?:([^\\\\])|(\\\\[bfnrt0\\\\'\"])|(?:\\\\([0-3]?[0-7]?[0-7])))\\'",
+				Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(ctx.getText());
+		
+		// Sanity check.
+		if(!matcher.find()) {
+			throw new RuntimeException();
+		}
+		
+		String group;
+		if((group = matcher.group(1)) != null) {
+			// Simple character literal.
+			return new MurmurCharacter(group.charAt(0));
+		} else if((group = matcher.group(2)) != null) {
+			// Simple escape sequence.
+			switch(group.charAt(1)) {
+				case 'b':  return new MurmurCharacter('\b');
+				case 'f':  return new MurmurCharacter('\f');
+				case 'n':  return new MurmurCharacter('\n');
+				case 'r':  return new MurmurCharacter('\r');
+				case 't':  return new MurmurCharacter('\t');
+				case '0':  return new MurmurCharacter('\0');
+				case '\\': return new MurmurCharacter('\\');
+				case '\'': return new MurmurCharacter('\'');
+				case '"':  return new MurmurCharacter('"');
+					
+				// Invalid character escape sequence.
+				default: return new MurmurCharacter(group.charAt(1));
+			}
+		} else if((group = matcher.group(3)) != null) {
+			// Octal escape sequence.
+			int value = Integer.parseInt(group, 8);
+			return new MurmurCharacter(value);
+		} else {
+			// Something went wrong.
+			throw new RuntimeException();
+		}
 	}
 	
 	public MurmurObject visitStringLiteral(MurmurParser.LiteralContext ctx) {
