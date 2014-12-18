@@ -25,6 +25,7 @@
 package io.cloudchaser.murmur.types;
 
 import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
+import java.lang.reflect.Method;
 
 /**
  *
@@ -41,6 +42,16 @@ public class JavaInstance extends MurmurObject {
 	public JavaInstance(Object instance) {
 		super(OBJECT);
 		this.instance = instance;
+	}
+	
+	@Override
+	public JavaMember getMember(String name) {
+		return new JavaMember(name, instance);
+	}
+	
+	@Override
+	public Object toJavaObject() {
+		return instance;
 	}
 
 	@Override
