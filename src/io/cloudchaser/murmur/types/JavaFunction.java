@@ -217,48 +217,13 @@ public class JavaFunction extends MurmurObject
 		// Cannot operate on Java functions.
 		throw new UnsupportedOperationException();
 	}
-	
-	/**
-	 * Build a Java language compatible argument list.
-	 * 
-	 * @param args The murmur argument list.
-	 * @return A java argument list.
-	 **/
-	private Object[] buildArgumentList(List<MurmurObject> args) {
-		// Validate parameter count.
-		if(method.getParameterCount() != args.size() &&
-				!method.isVarArgs()) {
-			throw new RuntimeException();
-		}
-		
-		// Handle no-args case.
-		if(args.isEmpty()) {
-			return null;
-		}
-		
-		// Perform parameter mapping.
-		Parameter[] params = method.getParameters();
-		Object[] javaArgs = new Object[args.size()];
-		for(int idx = 0; idx < javaArgs.length; idx++) {
-			// Check if the parameter expects a murmur type.
-			if(params[idx].getType().isAssignableFrom(MurmurObject.class)) {
-				// Convert the element to a Java object.
-				javaArgs[idx] = args.get(idx).toJavaObject();
-			} else {
-				// Assign the argument, as-is.
-				javaArgs[idx] = args.get(idx);
-			}
-		}
-		
-		// Return the converted arguments.
-		return javaArgs;
-	}
 
 	@Override
-	public MurmurObject opInvoke(List<MurmurObject> args) {
+	public MurmurObject opInvoke(MurmurObject argument) {
 		try {
 			// TODO
-			method.invoke(instance, buildArgumentList(args));
+			if(argument != null) method.invoke(instance);
+			else method.invoke(instance, argument);
 			return null;
 		} catch(IllegalAccessException | IllegalArgumentException |
 				InvocationTargetException ex) {

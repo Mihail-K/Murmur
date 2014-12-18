@@ -688,7 +688,7 @@ public class MurmurASTVisitor
 			}, args);
 		} else if(left instanceof JavaInvokableType) {
 			JavaInvokableType invoke = (JavaInvokableType)left;
-			return invoke.opInvoke(args);
+			return invoke.opInvoke(args == null ? null : args.get(0));
 		} else {
 			throw new UnsupportedOperationException();
 		}

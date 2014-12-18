@@ -25,7 +25,10 @@
 package io.cloudchaser.murmur.types;
 
 import static io.cloudchaser.murmur.types.MurmurType.TYPE;
+
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -210,11 +213,17 @@ public class JavaClass extends MurmurObject
 		// Cannot operate on Java class.
 		throw new UnsupportedOperationException();
 	}
-
+	
 	@Override
-	public MurmurObject opInvoke(List<MurmurObject> args) {
-		// TODO : Instantiate.
-		return null;
+	public MurmurObject opInvoke(MurmurObject argument) {
+		try {
+			// TODO
+			return new JavaInstance(javaClass.newInstance());
+		} catch(IllegalAccessException | IllegalArgumentException |
+				InstantiationException ex) {
+			Logger.getLogger(JavaClass.class.getName()).log(Level.SEVERE, null, ex);
+			return null;
+		}
 	}
 
 	@Override
