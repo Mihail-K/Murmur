@@ -27,6 +27,7 @@ package io.cloudchaser.murmur.types;
 import static io.cloudchaser.murmur.types.MurmurType.FUNCTION;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -215,11 +216,36 @@ public class JavaFunction extends MurmurObject
 		throw new UnsupportedOperationException();
 	}
 	
+	/**
+	 * Build a Java language compatible argument list.
+	 * 
+	 * @param args The murmur argument list.
+	 * @return A java argument list.
+	 **/
 	private Object[] buildArgumentList(List<MurmurObject> args) {
+		// Validate parameter count.
+		if(method.getParameterCount() != args.size() &&
+				!method.isVarArgs()) {
+			throw new RuntimeException();
+		}
+		
+		// Handle no-args case.
+		if(args.isEmpty()) {
+			return null;
+		}
+		
+		// Perform parameter mapping.
+		Parameter[] params = method.getParameters();
 		Object[] javaArgs = new Object[args.size()];
 		for(int idx = 0; idx < javaArgs.length; idx++) {
-			// Convert the element to a Java object.
-			javaArgs[idx] = args.get(idx).toJavaObject();
+			// Check if the parameter expects a murmur type.
+			if(MurmurObject.class.isAssignableFrom(params[idx].getType())) {
+				// Convert the element to a Java object.
+				javaArgs[idx] = args.get(idx).toJavaObject();
+			} else {
+				// Assign the argument, as-is.
+				javaArgs[idx] = args.get(idx);
+			}
 		}
 		
 		// Return the converted arguments.
@@ -232,7 +258,8 @@ public class JavaFunction extends MurmurObject
 		try {
 			method.invoke(instance, buildArgumentList(args));
 			return null;
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+		} catch(IllegalAccessException | IllegalArgumentException |
+				InvocationTargetException ex) {
 			Logger.getLogger(JavaFunction.class.getName()).log(Level.SEVERE, null, ex);
 			return null;
 		}
