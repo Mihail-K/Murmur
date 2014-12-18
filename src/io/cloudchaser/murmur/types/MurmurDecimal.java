@@ -66,6 +66,32 @@ public class MurmurDecimal extends MurmurObject {
 	public Object toJavaObject() {
 		return value;
 	}
+	
+	@Override
+	public boolean isCompatible(Class<?> type) {
+		return type.isAssignableFrom(double.class) ||
+				type.isAssignableFrom(Double.class) ||
+				type.isAssignableFrom(float.class) ||
+				type.isAssignableFrom(Float.class);
+	}
+	
+	@Override
+	public Object getAsJavaType(Class<?> type) {
+		// Java double type.
+		if(type.isAssignableFrom(double.class) ||
+				type.isAssignableFrom(Double.class)) {
+			return value;
+		}
+
+		// Java float type.
+		if(type.isAssignableFrom(float.class) ||
+				type.isAssignableFrom(Float.class)) {
+			return (int)value;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public MurmurInteger asInteger() {
