@@ -24,6 +24,8 @@
 
 package io.cloudchaser.murmur.types;
 
+import java.util.List;
+
 /**
  *
  * @author Mihail K
@@ -34,9 +36,9 @@ public interface JavaInvokableType {
 	/**
 	 * Invoke this object as a Java language function.
 	 * 
-	 * @param argument The argument being passed.
+	 * @param argument The list of arguments being passed.
 	 * @return The result of the invocation.
 	 **/
-	MurmurObject opInvoke(MurmurObject argument);
+	MurmurObject opInvoke(List<MurmurObject> argument);
 	
 }
