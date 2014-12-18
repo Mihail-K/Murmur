@@ -92,7 +92,7 @@ public class MurmurBoolean extends MurmurObject {
 	
 	@Override
 	public MurmurString asString() {
-		return new MurmurString(Boolean.toString(value));
+		return MurmurString.create(Boolean.toString(value));
 	}
 
 	@Override

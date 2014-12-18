@@ -81,7 +81,7 @@ public class MurmurCharacter extends MurmurObject {
 
 	@Override
 	public MurmurString asString() {
-		return new MurmurString(Character.toString(value));
+		return MurmurString.create(Character.toString(value));
 	}
 
 	@Override

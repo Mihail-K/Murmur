@@ -858,7 +858,7 @@ public class MurmurASTVisitor
 		try {
 			// Lookup the Java class.
 			String text = ctx.StringLiteral().getText();
-			MurmurString string = new MurmurString(text.substring(1, text.length() - 1));
+			MurmurString string = MurmurString.create(text.substring(1, text.length() - 1));
 			Class<?> javaClass = Class.forName((String)string.toJavaObject());
 			
 			// Wrap the Java class.
@@ -1104,7 +1104,7 @@ public class MurmurASTVisitor
 	public MurmurObject visitStringLiteral(MurmurParser.LiteralContext ctx) {
 		// Create a string and trim outer quotes.
 		String value = ctx.getText();
-		return new MurmurString(value.substring(1, value.length() - 1));
+		return MurmurString.create(value.substring(1, value.length() - 1));
 	}
 	
 	public MurmurObject visitNullLiteral(MurmurParser.LiteralContext ctx) {

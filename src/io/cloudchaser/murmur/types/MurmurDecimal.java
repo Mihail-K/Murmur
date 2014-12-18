@@ -105,7 +105,7 @@ public class MurmurDecimal extends MurmurObject {
 
 	@Override
 	public MurmurString asString() {
-		return new MurmurString(Double.toString(value));
+		return MurmurString.create(Double.toString(value));
 	}
 
 	@Override

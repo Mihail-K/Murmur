@@ -127,7 +127,7 @@ public class MurmurArray extends MurmurObject
 
 	@Override
 	public MurmurString asString() {
-		return new MurmurString("array");
+		return MurmurString.create("array");
 	}
 
 	@Override

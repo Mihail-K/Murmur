@@ -33,11 +33,21 @@ import static io.cloudchaser.murmur.types.MurmurType.STRING;
  */
 public class MurmurString extends MurmurObject {
 	
+	/**
+	 * Singleton empty Murmur string.
+	 */
+	public static final MurmurString EMPTY = MurmurString.create("");
+	
 	private final String value;
 
-	public MurmurString(String value) {
+	private MurmurString(String value) {
 		super(STRING);
 		this.value = value;
+	}
+
+	public static MurmurString create(String value) {
+		if(value.isEmpty()) return EMPTY;
+		return new MurmurString(value);
 	}
 	
 	@Override
@@ -244,7 +254,7 @@ public class MurmurString extends MurmurObject {
 	public MurmurObject opConcat(MurmurObject other) {
 		// Convert to string and do concat.
 		MurmurString string = other.asString();
-		return new MurmurString(value + string.value);
+		return MurmurString.create(value + string.value);
 	}
 
 	@Override

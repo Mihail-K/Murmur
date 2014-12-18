@@ -151,7 +151,7 @@ public class MurmurFunction extends MurmurObject
 
 	@Override
 	public MurmurString asString() {
-		return new MurmurString("function");
+		return MurmurString.create("function");
 	}
 
 	@Override

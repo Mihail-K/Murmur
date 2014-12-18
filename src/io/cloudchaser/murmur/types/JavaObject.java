@@ -47,7 +47,7 @@ public abstract class JavaObject extends MurmurObject {
 
 	@Override
 	public MurmurString asString() {
-		return new MurmurString(getType().name);
+		return MurmurString.create(getType().name);
 	}
 
 	@Override

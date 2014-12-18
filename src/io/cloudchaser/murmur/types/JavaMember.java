@@ -99,7 +99,7 @@ public class JavaMember extends JavaObject
 
 	@Override
 	public MurmurString asString() {
-		return new MurmurString(name);
+		return MurmurString.create(name);
 	}
 	
 	@Override

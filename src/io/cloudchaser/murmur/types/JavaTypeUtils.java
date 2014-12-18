@@ -89,7 +89,7 @@ public final class JavaTypeUtils {
 		
 		// Check for String.
 		if(object instanceof String) {
-			return new MurmurString(object.toString());
+			return MurmurString.create(object.toString());
 		}
 		
 		// Check for boolean.

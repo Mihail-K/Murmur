@@ -72,7 +72,7 @@ public final class MurmurNull extends MurmurObject {
 	
 	@Override
 	public MurmurString asString() {
-		return new MurmurString("null");
+		return MurmurString.create("null");
 	}
 
 	@Override

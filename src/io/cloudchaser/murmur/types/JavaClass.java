@@ -83,7 +83,7 @@ public class JavaClass extends JavaObject
 
 	@Override
 	public MurmurString asString() {
-		return new MurmurString("type");
+		return MurmurString.create("type");
 	}
 	
 	@Override
