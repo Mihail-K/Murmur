@@ -29,6 +29,7 @@ import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
 import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
+import io.cloudchaser.murmur.types.InvocationDelegate;
 import io.cloudchaser.murmur.types.InvokableType;
 import io.cloudchaser.murmur.types.JavaClass;
 import io.cloudchaser.murmur.types.JavaInvokableType;
@@ -51,6 +52,7 @@ import io.cloudchaser.murmur.types.MurmurVoid;
 import io.cloudchaser.murmur.types.ReferenceType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -98,11 +100,27 @@ public class MurmurASTVisitor
 		
 	}
 	
-	private final Deque<SymbolContext> context;
+	/**
+	 * The context stack.
+	 */
+	private final Deque<SymbolContext> context =
+			new LinkedList<>();
 	
-	public MurmurASTVisitor() {
-		context = new LinkedList<>();
-	}
+	/**
+	 * The interpreter invocation delegate.
+	 */
+	private final InvocationDelegate delegate =
+	(local, body) -> {
+		// Step into the local context.
+		context.push(local);
+
+		// Execute the function.
+		MurmurObject result = visitBlock(body);
+
+		// Step out of the context.
+		context.pop();
+		return result;
+	};
 	
 	/**
 	 * Removes symbol binding from a murmur value, if present.
@@ -675,17 +693,7 @@ public class MurmurASTVisitor
 		} else if(left instanceof InvokableType) {
 			// Invoke and return the result.
 			InvokableType invoke = (InvokableType)left;
-			return invoke.opInvoke((local, body) -> {
-				// Step into the local context.
-				context.push(local);
-
-				// Execute the function.
-				MurmurObject result = visitBlock(body);
-
-				// Step out of the context.
-				context.pop();
-				return result;
-			}, args);
+			return invoke.opInvoke(delegate, args);
 		} else {
 			throw new UnsupportedOperationException();
 		}
@@ -786,6 +794,21 @@ public class MurmurASTVisitor
 		return new MurmurFunction(context.peek(), parameters, ctx.block());
 	}
 	
+	public MurmurObject visitLambdaInvokeExpression(MurmurParser.ExpressionContext ctx) {
+		MurmurObject left = desymbolize(visitExpression(ctx.left));
+		MurmurFunction lambda = (MurmurFunction)visitLambda(ctx.lambda());
+		
+		// Check that this is an invokable type.
+		if(left instanceof InvokableType) {
+			// Invoke and return the result.
+			InvokableType invoke = (InvokableType)left;
+			return invoke.opInvoke(delegate,
+					Collections.singletonList(lambda));
+		} else {
+			throw new UnsupportedOperationException();
+		}
+	}
+	
 	public MurmurObject visitInstantiationExpression(MurmurParser.ExpressionContext ctx) {
 		Symbol symbol = context.peek().getSymbol(ctx.Identifier().getText());
 		
@@ -827,6 +850,7 @@ public class MurmurASTVisitor
 		
 		// Literals.
 		if(ctx.literal() != null) {
+			// Expression: a
 			return visitLiteral(ctx.literal());
 		}
 		
@@ -949,16 +973,22 @@ public class MurmurASTVisitor
 		
 		// Identifier.
 		if(ctx.Identifier() != null) {
+			// Expression: a
 			return visitIdentifierExpression(ctx);
 		}
 		
 		// Lambda.
 		if(ctx.lambda() != null) {
+			if(ctx.left != null)
+				// Expression: a { b }
+				return visitLambdaInvokeExpression(ctx);
+			// Expression: { a }
 			return visitLambda(ctx.lambda());
 		}
 		
 		// Parenthesized.
 		if(ctx.inner != null) {
+			// Expression: ( a )
 			return visitExpression(ctx.inner);
 		}
 		
