@@ -57,6 +57,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.misc.Interval;
 
 /**
  *
@@ -111,6 +113,36 @@ public class MurmurASTVisitor
 	private static MurmurObject desymbolize(MurmurObject object) {
 		return object instanceof Symbol ? ((Symbol)object).getValue() : object;
 	}
+	
+	/**
+	 * Tries to get a more 'visible' view of the given parser rule.
+	 * 
+	 * @param rule The parser rule being viewed.
+	 * @return A visible view of the rule.
+	 */
+	public static ParserRuleContext getVisibleView(ParserRuleContext rule) {
+		if(rule instanceof MurmurParser.IdentifierListContext ||
+				rule instanceof MurmurParser.InitializerListContext ||
+				rule instanceof MurmurParser.ExpressionListContext) {
+			return (ParserRuleContext)rule.parent;
+		}
+		
+		// This one will do file.
+		return rule;
+	}
+	
+	/**
+	 * Fetches a string with the original formatting of a context.
+	 * 
+	 * @param rule The rule to fetch the String for.
+	 * @return A String of a rule, as it appears in the source.
+	 */
+	private static String getOriginalText(ParserRuleContext rule) {
+		int start = rule.start.getStartIndex();
+		int stop = rule.stop.getStopIndex();
+		Interval interval = new Interval(start, stop);
+		return rule.start.getInputStream().getText(interval);
+	}
 
 	@Override
 	public MurmurObject visitCompilationUnit(MurmurParser.CompilationUnitContext ctx) {
@@ -153,7 +185,9 @@ public class MurmurASTVisitor
 			// Check that the symbol exists.
 			if(source == null || target == null ||
 					!(target instanceof Symbol)) {
-				throw new NullPointerException();
+				throw MurmurError.create(ctx.start.getLine(),
+						getOriginalText(ctx) + "\t(Not found: " + name + ")",
+						MurmurError.SYMBOL_NOT_FOUND);
 			}
 			
 			// Bind the symbol, by name.
@@ -185,8 +219,10 @@ public class MurmurASTVisitor
 			MurmurObject value = visitExpression(element.expression());
 			
 			// Check that the value exists.
-			if(value == null) {
-				throw new NullPointerException();
+			if(value == null || value == MurmurVoid.VOID) {
+				throw MurmurError.create(ctx.start.getLine(),
+						getOriginalText(getVisibleView(ctx)),
+						MurmurError.NOT_A_VALUE);
 			}
 			
 			// Create a symbol entry.
@@ -244,7 +280,8 @@ public class MurmurASTVisitor
 		}
 		
 		// Something went wrong.
-		throw new RuntimeException();
+		throw MurmurError.create(ctx.start.getLine(),
+				ctx.getText(), MurmurError.INTERNAL_ERROR);
 	}
 	
 	/* - Interfaces  - */
@@ -269,7 +306,8 @@ public class MurmurASTVisitor
 		
 		// Validate field name.
 		if(name.equals("this")) {
-			throw new UnsupportedOperationException();
+			throw MurmurError.create(ctx.start.getLine(),
+					ctx.getText(), MurmurError.NOT_A_FUNCTION);
 		}
 		
 		// Create the field.
@@ -334,7 +372,8 @@ public class MurmurASTVisitor
 			
 			// Check that the type exists.
 			if(symbol == null) {
-				throw new NullPointerException();
+				throw MurmurError.create(ctx.start.getLine(),
+						identifier.getText(), MurmurError.SYMBOL_NOT_FOUND);
 			}
 			
 			// Check that this is a component type.
@@ -596,7 +635,8 @@ public class MurmurASTVisitor
 		
 		// Check that the clause is boolean.
 		if(!(clause instanceof MurmurBoolean)) {
-			throw new UnsupportedOperationException();
+			throw MurmurError.create(ctx.start.getLine(),
+					getOriginalText(ctx), MurmurError.NOT_A_BOOLEAN);
 		}
 		
 		// Check the clause.
@@ -748,12 +788,14 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitIdentifierExpression(MurmurParser.ExpressionContext ctx) {
-		Symbol symbol = context.peek().getSymbol(ctx.getText());
+		Symbol symbol = context.peek().getSymbol(ctx.Identifier().getText());
 		
 		// Check that the symbol exists.
 		if(symbol == null) {
-			// TODO
-			throw new NullPointerException();
+			throw MurmurError.create(ctx.start.getLine(),
+					getOriginalText(getVisibleView((ParserRuleContext)ctx.parent)) +
+							"\t(Not found: " + ctx.Identifier().getText() + ")",
+					MurmurError.SYMBOL_NOT_FOUND);
 		}
 		
 		// Return the symbol.
@@ -794,8 +836,10 @@ public class MurmurASTVisitor
 		
 		// Check that the symbol exists.
 		if(symbol == null) {
-			// TODO
-			throw new NullPointerException();
+			throw MurmurError.create(ctx.start.getLine(),
+					getOriginalText(getVisibleView((ParserRuleContext)ctx.parent)) +
+							"\t(Not found: " + ctx.Identifier().getText() + ")",
+					MurmurError.SYMBOL_NOT_FOUND);
 		}
 		
 		// Check that this is a type.
@@ -819,7 +863,8 @@ public class MurmurASTVisitor
 			// Wrap the Java class.
 			return new JavaClass(javaClass);
 		} catch (ClassNotFoundException ex) {
-			throw new RuntimeException(ex);
+			throw MurmurError.create(ctx.start.getLine(), getOriginalText(ctx),
+					MurmurError.JAVA_CLASS_NOT_FOUND, ex);
 		}
 	}
 
@@ -972,7 +1017,9 @@ public class MurmurASTVisitor
 			return visitExpression(ctx.inner);
 		}
 		
-		throw new RuntimeException();
+		// Internal error.
+		throw MurmurError.create(ctx.start.getLine(),
+				ctx.getText(), MurmurError.INTERNAL_ERROR);
 	}
 	
 	/* - Literal Types - */
@@ -1104,7 +1151,8 @@ public class MurmurASTVisitor
 		}
 		
 		// Unknown literal type.
-		throw new RuntimeException();
+		throw MurmurError.create(ctx.start.getLine(),
+				ctx.getText(), MurmurError.INTERNAL_ERROR);
 	}
 
 }

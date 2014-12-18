@@ -34,8 +34,19 @@ import java.util.Deque;
  */
 public class MurmurError extends Error {
 	
+	public static final String INTERNAL_ERROR =
+			"Murmur was expecting input here, but didn't find what it was looking for. (Internal error)";
+	public static final String NOT_A_VALUE =
+			"The right side of this expression does not produce a value.";
+	public static final String NOT_A_BOOLEAN =
+			"Murmur expected a boolean value here, but got something else.";
 	public static final String NOT_A_FUNCTION =
 			"Murmur expected a function or lambda here, but got something else.";
+	public static final String SYMBOL_NOT_FOUND =
+			"Murmur couldn't find the referenced symbol in this context.";
+	
+	public static final String JAVA_CLASS_NOT_FOUND =
+			"Murmur couldn't find the referenced Java class or type.";
 	
 	/**
 	 * The file the error originated in.
