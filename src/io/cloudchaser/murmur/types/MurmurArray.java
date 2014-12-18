@@ -28,6 +28,7 @@ import static io.cloudchaser.murmur.types.MurmurType.ARRAY;
 import static io.cloudchaser.murmur.types.MurmurType.INTEGER;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -61,6 +62,28 @@ public class MurmurArray extends MurmurObject
 					element.toJavaObject();
 		}
 		return values;
+	}
+	
+	@Override
+	public boolean isCompatible(Class<?> type) {
+		return type.isAssignableFrom(Object[].class) ||
+				type.isAssignableFrom(List.class);
+	}
+	
+	@Override
+	public Object getAsJavaType(Class<?> type) {
+		// Java array type.
+		if(type.isAssignableFrom(Object[].class)) {
+			return toJavaObject();
+		}
+
+		// Java ling type.
+		if(type.isAssignableFrom(List.class)) {
+			return Arrays.asList(toJavaObject());
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
