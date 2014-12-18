@@ -50,6 +50,24 @@ public class MurmurCharacter extends MurmurObject {
 	public Object toJavaObject() {
 		return value;
 	}
+	
+	@Override
+	public boolean isCompatible(Class<?> type) {
+		return type.isAssignableFrom(char.class) ||
+				type.isAssignableFrom(Character.class);
+	}
+	
+	@Override
+	public Object getAsJavaType(Class<?> type) {
+		// Java char type.
+		if(type.isAssignableFrom(char.class) ||
+				type.isAssignableFrom(Character.class)) {
+			return value;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public MurmurInteger asInteger() {
