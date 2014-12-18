@@ -64,6 +64,11 @@ public class Murmur {
 		} catch(IOException ex) {
 			Logger.getLogger(Murmur.class.getName())
 					.log(Level.SEVERE, null, ex);
+		} catch(MurmurError err) {
+			System.err.println("Murmur Error: " + err.getMessage());
+			System.err.println("(" + args[0] + " @ Line " + err.getLineNumber() + ")");
+			System.err.println(">\t" + err.getLineText());
+			System.err.println();
 		}
     }
 	

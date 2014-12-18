@@ -34,6 +34,9 @@ import java.util.Deque;
  */
 public class MurmurError extends Error {
 	
+	public static final String NOT_A_FUNCTION =
+			"Murmur expected a function or lambda here, but got something else.";
+	
 	/**
 	 * The file the error originated in.
 	 */

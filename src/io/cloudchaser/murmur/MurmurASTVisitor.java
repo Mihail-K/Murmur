@@ -73,19 +73,33 @@ public class MurmurASTVisitor
 			new LinkedList<>();
 	
 	/**
+	 * The call stack (for error output).
+	 */
+	private final Deque<MurmurObject> callStack =
+			new LinkedList<>();
+	
+	/**
 	 * The interpreter invocation delegate.
 	 */
 	private final InvocationDelegate delegate =
-	(local, body) -> {
-		// Step into the local context.
-		context.push(local);
+	(local, function) -> {
+		try {
+			// Step into the local context.
+			context.push(local);
+			callStack.push(function);
+			
+			// Execute the function.
+			MurmurObject result = visitBlock(function.getBody());
 
-		// Execute the function.
-		MurmurObject result = visitBlock(body);
-
-		// Step out of the context.
-		context.pop();
-		return result;
+			// Step out of the context.
+			callStack.pop();
+			context.pop();
+			return result;
+		} catch(MurmurError err) {
+			// Attach call stack to error.
+			err.setCallStack(callStack);
+			throw err;
+		}
 	};
 	
 	/**
@@ -273,7 +287,8 @@ public class MurmurASTVisitor
 		
 		// Check that this is a function.
 		if(!(value instanceof MurmurFunction)) {
-			throw new UnsupportedOperationException();
+			throw MurmurError.create(ctx.start.getLine(),
+					ctx.getText(), MurmurError.NOT_A_FUNCTION);
 		}
 		
 		// Create the function.
