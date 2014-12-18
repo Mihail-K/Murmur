@@ -44,6 +44,24 @@ public class MurmurString extends MurmurObject {
 	public Object toJavaObject() {
 		return value;
 	}
+	
+	@Override
+	public boolean isCompatible(Class<?> type) {
+		return type.isAssignableFrom(String.class) ||
+				type.isAssignableFrom(CharSequence.class);
+	}
+	
+	@Override
+	public Object getAsJavaType(Class<?> type) {
+		// Java string type.
+		if(type.isAssignableFrom(String.class) ||
+				type.isAssignableFrom(CharSequence.class)) {
+			return value;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public MurmurInteger asInteger() {
