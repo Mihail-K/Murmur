@@ -30,6 +30,7 @@ import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
 import io.cloudchaser.murmur.types.InvokableType;
+import io.cloudchaser.murmur.types.JavaClass;
 import io.cloudchaser.murmur.types.JavaInvokableType;
 import io.cloudchaser.murmur.types.MurmurArray;
 import io.cloudchaser.murmur.types.MurmurBoolean;
@@ -187,6 +188,11 @@ public class MurmurASTVisitor
 		ctx.initializerElement().stream().forEach((element) -> {
 			String name = element.Identifier().getText();
 			MurmurObject value = visitExpression(element.expression());
+			
+			// Check that the value exists.
+			if(value == null) {
+				throw new NullPointerException();
+			}
 			
 			// Create a symbol entry.
 			context.peek().addSymbol(new LetSymbol(name, value));
@@ -794,12 +800,27 @@ public class MurmurASTVisitor
 		
 		// Check that this is a type.
 		MurmurObject object = symbol.getValue();
-		if(!(object instanceof MurmurComponent)) {
+		if(!(object instanceof MurmurComponent ||
+				object instanceof JavaClass)) {
 			throw new UnsupportedOperationException();
 		}
 		
 		// Return the type.
 		return object;
+	}
+	
+	public MurmurObject visitRequireExpression(MurmurParser.ExpressionContext ctx) {
+		try {
+			// Lookup the Java class.
+			String text = ctx.StringLiteral().getText();
+			MurmurString string = new MurmurString(text.substring(1, text.length() - 1));
+			Class<?> javaClass = Class.forName((String)string.toJavaObject());
+			
+			// Wrap the Java class.
+			return new JavaClass(javaClass);
+		} catch (ClassNotFoundException ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 
 	@Override
@@ -920,6 +941,9 @@ public class MurmurASTVisitor
 				case "new":
 					// Expression: new a
 					return visitInstantiationExpression(ctx);
+				case "require":
+					// Expression: require "a"
+					return visitRequireExpression(ctx);
 				default:
 					// Expression: a compound b
 					return visitCompoundAssignmentExpression(ctx);
