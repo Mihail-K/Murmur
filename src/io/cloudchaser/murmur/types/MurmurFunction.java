@@ -78,6 +78,11 @@ public class MurmurFunction extends MurmurObject
 	}
 	
 	/**
+	 * The line number this function was declared on.
+	 */
+	private final int lineNumber;
+	
+	/**
 	 * Function declaration context.
 	 */
 	private SymbolContext context;
@@ -88,8 +93,10 @@ public class MurmurFunction extends MurmurObject
 	private final List<String> parameters;
 	private final BlockContext body;
 
-	public MurmurFunction(SymbolContext context, List<String> parameters, BlockContext body) {
+	public MurmurFunction(int lineNumber, SymbolContext context,
+			List<String> parameters, BlockContext body) {
 		super(FUNCTION);
+		this.lineNumber = lineNumber;
 		this.context = context;
 		this.parameters = parameters;
 		this.body = body;
@@ -311,6 +318,26 @@ public class MurmurFunction extends MurmurObject
 	public MurmurObject opConcat(MurmurObject other) {
 		// Unsupported.
 		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public int getDeclaringLine() {
+		return lineNumber;
+	}
+	
+	@Override
+	public String getMethodSignature() {
+		// Return the constructor's method signature.
+		StringBuilder builder = new StringBuilder("<lambda>");
+		builder.append("(");
+		
+		// Build the argument list.
+		if(parameters != null) {
+			parameters.stream().forEach(builder::append);
+		}
+		
+		builder.append(")");
+		return builder.toString();
 	}
 	
 	@Override

@@ -34,6 +34,20 @@ import java.util.List;
 public interface InvokableType {
 	
 	/**
+	 * Gets the line this type was declared on.
+	 * 
+	 * @return The line number.
+	 */
+	int getDeclaringLine();
+	
+	/**
+	 * Gets the method signature, as a String.
+	 * 
+	 * @return The method signature.
+	 */
+	String getMethodSignature();
+	
+	/**
 	 * Invoke this object as a function.
 	 * 
 	 * @param delegate The delegate handling the invocation.

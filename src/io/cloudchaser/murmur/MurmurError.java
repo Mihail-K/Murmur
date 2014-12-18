@@ -24,7 +24,7 @@
 
 package io.cloudchaser.murmur;
 
-import io.cloudchaser.murmur.types.MurmurObject;
+import io.cloudchaser.murmur.types.InvokableType;
 import java.util.Deque;
 
 /**
@@ -66,7 +66,7 @@ public class MurmurError extends Error {
 	/**
 	 * The call stack at the time of the error.
 	 */
-	private Deque<MurmurObject> callStack;
+	private Deque<InvokableType> callStack;
 
 	public MurmurError() {
 	}
@@ -140,11 +140,11 @@ public class MurmurError extends Error {
 		this.lineText = lineText;
 	}
 
-	public Deque<MurmurObject> getCallStack() {
+	public Deque<InvokableType> getCallStack() {
 		return callStack;
 	}
 
-	public void setCallStack(Deque<MurmurObject> callStack) {
+	public void setCallStack(Deque<InvokableType> callStack) {
 		this.callStack = callStack;
 	}
 	

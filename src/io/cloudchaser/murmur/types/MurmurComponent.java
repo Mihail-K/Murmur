@@ -72,9 +72,14 @@ public class MurmurComponent extends MurmurObject
 	}
 	
 	/**
-	 * The declared name of this component;
+	 * The declared name of this component.
 	 */
 	private final String name;
+	
+	/**
+	 * The declaring line number of this component.
+	 */
+	private final int lineNumber;
 	
 	/**
 	 * This component's parent context.
@@ -91,14 +96,15 @@ public class MurmurComponent extends MurmurObject
 	 */
 	private final List<MurmurComponent> components;
 
-	public MurmurComponent(String name, SymbolContext context) {
-		this(name, context, Collections.emptyList());
+	public MurmurComponent(String name, int lineNumber, SymbolContext context) {
+		this(name, lineNumber, context, Collections.emptyList());
 	}
 	
-	public MurmurComponent(String name, SymbolContext context,
-			List<MurmurComponent> components) {
+	public MurmurComponent(String name, int lineNumber,
+			SymbolContext context, List<MurmurComponent> components) {
 		super(TYPE);
 		this.name = name;
+		this.lineNumber = lineNumber;
 		this.context = context;
 		this.components = components;
 		
@@ -306,6 +312,35 @@ public class MurmurComponent extends MurmurObject
 	public MurmurObject opConcat(MurmurObject other) {
 		// Components don't support concatenation.
 		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public int getDeclaringLine() {
+		return lineNumber;
+	}
+	
+	@Override
+	public String getMethodSignature() {
+		// Get the constructor field.
+		ComponentField local = members.get("~ctor");
+		if(!(local instanceof ComponentFunction)) {
+			// This should never happen.
+			return name + "(...)";
+		}
+		
+		// Return the constructor's method signature.
+		ComponentFunction ctor = (ComponentFunction)local;
+		StringBuilder builder = new StringBuilder(name);
+		builder.append("(");
+		
+		// Build the argument list.
+		if(ctor.getFunction().getParameters() != null) {
+			ctor.getFunction().getParameters().stream()
+					.forEach(builder::append);
+		}
+		
+		builder.append(")");
+		return builder.toString();
 	}
 
 	@Override

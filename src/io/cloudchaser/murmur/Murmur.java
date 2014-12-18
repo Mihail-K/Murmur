@@ -26,6 +26,7 @@ package io.cloudchaser.murmur;
 
 import io.cloudchaser.murmur.parser.MurmurLexer;
 import io.cloudchaser.murmur.parser.MurmurParser;
+import io.cloudchaser.murmur.types.InvokableType;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -43,7 +44,7 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  *
  * @author Mihail K
  * @since 0.1
- */
+ **/
 public class Murmur {
 	
 	/**
@@ -65,10 +66,22 @@ public class Murmur {
 			Logger.getLogger(Murmur.class.getName())
 					.log(Level.SEVERE, null, ex);
 		} catch(MurmurError err) {
-			System.err.println("Murmur Error: " + err.getMessage());
-			System.err.println("(" + args[0] + " @ Line " + err.getLineNumber() + ")");
-			System.err.println(">\t" + err.getLineText());
-			System.err.println();
+			// Output an error message.
+			System.err.printf("Murmur Error: %1$s%n", err.getMessage());
+			System.err.printf("(%1$s @Line %2$d)%n", args[0], err.getLineNumber());
+			System.err.printf(">\t%1$s%n%n", err.getLineText());
+			
+			// Display the call stack.
+			if(err.getCallStack() != null) {
+				err.getCallStack().stream().forEach((object) -> {
+					System.err.printf("@ Line %1$d:\t%2$s%n", object.getDeclaringLine(),
+							object.getMethodSignature());
+				});
+				System.err.println();
+			}
+			
+			// Exit with error code.
+			System.exit(1);
 		}
     }
 	

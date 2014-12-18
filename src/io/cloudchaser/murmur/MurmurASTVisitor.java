@@ -77,7 +77,7 @@ public class MurmurASTVisitor
 	/**
 	 * The call stack (for error output).
 	 */
-	private final Deque<MurmurObject> callStack =
+	private final Deque<InvokableType> callStack =
 			new LinkedList<>();
 	
 	/**
@@ -348,7 +348,7 @@ public class MurmurASTVisitor
 	public MurmurObject visitTypeDeclaration(MurmurParser.TypeDeclarationContext ctx) {
 		// Create a local component type.
 		MurmurComponent component = new MurmurComponent(
-				"<local>", context.peek());
+				 "<local>", ctx.start.getLine(), context.peek());
 		
 		// Build component members list.
 		if(ctx.typeElement() != null) {
@@ -398,7 +398,8 @@ public class MurmurASTVisitor
 		types.add((MurmurComponent)visitTypeDeclaration(ctx.typeDeclaration()));
 		
 		// Build the finished Murmur component object.
-		MurmurObject component = new MurmurComponent(name, context.peek(), types);
+		MurmurObject component = new MurmurComponent(
+				name, ctx.start.getLine(), context.peek(), types);
 		context.peek().addSymbol(new LetSymbol(name, component));
 		
 		// Return void value.
@@ -813,7 +814,7 @@ public class MurmurASTVisitor
 	@Override
 	public MurmurObject visitLambda(MurmurParser.LambdaContext ctx) {
 		List<String> parameters = visitLambdaParameterList(ctx.identifierList());
-		return new MurmurFunction(context.peek(), parameters, ctx.block());
+		return new MurmurFunction(ctx.start.getLine(), context.peek(), parameters, ctx.block());
 	}
 	
 	public MurmurObject visitLambdaInvokeExpression(MurmurParser.ExpressionContext ctx) {
