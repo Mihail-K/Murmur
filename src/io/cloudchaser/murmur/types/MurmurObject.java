@@ -56,6 +56,26 @@ public abstract class MurmurObject {
 	}
 	
 	/**
+	 * Checks if this Murmur object can convert to a Java type.
+	 * 
+	 * @param type The Java type being converted to.
+	 * @return <code>true</code> is this object converts to the given type.
+	 */
+	public boolean isCompatible(Class<?> type) {
+		return false;
+	}
+	
+	/**
+	 * Converts this Murmur object into a Java type.
+	 * 
+	 * @param type The Java type being converted to.
+	 * @return The converted Java object.
+	 */
+	public Object getAsJavaType(Class<?> type) {
+		throw new UnsupportedOperationException();
+	}
+	
+	/**
 	 * Converts this Object to an integer, if possible.
 	 * 
 	 * @return This Object as an integer.
