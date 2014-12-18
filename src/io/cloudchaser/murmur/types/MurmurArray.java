@@ -27,8 +27,11 @@ package io.cloudchaser.murmur.types;
 import static io.cloudchaser.murmur.types.MurmurType.ARRAY;
 import static io.cloudchaser.murmur.types.MurmurType.INTEGER;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -67,23 +70,49 @@ public class MurmurArray extends MurmurObject
 	@Override
 	public boolean isCompatible(Class<?> type) {
 		return type.isAssignableFrom(Object[].class) ||
-				type.isAssignableFrom(List.class);
+				type.isAssignableFrom(MurmurObject[].class) ||
+				type.isAssignableFrom(HashSet.class) ||
+				type.isAssignableFrom(ArrayList.class) ||
+				type.isAssignableFrom(LinkedList.class);
 	}
 	
 	@Override
 	public Object getAsJavaType(Class<?> type) {
 		// Java array type.
-		if(type.isAssignableFrom(Object[].class)) {
-			return toJavaObject();
+		if(type.isAssignableFrom(Object[].class) ||
+				type.isAssignableFrom(MurmurObject[].class)) {
+			Object array = Array.newInstance(type, elements.size());
+			for(int idx = 0; idx < elements.size(); idx++) {
+				// Shallow case for list containing itself.
+				MurmurObject element = elements.get(idx);
+				Array.set(array, idx, element == this ? array :
+						element.getAsJavaType(type.getComponentType()));
+			}
+			
+			// Return the completed array.
+			return array;
 		}
 
-		// Java ling type.
-		if(type.isAssignableFrom(List.class)) {
-			return Arrays.asList(toJavaObject());
+		// Java list type.
+		Collection col;
+		if(type.isAssignableFrom(HashSet.class)) {
+			col = new HashSet<>();
+		} else if(type.isAssignableFrom(ArrayList.class)) {
+			col = new ArrayList<>();
+		} else if(type.isAssignableFrom(LinkedList.class)) {
+			col = new LinkedList<>();
+		} else {
+			// TODO
+			throw new UnsupportedOperationException();
 		}
 		
-		// Unsupported.
-		throw new UnsupportedOperationException();
+		// Populate the collection.
+		elements.stream().forEach((element) -> {
+			// Shallow case for list containing itself.
+			col.add(element == this ? col :
+					element.getAsJavaType(Object.class));
+		});
+		return col;
 	}
 
 	@Override
