@@ -80,14 +80,18 @@ public abstract class MurmurObject {
 	 * 
 	 * @return This Object as an integer.
 	 **/
-	public abstract MurmurInteger asInteger();
+	public MurmurInteger asInteger() {
+		return MurmurInteger.ZERO;
+	}
 	
 	/**
 	 * Converts this Object to a decimal, if possible.
 	 * 
 	 * @return This Object as a decimal.
 	 **/
-	public abstract MurmurDecimal asDecimal();
+	public MurmurDecimal asDecimal() {
+		return MurmurDecimal.ZERO;
+	}
 	
 	/**
 	 * Converts this Object to a string, if possible.
