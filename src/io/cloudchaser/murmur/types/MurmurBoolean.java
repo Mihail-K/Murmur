@@ -61,6 +61,24 @@ public class MurmurBoolean extends MurmurObject {
 	public Object toJavaObject() {
 		return value;
 	}
+	
+	@Override
+	public boolean isCompatible(Class<?> type) {
+		return type.isAssignableFrom(boolean.class) ||
+				type.isAssignableFrom(Boolean.class);
+	}
+	
+	@Override
+	public Object getAsJavaType(Class<?> type) {
+		// Java boolean type.
+		if(type.isAssignableFrom(boolean.class) ||
+				type.isAssignableFrom(Boolean.class)) {
+			return value;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public MurmurInteger asInteger() {
