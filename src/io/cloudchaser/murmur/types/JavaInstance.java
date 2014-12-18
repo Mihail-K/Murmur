@@ -25,32 +25,79 @@
 package io.cloudchaser.murmur.types;
 
 import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
+import java.lang.reflect.Field;
 
 /**
  *
  * @author Mihail K
  * @since 0.1
  **/
-public class JavaInstance extends MurmurObject {
+public class JavaInstance extends JavaObject {
 	
 	/**
 	 * Stores the Java object instance.
 	 */
 	private final Object instance;
+	
+	/**
+	 * The Java class object corresponding to this instance.
+	 */
+	private final Class<?> type;
 
-	public JavaInstance(Object instance) {
+	public JavaInstance(Object instance, Class<?> type) {
 		super(OBJECT);
+		this.type = type;
 		this.instance = instance;
+	}
+
+	public Object getInstance() {
+		return instance;
+	}
+
+	public Class<?> getInstanceType() {
+		return type;
 	}
 	
 	@Override
 	public JavaMember getMember(String name) {
-		return new JavaMember(name, instance.getClass(), instance);
+		try {
+			// Check if this is a static field.
+			Field field = type.getField(name);
+			return new JavaMember(name, field.getType(), field.get(instance));
+		} catch (NoSuchFieldException | SecurityException |
+				IllegalArgumentException | IllegalAccessException ex) {
+			// Assume this is a static method.
+			return new JavaMember(name, type, instance);
+		}
 	}
 	
 	@Override
 	public Object toJavaObject() {
 		return instance;
+	}
+
+	@Override
+	public boolean isCompatible(Class<?> type) {
+		return type.isAssignableFrom(this.type) ||
+				type.isAssignableFrom(
+						JavaTypeUtils.getPrimitive(type));
+	}
+
+	@Override
+	public Object getAsJavaType(Class<?> type) {
+		// Java object type.
+		if(type.isAssignableFrom(type)) {
+			return instance;
+		}
+		
+		// Java primitive type.
+		if(type.isAssignableFrom(
+				JavaTypeUtils.getPrimitive(type))) {
+			return instance;
+		}
+		
+		// Unsupported.
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
