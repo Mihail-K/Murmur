@@ -24,11 +24,13 @@
 
 package io.cloudchaser.murmur.types;
 
+import static io.cloudchaser.murmur.types.JavaTypeUtils.invokeFunction;
 import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
 import java.lang.reflect.Field;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  *
@@ -101,40 +103,17 @@ public class JavaMember extends JavaObject
 	}
 	
 	@Override
-	public MurmurObject opInvoke(MurmurObject argument) {
+	public MurmurObject opInvoke(List<MurmurObject> arguments) {
 		try {
 			// TODO
-			if(argument == null) {
+			if(arguments == null) {
 				// No arguments.
 				Method method = type.getMethod(name);
 				method.invoke(instance);
 				return MurmurNull.NULL;
 			} else {
-				// Void and Object type not allowed.
-				if(argument instanceof MurmurVoid ||
-						argument instanceof MurmurFunction ||
-						argument instanceof MurmurInstance ||
-						argument instanceof MurmurComponent) {
-					throw new UnsupportedOperationException();
-				}
-				
-				// Search for a compatible method.
-				for(Method method : type.getMethods()) {
-					// Filter compatible method signature.
-					if(!method.getName().equals(name)) continue;
-					if(method.getParameterCount() != 1) continue;
-					
-					// Fetch the parameter type.
-					Class<?> param = method.getParameterTypes()[0];
-					if(argument.isCompatible(param)) {
-						// Convert parameter and invoke function.
-						method.invoke(instance, argument.getAsJavaType(param));
-						return MurmurNull.NULL;
-					}
-				}
-				
-				// TODO
-				throw new UnsupportedOperationException();
+				// Build a parameter list and invoke the function.
+				return invokeFunction(name, type, instance, arguments);
 			}
 		} catch(IllegalAccessException | IllegalArgumentException |
 				InvocationTargetException | NoSuchMethodException |

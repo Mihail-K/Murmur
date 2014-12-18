@@ -37,7 +37,7 @@ import java.util.List;
 public final class JavaTypeUtils {
 	
 	/**
-	 * Maps Java primitive wrapper type to their primitive class.
+	 * Maps Java primitive wrapper types to their primitive class.
 	 * 
 	 * @param wrapper The wrapper class to map.
 	 * @return The corresponding primitive class.
@@ -110,7 +110,7 @@ ML:		for(Method method : type.getMethods()) {
 	}
 	
 	/**
-	 * Builds an argument list for a function.
+	 * Invokes a Java language constructor with Murmur arguments.
 	 * 
 	 * @param type
 	 * @param args

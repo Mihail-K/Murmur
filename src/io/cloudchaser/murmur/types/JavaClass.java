@@ -24,8 +24,13 @@
 
 package io.cloudchaser.murmur.types;
 
+import static io.cloudchaser.murmur.types.JavaTypeUtils.invokeConstructor;
 import static io.cloudchaser.murmur.types.MurmurType.TYPE;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -82,13 +87,11 @@ public class JavaClass extends JavaObject
 	}
 	
 	@Override
-	public MurmurObject opInvoke(MurmurObject argument) {
+	public MurmurObject opInvoke(List<MurmurObject> arguments) {
 		try {
-			// TODO
-			Object instance = javaClass.newInstance();
-			return new JavaInstance(instance, javaClass);
+			return invokeConstructor(javaClass, arguments);
 		} catch(IllegalAccessException | IllegalArgumentException |
-				InstantiationException ex) {
+				InvocationTargetException| InstantiationException ex) {
 			throw new RuntimeException(ex);
 		}
 	}

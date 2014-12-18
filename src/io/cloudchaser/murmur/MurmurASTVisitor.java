@@ -671,7 +671,7 @@ public class MurmurASTVisitor
 		// Check that this is an invokable type.
 		if(left instanceof JavaInvokableType) {
 			JavaInvokableType invoke = (JavaInvokableType)left;
-			return invoke.opInvoke(args == null ? null : args.get(0));
+			return invoke.opInvoke(args);
 		} else if(left instanceof InvokableType) {
 			// Invoke and return the result.
 			InvokableType invoke = (InvokableType)left;
