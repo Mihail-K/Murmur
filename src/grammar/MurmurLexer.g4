@@ -501,6 +501,10 @@ NewKeyword
 	:	'new'
 	;
 
+RequireKeyword
+	:	'require'
+	;
+
 ReturnKeyword
 	:	'return'
 	;

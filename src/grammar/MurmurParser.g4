@@ -150,6 +150,8 @@ expression
 	//	Instantiation.
 	|	operator = 'new'
 		name = Identifier
+	|	operator = 'require'
+		value = StringLiteral
 		
 	//	Postfixed.
 	|	left = expression
