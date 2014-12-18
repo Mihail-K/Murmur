@@ -25,10 +25,8 @@
 package io.cloudchaser.murmur.types;
 
 import static io.cloudchaser.murmur.types.MurmurType.TYPE;
+import java.lang.reflect.Field;
 
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -43,6 +41,19 @@ public class JavaClass extends MurmurObject
 	public JavaClass(Class<?> javaClass) {
 		super(TYPE);
 		this.javaClass = javaClass;
+	}
+
+	@Override
+	public MurmurObject getMember(String name) {
+		try {
+			// Check if this is a field.
+			Field field = javaClass.getField(name);
+			return new JavaMember(name, field.getType(), field.get(null));
+		} catch (NoSuchFieldException | SecurityException |
+				IllegalArgumentException | IllegalAccessException ex) {
+			// Assume this is a method.
+			return new JavaMember(name, javaClass, null);
+		}
 	}
 
 	@Override
@@ -221,8 +232,7 @@ public class JavaClass extends MurmurObject
 			return new JavaInstance(javaClass.newInstance());
 		} catch(IllegalAccessException | IllegalArgumentException |
 				InstantiationException ex) {
-			Logger.getLogger(JavaClass.class.getName()).log(Level.SEVERE, null, ex);
-			return null;
+			throw new RuntimeException(ex);
 		}
 	}
 

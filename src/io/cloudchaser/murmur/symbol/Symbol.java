@@ -46,6 +46,11 @@ public abstract class Symbol extends MurmurObject
 		this.name = name;
 		this.value = value;
 	}
+	
+	protected Symbol(String name) {
+		super(null);
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;

@@ -24,7 +24,9 @@
 
 package io.cloudchaser.murmur.types;
 
-import static io.cloudchaser.murmur.types.MurmurType.FUNCTION;
+import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
+import java.lang.reflect.Field;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -35,16 +37,36 @@ import java.util.List;
  * @author Mihail K
  * @since 0.1
  **/
-public class JavaFunction extends MurmurObject
+public class JavaMember extends MurmurObject
 		implements JavaInvokableType {
 
 	private final String name;
+	private final Class<?> type;
 	private final Object instance;
 
-	public JavaFunction(String name, Object instance) {
-		super(FUNCTION);
+	public JavaMember(String name, Class<?> type, Object instance) {
+		super(OBJECT);
 		this.name = name;
+		this.type = type;
 		this.instance = instance;
+	}
+
+	@Override
+	public MurmurObject getMember(String name) {
+		try {
+			// Check if this is a field.
+			Field field = type.getField(name);
+			return new JavaMember(name, field.getType(), field.get(instance));
+		} catch (NoSuchFieldException | SecurityException |
+				IllegalArgumentException | IllegalAccessException ex) {
+			// Assume this is a method.
+			return new JavaMember(name, type, instance);
+		}
+	}
+	
+	@Override
+	public Object toJavaObject() {
+		return instance;
 	}
 
 	@Override
@@ -216,56 +238,75 @@ public class JavaFunction extends MurmurObject
 		throw new UnsupportedOperationException();
 	}
 	
+	private Class<?> getPrimitive(Class<?> wrapper) {
+		if(wrapper == Long.class)		return long.class;
+		if(wrapper == Integer.class)	return int.class;
+		if(wrapper == Short.class)		return short.class;
+		if(wrapper == Byte.class)		return byte.class;
+		if(wrapper == Character.class)	return char.class;
+		if(wrapper == Double.class)		return double.class;
+		if(wrapper == Float.class)		return float.class;
+		if(wrapper == Boolean.class)	return boolean.class;
+		return wrapper;
+	}
+	
 	@Override
 	public MurmurObject opInvoke(MurmurObject argument) {
 		try {
 			// TODO
 			if(argument == null) {
 				// No arguments.
-				Method method = instance.getClass().getMethod(name);
+				Method method = type.getMethod(name);
 				method.invoke(instance);
+				return MurmurNull.NULL;
 			} else {
 				// Void and Object type not allowed.
 				if(argument instanceof MurmurVoid ||
-						argument instanceof MurmurObject ||
+						argument instanceof MurmurInstance ||
 						argument instanceof MurmurComponent) {
 					throw new UnsupportedOperationException();
 				}
 				
 				Object object = argument.toJavaObject();
-				for(Method method : instance.getClass().getMethods()) {
+				for(Method method : type.getMethods()) {
 					// Filter compatible method signature.
 					if(!method.getName().equals(name)) continue;
 					if(method.getParameterCount() != 1) continue;
 					
 					// Check if this is a Java argument.
-					if(argument instanceof JavaInstance
-							|| argument instanceof JavaClass) {
+					if(argument instanceof JavaInstance ||
+							argument instanceof JavaMember ||
+							argument instanceof JavaClass) {
 						// Invoke a compatible method.
-						if(method.getParameterTypes()[0].isAssignableFrom(object.getClass())) {
+						if(method.getParameterTypes()[0].isAssignableFrom(object.getClass()) ||
+								method.getParameterTypes()[0].isAssignableFrom(
+										getPrimitive(object.getClass()))) {
 							method.invoke(instance, object);
-							return null;
+							return MurmurNull.NULL;
 						}
 					} else {
 						// Murmur argument types.
 						if(argument instanceof MurmurNull) {
-							method.invoke(instance, (Object)null);
-							return null;
+							if(!method.getParameterTypes()[0].isPrimitive())
+								method.invoke(instance, (Object)null);
+							return MurmurNull.NULL;
 						} 
 						
 						// Murmur String argument.
 						if(argument instanceof MurmurString) {
 							if(method.getParameterTypes()[0].isAssignableFrom(String.class))
 								method.invoke(instance, object);
-							return null;
-						} 
+							else continue;
+							return MurmurNull.NULL;
+						}
 						
 						// Murmur boolean argument.
 						if(argument instanceof MurmurBoolean) {
 							if(method.getParameterTypes()[0].isAssignableFrom(boolean.class) ||
 									method.getParameterTypes()[0].isAssignableFrom(Boolean.class))
 								method.invoke(instance, object);
-							return null;
+							else continue;
+							return MurmurNull.NULL;
 						}
 						
 						// Murmur integer argument.
@@ -282,7 +323,8 @@ public class JavaFunction extends MurmurObject
 							else if(method.getParameterTypes()[0].isAssignableFrom(byte.class) ||
 									method.getParameterTypes()[0].isAssignableFrom(Byte.class))
 								method.invoke(instance, (byte)object);
-							return null;
+							else continue;
+							return MurmurNull.NULL;
 						}
 						
 						// Murmur decimal argument.
@@ -293,7 +335,8 @@ public class JavaFunction extends MurmurObject
 							else if(method.getParameterTypes()[0].isAssignableFrom(float.class) ||
 									method.getParameterTypes()[0].isAssignableFrom(Float.class))
 								method.invoke(instance, (float)object);
-							return null;
+							else continue;
+							return MurmurNull.NULL;
 						}
 						
 						// Murmur character argument.
@@ -301,7 +344,8 @@ public class JavaFunction extends MurmurObject
 							if(method.getParameterTypes()[0].isAssignableFrom(char.class) ||
 									method.getParameterTypes()[0].isAssignableFrom(Character.class))
 								method.invoke(instance, object);
-							return null;
+							else continue;
+							return MurmurNull.NULL;
 						}
 						
 						// Murmur array argument.
@@ -310,19 +354,26 @@ public class JavaFunction extends MurmurObject
 								method.invoke(instance, object);
 							if(method.getParameterTypes()[0].isAssignableFrom(Object[].class))
 								method.invoke(instance, Arrays.asList((Object[])object));
-							return null;
+							else continue;
+							return MurmurNull.NULL;
 						}
 					}
 				}
+				
+				// TODO
+				throw new UnsupportedOperationException();
 			}
 		} catch(IllegalAccessException | IllegalArgumentException |
 				InvocationTargetException | NoSuchMethodException |
 				SecurityException ex) {
 			throw new RuntimeException(ex);
 		}
-		
-		// TODO
-		return MurmurNull.NULL;
+	}
+
+	@Override
+	public String toString() {
+		return "JavaMember{name=" + name + ", type=" + type +
+				", instance=" + instance + '}';
 	}
 	
 }

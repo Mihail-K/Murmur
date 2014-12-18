@@ -672,7 +672,10 @@ public class MurmurASTVisitor
 		List<MurmurObject> args = visitFunctionArguments(ctx.expressionList());
 		
 		// Check that this is an invokable type.
-		if(left instanceof InvokableType) {
+		if(left instanceof JavaInvokableType) {
+			JavaInvokableType invoke = (JavaInvokableType)left;
+			return invoke.opInvoke(args == null ? null : args.get(0));
+		} else if(left instanceof InvokableType) {
 			// Invoke and return the result.
 			InvokableType invoke = (InvokableType)left;
 			return invoke.opInvoke((local, body) -> {
@@ -686,9 +689,6 @@ public class MurmurASTVisitor
 				context.pop();
 				return result;
 			}, args);
-		} else if(left instanceof JavaInvokableType) {
-			JavaInvokableType invoke = (JavaInvokableType)left;
-			return invoke.opInvoke(args == null ? null : args.get(0));
 		} else {
 			throw new UnsupportedOperationException();
 		}
