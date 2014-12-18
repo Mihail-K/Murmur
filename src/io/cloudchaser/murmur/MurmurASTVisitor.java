@@ -134,11 +134,8 @@ public class MurmurASTVisitor
 		} else if(ctx.typeStatement() != null) {
 			return visitTypeStatement(ctx.typeStatement());
 		} else {
-			// Print results for debug.
-			System.out.println(visitExpression(ctx.expression()));
+			return visitExpression(ctx.expression());
 		}
-		
-		return null;
 	}
 	
 	/* - Statements  - */
