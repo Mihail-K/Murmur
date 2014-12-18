@@ -24,9 +24,12 @@
 
 package io.cloudchaser.murmur.types;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +38,25 @@ import java.util.List;
  * @since 0.1
  **/
 public final class JavaTypeUtils {
+	
+	private static class VarArgsBuilder {
+		
+		private int varIndex = 0;
+		private final Object varArgs;
+
+		public VarArgsBuilder(Class<?> type, int count) {
+			varArgs = Array.newInstance(type, count);
+		}
+		
+		public Object getVarArgs() {
+			return varArgs;
+		}
+		
+		public void addVarArg(Object value) {
+			Array.set(varArgs, varIndex++, value);
+		}
+		
+	}
 	
 	/**
 	 * Maps Java primitive wrapper types to their primitive class.
@@ -52,6 +74,53 @@ public final class JavaTypeUtils {
 		if(wrapper == Float.class)		return float.class;
 		if(wrapper == Boolean.class)	return boolean.class;
 		return wrapper;
+	}
+	
+	public static MurmurObject getAsMurmurObject(Object object) {
+		// Check for null.
+		if(object == null) {
+			return MurmurNull.NULL;
+		}
+		
+		// Check for Murmur Object.
+		if(object instanceof MurmurObject) {
+			return (MurmurObject)object;
+		}
+		
+		// Check for String.
+		if(object instanceof String) {
+			return new MurmurString(object.toString());
+		}
+		
+		// Check for boolean.
+		if(MurmurBoolean.TRUE.isCompatible(object.getClass())) {
+			return MurmurBoolean.create((boolean)object);
+		}
+		
+		// Check for integer.
+		if(MurmurInteger.ZERO.isCompatible(object.getClass())) {
+			return MurmurInteger.create((long)object);
+		}
+		
+		// Check for decimal.
+		if(MurmurDecimal.ZERO.isCompatible(object.getClass())) {
+			return MurmurDecimal.create((long)object);
+		}
+		
+		// Check for character.
+		if(object.getClass().isAssignableFrom(char.class) ||
+				object.getClass().isAssignableFrom(Character.class)) {
+			return new MurmurCharacter((char)object);
+		}
+		
+		// Check for array.
+		if(object.getClass().isArray() || object instanceof List) {
+			// TODO
+			throw new UnsupportedOperationException();
+		}
+		
+		// Wrap the Java object.
+		return new JavaInstance(object, object.getClass());
 	}
 	
 	/**
@@ -73,12 +142,22 @@ public final class JavaTypeUtils {
 			InvocationTargetException, NoSuchMethodException {
 		// No-argument case.
 		if(args == null || args.isEmpty()) {
-			type.getMethod(name).invoke(instance);
-			return MurmurNull.NULL;
+			Method method = type.getMethod(name);
+			Object object = method.invoke(instance);
+			
+			// Check if the method has no return value.
+			if(method.getReturnType().equals(void.class) ||
+					method.getReturnType().equals(Void.class)) {
+				return MurmurVoid.VOID;
+			}
+			
+			// Convert and return the value.
+			return getAsMurmurObject(object);
 		}
 		
 		// Allocate an argument list.
-		Object[] params = new Object[args.size()];
+		VarArgsBuilder vaBuilder = null;
+		List<Object> params = new ArrayList<>();
 		
 		// Search for a matching method.
 ML:		for(Method method : type.getMethods()) {
@@ -89,20 +168,57 @@ ML:		for(Method method : type.getMethods()) {
 			
 			for(int idx = 0; idx < args.size(); idx++) {
 				// Fetch the parameter type.
-				Class<?> param = method.getParameterTypes()[0];
+				Parameter param = method.getParameters()[idx];
 				
-				if(!args.get(idx).isCompatible(param)) {
-					// Incompatible argument type.
-					continue ML;
+				// Var Args.
+				if(param.isVarArgs()) {
+					// Check against the array subtype.
+					if(!args.get(idx).isCompatible(
+							param.getType().getComponentType())) {
+						// Incompatible argument type.
+						continue ML;
+					}
+				
+					// Create a varargs list.
+					if(vaBuilder == null) {
+						vaBuilder = new VarArgsBuilder(
+								param.getType().getComponentType(),
+								args.size() - idx);
+					}
+					
+					// Perform conversion and add the vararg.
+					Object object = args.get(idx).getAsJavaType(
+							param.getType().getComponentType());
+					vaBuilder.addVarArg(object);
+				} else {
+					if(!args.get(idx).isCompatible(param.getType())) {
+						// Incompatible argument type.
+						continue ML;
+					}
+				
+					// Perform the conversion.
+					params.add(args.get(idx).getAsJavaType(
+							param.getType()));
 				}
-				
-				// Perform the conversion.
-				params[idx] = args.get(idx).getAsJavaType(param);
+			}
+			
+			// Check for varargs.
+			if(vaBuilder != null) {
+				// Append the var args list.
+				params.add(vaBuilder.getVarArgs());
 			}
 			
 			// Invoke the function.
-			method.invoke(instance, params);
-			return MurmurNull.NULL;
+			Object object = method.invoke(instance, params.toArray());
+			
+			// Check if the method has no return value.
+			if(method.getReturnType().equals(void.class) ||
+					method.getReturnType().equals(Void.class)) {
+				return MurmurVoid.VOID;
+			}
+			
+			// Convert and return the value.
+			return getAsMurmurObject(object);
 		}
 
 		// Method not found.
@@ -129,7 +245,8 @@ ML:		for(Method method : type.getMethods()) {
 		}
 		
 		// Allocate an argument list.
-		Object[] params = new Object[args.size()];
+		VarArgsBuilder vaBuilder = null;
+		List<Object> params = new ArrayList<>();
 		
 		// Search for a matching method.
 ML:		for(Constructor constructor : type.getConstructors()) {
@@ -139,19 +256,48 @@ ML:		for(Constructor constructor : type.getConstructors()) {
 			
 			for(int idx = 0; idx < args.size(); idx++) {
 				// Fetch the parameter type.
-				Class<?> param = constructor.getParameterTypes()[0];
+				Parameter param = constructor.getParameters()[idx];
 				
-				if(!args.get(idx).isCompatible(param)) {
-					// Incompatible argument type.
-					continue ML;
+				// Var Args.
+				if(param.isVarArgs()) {
+					// Check against the array subtype.
+					if(!args.get(idx).isCompatible(
+							param.getType().getComponentType())) {
+						// Incompatible argument type.
+						continue ML;
+					}
+				
+					// Create a varargs list.
+					if(vaBuilder == null) {
+						vaBuilder = new VarArgsBuilder(
+								param.getType().getComponentType(),
+								args.size() - idx);
+					}
+					
+					// Perform conversion and add the vararg.
+					Object object = args.get(idx).getAsJavaType(
+							param.getType().getComponentType());
+					vaBuilder.addVarArg(object);
+				} else {
+					if(!args.get(idx).isCompatible(param.getType())) {
+						// Incompatible argument type.
+						continue ML;
+					}
+				
+					// Perform the conversion.
+					params.add(args.get(idx).getAsJavaType(
+							param.getType()));
 				}
-				
-				// Perform the conversion.
-				params[idx] = args.get(idx).getAsJavaType(param);
 			}
 			
-			// Invoke the constructor and returns the result.
-			Object object = constructor.newInstance(params);
+			// Check for varargs.
+			if(vaBuilder != null) {
+				// Append the var args list.
+				params.add(vaBuilder.getVarArgs());
+			}
+			
+			// Invoke the constructor and return the result.
+			Object object = constructor.newInstance(params.toArray());
 			return new JavaInstance(object, type);
 		}
 
