@@ -30,6 +30,7 @@ import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
 import io.cloudchaser.murmur.types.InvokableType;
+import io.cloudchaser.murmur.types.JavaInvokableType;
 import io.cloudchaser.murmur.types.MurmurArray;
 import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurCharacter;
@@ -665,23 +666,26 @@ public class MurmurASTVisitor
 		List<MurmurObject> args = visitFunctionArguments(ctx.expressionList());
 		
 		// Check that this is an invokable type.
-		if(!(left instanceof InvokableType)) {
+		if(left instanceof InvokableType) {
+			// Invoke and return the result.
+			InvokableType invoke = (InvokableType)left;
+			return invoke.opInvoke((local, body) -> {
+				// Step into the local context.
+				context.push(local);
+
+				// Execute the function.
+				MurmurObject result = visitBlock(body);
+
+				// Step out of the context.
+				context.pop();
+				return result;
+			}, args);
+		} else if(left instanceof JavaInvokableType) {
+			JavaInvokableType invoke = (JavaInvokableType)left;
+			return invoke.opInvoke(args);
+		} else {
 			throw new UnsupportedOperationException();
 		}
-		
-		// Invoke and return the result.
-		InvokableType invoke = (InvokableType)left;
-		return invoke.opInvoke((local, body) -> {
-			// Step into the local context.
-			context.push(local);
-			
-			// Execute the function.
-			MurmurObject result = visitBlock(body);
-			
-			// Step out of the context.
-			context.pop();
-			return result;
-		}, args);
 	}
 	
 	public MurmurObject visitAssignmentExpression(MurmurParser.ExpressionContext ctx) {
