@@ -216,5 +216,10 @@ public class JavaClass extends MurmurObject
 		// TODO : Instantiate.
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return "JavaClass{javaClass=" + javaClass + '}';
+	}
 	
 }
