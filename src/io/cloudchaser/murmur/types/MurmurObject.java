@@ -29,7 +29,7 @@ package io.cloudchaser.murmur.types;
  * @author Mihail K
  * @since 0.1
  **/
-public abstract class MurmurObject {
+public class MurmurObject {
 	
 	private final MurmurType type;
 
@@ -98,58 +98,138 @@ public abstract class MurmurObject {
 	 * 
 	 * @return This Object as a string.
 	 **/
-	public abstract MurmurString asString();
+	public MurmurString asString() {
+		return MurmurString.EMPTY;
+	}
 	
-	public abstract MurmurObject opPositive();
+	public MurmurObject opPositive() {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opNegative();
+	public MurmurObject opNegative() {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opIncrement();
+	public MurmurObject opIncrement() {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opDecrement();
+	public MurmurObject opDecrement() {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opPlus(MurmurObject other);
+	public MurmurObject opPlus(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opMinus(MurmurObject other);
+	public MurmurObject opMinus(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opMultiply(MurmurObject other);
+	public MurmurObject opMultiply(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opDivide(MurmurObject other);
+	public MurmurObject opDivide(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opModulo(MurmurObject other);
+	public MurmurObject opModulo(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opShiftLeft(MurmurObject other);
+	public MurmurObject opShiftLeft(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opShiftRight(MurmurObject other);
+	public MurmurObject opShiftRight(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opLessThan(MurmurObject other);
+	public MurmurObject opLessThan(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opGreaterThan(MurmurObject other);
+	public MurmurObject opGreaterThan(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opLessOrEqual(MurmurObject other);
+	public MurmurObject opLessOrEqual(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opGreaterOrEqual(MurmurObject other);
+	public MurmurObject opGreaterOrEqual(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opEquals(MurmurObject other);
+	public MurmurObject opEquals(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opNotEquals(MurmurObject other);
+	public MurmurObject opNotEquals(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opBitNot();
+	public MurmurObject opBitNot() {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opBitAnd(MurmurObject other);
+	public MurmurObject opBitAnd(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opBitXor(MurmurObject other);
+	public MurmurObject opBitXor(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opBitOr(MurmurObject other);
+	public MurmurObject opBitOr(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opLogicalNot();
+	public MurmurObject opLogicalNot() {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opLogicalAnd(MurmurObject other);
+	public MurmurObject opLogicalAnd(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opLogicalOr(MurmurObject other);
+	public MurmurObject opLogicalOr(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opIndex(MurmurObject other);
+	public MurmurObject opIndex(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
-	public abstract MurmurObject opConcat(MurmurObject other);
+	public MurmurObject opConcat(MurmurObject other) {
+		// Default has no implementation.
+		throw new UnsupportedOperationException();
+	}
 	
 }
