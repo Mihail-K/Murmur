@@ -71,11 +71,6 @@ public class JavaInstance extends JavaObject {
 			return new JavaMember(name, type, instance);
 		}
 	}
-	
-	@Override
-	public Object toJavaObject() {
-		return instance;
-	}
 
 	@Override
 	public boolean isCompatible(Class<?> type) {

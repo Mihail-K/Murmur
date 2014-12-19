@@ -58,11 +58,6 @@ public class MurmurString extends MurmurObject {
 	}
 	
 	@Override
-	public Object toJavaObject() {
-		return value;
-	}
-	
-	@Override
 	public boolean isCompatible(Class<?> type) {
 		return type.isAssignableFrom(String.class) ||
 				type.isAssignableFrom(CharSequence.class);

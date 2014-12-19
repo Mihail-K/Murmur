@@ -41,15 +41,6 @@ public class MurmurObject {
 		return type;
 	}
 	
-	/**
-	 * Converts this Murmur object into a Java object.
-	 * 
-	 * @return A Java object.
-	 */
-	public Object toJavaObject() {
-		return this;
-	}
-	
 	public MurmurObject getMember(String name) {
 		// Default implementation.
 		return MurmurVoid.VOID;

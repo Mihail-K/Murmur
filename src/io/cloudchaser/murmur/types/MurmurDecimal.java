@@ -63,11 +63,6 @@ public class MurmurDecimal extends MurmurObject {
 	}
 	
 	@Override
-	public Object toJavaObject() {
-		return value;
-	}
-	
-	@Override
 	public boolean isCompatible(Class<?> type) {
 		return type.isAssignableFrom(double.class) ||
 				type.isAssignableFrom(Double.class) ||

@@ -68,11 +68,6 @@ public class MurmurBoolean extends MurmurObject {
 	}
 	
 	@Override
-	public Object toJavaObject() {
-		return value;
-	}
-	
-	@Override
 	public boolean isCompatible(Class<?> type) {
 		return type.isAssignableFrom(boolean.class) ||
 				type.isAssignableFrom(Boolean.class);

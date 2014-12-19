@@ -861,7 +861,7 @@ public class MurmurASTVisitor
 			// Lookup the Java class.
 			String text = ctx.StringLiteral().getText();
 			MurmurString string = MurmurString.create(text.substring(1, text.length() - 1));
-			Class<?> javaClass = Class.forName((String)string.toJavaObject());
+			Class<?> javaClass = Class.forName(string.getValue());
 			
 			// Wrap the Java class.
 			return new JavaClass(javaClass);

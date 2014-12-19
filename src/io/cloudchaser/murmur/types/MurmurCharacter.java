@@ -47,11 +47,6 @@ public class MurmurCharacter extends MurmurObject {
 	}
 	
 	@Override
-	public Object toJavaObject() {
-		return value;
-	}
-	
-	@Override
 	public boolean isCompatible(Class<?> type) {
 		return type.isAssignableFrom(char.class) ||
 				type.isAssignableFrom(Character.class);

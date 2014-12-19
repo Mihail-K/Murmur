@@ -41,11 +41,6 @@ public final class MurmurNull extends MurmurObject {
 	}
 	
 	@Override
-	public Object toJavaObject() {
-		return null;
-	}
-	
-	@Override
 	public boolean isCompatible(Class<?> type) {
 		return !type.isPrimitive();
 	}

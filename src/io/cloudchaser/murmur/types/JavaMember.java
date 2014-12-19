@@ -29,7 +29,6 @@ import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
 import java.lang.reflect.Field;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -66,11 +65,6 @@ public class JavaMember extends JavaObject
 			// Assume this is a method.
 			return new JavaMember(name, type, instance);
 		}
-	}
-	
-	@Override
-	public Object toJavaObject() {
-		return instance;
 	}
 
 	@Override
