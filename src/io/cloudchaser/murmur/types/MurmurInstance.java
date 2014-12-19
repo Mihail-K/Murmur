@@ -40,7 +40,7 @@ public class MurmurInstance extends MurmurObject
 	private class InstanceLocalContext
 			implements SymbolContext {
 		
-		private final Map<String, MurmurSymbol> symbols;
+		private final Map<String, MurmurVariable> symbols;
 
 		public InstanceLocalContext() {
 			symbols = new HashMap<>();
@@ -56,10 +56,10 @@ public class MurmurInstance extends MurmurObject
 					function.setParent(context);
 					
 					// Create a function symbol.
-					addSymbol(new MurmurSymbol(member.getName(), function));
+					addSymbol(new MurmurVariable(member.getName(), function));
 				} else {
 					// Create a field symbol.
-					addSymbol(new MurmurSymbol(member.getName(), (MurmurField)member));
+					addSymbol(new MurmurVariable(member.getName(), (MurmurField)member));
 				}
 			});
 		}
@@ -70,20 +70,20 @@ public class MurmurInstance extends MurmurObject
 		}
 
 		@Override
-		public void addSymbol(MurmurSymbol symbol) {
+		public void addSymbol(MurmurVariable symbol) {
 			symbols.put(symbol.getName(), symbol);
 		}
 
 		@Override
-		public MurmurSymbol getSymbol(String name) {
-			MurmurSymbol symbol = symbols.get(name);
+		public MurmurVariable getSymbol(String name) {
+			MurmurVariable symbol = symbols.get(name);
 			if(symbol == null && getParent() != null)
 				return getParent().getSymbol(name);
 			return symbol;
 		}
 
 		@Override
-		public MurmurSymbol getLocal(String name) {
+		public MurmurVariable getLocal(String name) {
 			return symbols.get(name);
 		}
 		
@@ -106,7 +106,7 @@ public class MurmurInstance extends MurmurObject
 		// Build the local context.
 		context = new InstanceLocalContext();
 		((InstanceLocalContext)context).build();
-		context.addSymbol(new MurmurSymbol("this", this));
+		context.addSymbol(new MurmurVariable("this", this));
 		System.out.println(((InstanceLocalContext)context).symbols);
 	}
 	
@@ -120,7 +120,7 @@ public class MurmurInstance extends MurmurObject
 	
 	@Override
 	public MurmurObject getMember(String name) {
-		MurmurSymbol symbol = context.getLocal(name);
+		MurmurVariable symbol = context.getLocal(name);
 		return symbol == null ? MurmurVoid.VOID : symbol;
 	}
 

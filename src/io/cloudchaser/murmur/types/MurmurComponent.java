@@ -149,7 +149,7 @@ public class MurmurComponent extends MurmurObject
 		MurmurInstance instance = new MurmurInstance(this);
 
 		// Lookup and call the construtor.
-		MurmurSymbol local = instance.getContext().getLocal("~ctor");
+		MurmurVariable local = instance.getContext().getLocal("~ctor");
 		MurmurLambda ctor = (MurmurLambda)local.getValue();
 		
 		// Invoke the constructor.

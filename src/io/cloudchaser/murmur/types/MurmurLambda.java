@@ -90,7 +90,7 @@ public class MurmurLambda extends MurmurObject
 			
 			// Bind parameters.
 			for(int idx = 0; idx < arguments.size(); idx++) {
-				local.addSymbol(new MurmurSymbol(
+				local.addSymbol(new MurmurVariable(
 						parameters.get(idx), arguments.get(idx)));
 			}
 			
