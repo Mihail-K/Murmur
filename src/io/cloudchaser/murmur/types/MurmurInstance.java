@@ -26,8 +26,6 @@ package io.cloudchaser.murmur.types;
 
 import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -37,66 +35,11 @@ import java.util.Map;
 public class MurmurInstance extends MurmurObject
 		implements ReferenceType {
 	
-	private class InstanceLocalContext
-			implements SymbolContext {
-		
-		private final Map<String, MurmurVariable> symbols;
-
-		public InstanceLocalContext() {
-			symbols = new HashMap<>();
-		}
-		
-		protected void build() {
-			component.getMembers().values()
-					.stream().forEach((member) -> {
-				// Check if this is a function.
-				if(member instanceof MurmurMethod) {
-					// Bind the function to the local context.
-					MurmurMethod method = (MurmurMethod)member;
-					method = new MurmurMethod(method, context);
-					
-					// Create a function symbol.
-					addSymbol(new MurmurVariable(method.getName(), method));
-				} else if(member instanceof MurmurField) {
-					// Create a field symbol.
-					MurmurField field = (MurmurField)member;
-					addSymbol(new MurmurField(field));
-				} else {
-					// Something went wrong.
-					throw new UnsupportedOperationException();
-				}
-			});
-		}
-
-		@Override
-		public SymbolContext getParent() {
-			return component.getContext();
-		}
-
-		@Override
-		public void addSymbol(MurmurVariable symbol) {
-			symbols.put(symbol.getName(), symbol);
-		}
-
-		@Override
-		public MurmurVariable getSymbol(String name) {
-			MurmurVariable symbol = symbols.get(name);
-			if(symbol == null && getParent() != null)
-				return getParent().getSymbol(name);
-			return symbol;
-		}
-
-		@Override
-		public MurmurVariable getLocal(String name) {
-			return symbols.get(name);
-		}
-		
-	}
 	
 	/**
 	 * The symbol context local to this object.
 	 */
-	private final SymbolContext context;
+	private final SymbolContext parent;
 	
 	/**
 	 * This object's component type.
@@ -108,13 +51,15 @@ public class MurmurInstance extends MurmurObject
 		this.component = component;
 		
 		// Build the local context.
-		context = new InstanceLocalContext();
-		((InstanceLocalContext)context).build();
-		context.addSymbol(new MurmurVariable("this", this));
+		parent = new MurmurInstanceContext(component);
+		((MurmurInstanceContext)parent).build();
+		
+		// Bind 'this' constant.
+		parent.addSymbol(new MurmurVariable("this", this));
 	}
 	
 	public SymbolContext getContext() {
-		return context;
+		return parent;
 	}
 	
 	public MurmurComponent getComponentType() {
@@ -123,8 +68,8 @@ public class MurmurInstance extends MurmurObject
 	
 	@Override
 	public MurmurObject getMember(String name) {
-		MurmurVariable symbol = context.getLocal(name);
-		return symbol == null ? MurmurVoid.VOID : symbol;
+		MurmurSymbol symbol = parent.getLocal(name);
+		return (MurmurObject)symbol;
 	}
 
 	@Override
