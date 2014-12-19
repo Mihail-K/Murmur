@@ -650,6 +650,54 @@ public class MurmurASTVisitor
 		}
 	}
 	
+	public MurmurObject visitIterativeExpression(MurmurParser.ExpressionContext ctx) {
+		// Track iterations.
+		int iterations = 0;
+		
+		while(true) {
+			MurmurObject before = desymbolize(visitExpression(ctx.clause));
+
+			// Check that the clause is boolean.
+			if(!(before instanceof MurmurBoolean)) {
+				throw MurmurError.create(ctx.start.getLine(),
+						getOriginalText(ctx), MurmurError.NOT_A_BOOLEAN);
+			}
+		
+			// Check the loop condition.
+			if(!((MurmurBoolean)before).getValue()) {
+				// TODO
+				return MurmurVoid.VOID;
+			}
+			
+			// Visit loop body.
+			MurmurObject during = desymbolize(visitStatement(ctx.statement(0)));
+			
+			// Check for lambda.
+			if(during instanceof InvokableType) {
+				// Pass along the iterations count.
+				InvokableType invoke = (InvokableType)during;
+				invoke.opInvoke(Collections.singletonList(
+						MurmurInteger.create(iterations)));
+			}
+			
+			// Check if an after clause exists.
+			if(ctx.statement().size() == 2) {
+				MurmurObject after = visitStatement(ctx.statement(1));
+				
+				// Check for lambda.
+				if(after instanceof InvokableType) {
+					// Pass along the iterations count.
+					InvokableType invoke = (InvokableType)after;
+					invoke.opInvoke(Collections.singletonList(
+							MurmurInteger.create(iterations)));
+				}
+			}
+			
+			// Increment counter.
+			iterations++;
+		}
+	}
+	
 	public MurmurObject visitConcatExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = visitExpression(ctx.left);
 		MurmurObject right = visitExpression(ctx.right);
@@ -941,6 +989,9 @@ public class MurmurASTVisitor
 				case "?":
 					// Expression: a ? b : c
 					return visitTernaryExpression(ctx);
+				case "@":
+					// Expression: a @ b : c
+					return visitIterativeExpression(ctx);
 				case "(":
 					// Expression: a(b, c, ...)
 					return visitFunctionCallExpression(ctx);
