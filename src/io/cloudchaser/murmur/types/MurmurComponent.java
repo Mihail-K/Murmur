@@ -41,32 +41,36 @@ import java.util.Map;
 public class MurmurComponent extends MurmurObject
 		implements InvokableType {
 	
-	public static class ComponentField {
+	public static class ComponentField<Type> {
 		
 		private final String name;
+		private final Type value;
 
 		public ComponentField(String name) {
 			this.name = name;
+			this.value = null;
+		}
+
+		public ComponentField(String name, Type value) {
+			this.name = name;
+			this.value = value;
 		}
 
 		public String getName() {
 			return name;
 		}
+
+		public Type getValue() {
+			return value;
+		}
 		
 	}
 	
 	public static class ComponentFunction
-			extends ComponentField {
-		
-		private final MurmurFunction function;
+			extends ComponentField<MurmurFunction> {
 
 		public ComponentFunction(String name, MurmurFunction function) {
-			super(name);
-			this.function = function;
-		}
-
-		public MurmurFunction getFunction() {
-			return function;
+			super(name, function);
 		}
 		
 	}
@@ -132,108 +136,8 @@ public class MurmurComponent extends MurmurObject
 	}
 
 	@Override
-	public MurmurInteger asInteger() {
-		return MurmurInteger.ZERO;
-	}
-
-	@Override
-	public MurmurDecimal asDecimal() {
-		return MurmurDecimal.ZERO;
-	}
-
-	@Override
 	public MurmurString asString() {
 		return MurmurString.create(name);
-	}
-
-	@Override
-	public MurmurObject opPositive() {
-		// Components don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opNegative() {
-		// Components don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opIncrement() {
-		// Components don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opDecrement() {
-		// Components don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opPlus(MurmurObject other) {
-		// Components don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opMinus(MurmurObject other) {
-		// Components don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opMultiply(MurmurObject other) {
-		// Components don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opDivide(MurmurObject other) {
-		// Components don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opModulo(MurmurObject other) {
-		// Components don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftLeft(MurmurObject other) {
-		// Components don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftRight(MurmurObject other) {
-		// Components don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLessThan(MurmurObject other) {
-		// Components don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opGreaterThan(MurmurObject other) {
-		// Components don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLessOrEqual(MurmurObject other) {
-		// Components don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opGreaterOrEqual(MurmurObject other) {
-		// Components don't support inequality.
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -259,60 +163,6 @@ public class MurmurComponent extends MurmurObject
 		// Not equal.
 		return MurmurBoolean.TRUE;
 	}
-
-	@Override
-	public MurmurObject opBitNot() {
-		// Components don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitAnd(MurmurObject other) {
-		// Components don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitXor(MurmurObject other) {
-		// Components don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitOr(MurmurObject other) {
-		// Components don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalNot() {
-		// Components don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalAnd(MurmurObject other) {
-		// Components don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalOr(MurmurObject other) {
-		// Components don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opIndex(MurmurObject other) {
-		// Components don't support array indexing.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opConcat(MurmurObject other) {
-		// Components don't support concatenation.
-		throw new UnsupportedOperationException();
-	}
 	
 	@Override
 	public int getDeclaringLine() {
@@ -334,8 +184,8 @@ public class MurmurComponent extends MurmurObject
 		builder.append("(");
 		
 		// Build the argument list.
-		if(ctor.getFunction().getParameters() != null) {
-			ctor.getFunction().getParameters().stream()
+		if(!ctor.getValue().getParameters().isEmpty()) {
+			ctor.getValue().getParameters().stream()
 					.forEach(builder::append);
 		}
 		

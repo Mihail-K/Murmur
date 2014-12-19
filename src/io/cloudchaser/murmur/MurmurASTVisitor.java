@@ -680,7 +680,7 @@ public class MurmurASTVisitor
 	}
 	
 	public List<MurmurObject> visitFunctionArguments(MurmurParser.ExpressionListContext ctx) {
-		if(ctx == null) return null;
+		if(ctx == null) return Collections.emptyList();
 		List<MurmurObject> args = new ArrayList<>();
 		ctx.expression().stream().forEach((argument) ->
 				args.add(desymbolize(visitExpression(argument))));

@@ -58,11 +58,11 @@ public class MurmurInstance extends MurmurObject
 				if(value instanceof ComponentFunction) {
 					// Bind the function to the local context.
 					ComponentFunction function = (ComponentFunction)value;
-					function.getFunction().setContext(this);
+					function.getValue().setContext(this);
 					
 					// Create a function symbol.
 					addSymbol(new FunctionSymbol(value.getName(),
-							function.getFunction(), component));
+							function.getValue(), component));
 				} else {
 					// Create a field symbol.
 					addSymbol(new FieldSymbol(value.getName(), component));

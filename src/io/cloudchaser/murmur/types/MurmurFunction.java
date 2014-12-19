@@ -101,8 +101,8 @@ public class MurmurFunction extends MurmurObject
 			List<String> parameters, BlockContext body) {
 		super(FUNCTION);
 		this.lineNumber = lineNumber;
-		this.context = context;
 		this.parameters = parameters;
+		this.context = context;
 		this.body = body;
 	}
 	
@@ -128,16 +128,15 @@ public class MurmurFunction extends MurmurObject
 	
 	public SymbolContext createLocal(List<MurmurObject> arguments) {
 		// Validate parameters match.
-		if((parameters == null && arguments == null) ||
+		if((parameters.isEmpty() && arguments.isEmpty()) ||
 				(parameters.size() == arguments.size())) {
 			// Create a local context.
 			SymbolContext local = new FunctionLocalContext();
 			
 			// Bind parameters.
-			if(arguments != null) {
-				for(int idx = 0; idx < arguments.size(); idx++)
-					local.addSymbol(new LetSymbol(
-							parameters.get(idx), arguments.get(idx)));
+			for(int idx = 0; idx < arguments.size(); idx++) {
+				local.addSymbol(new LetSymbol(
+						parameters.get(idx), arguments.get(idx)));
 			}
 			
 			return local;
@@ -186,7 +185,7 @@ public class MurmurFunction extends MurmurObject
 		builder.append("(");
 		
 		// Build the argument list.
-		if(parameters != null) {
+		if(!parameters.isEmpty()) {
 			parameters.stream().forEach(builder::append);
 		}
 		
