@@ -43,7 +43,7 @@ public class MurmurLambdaContext
 	/**
 	 * The context symbol table.
 	 **/
-	private final Map<String, MurmurVariable> symbols;
+	private final Map<String, MurmurSymbol> symbols;
 
 	/**
 	 * Creates a new lambda symbol context with no parent.
@@ -68,20 +68,20 @@ public class MurmurLambdaContext
 	}
 
 	@Override
-	public void addSymbol(MurmurVariable symbol) {
+	public void addSymbol(MurmurSymbol symbol) {
 		symbols.put(symbol.getName(), symbol);
 	}
 
 	@Override
-	public MurmurVariable getSymbol(String name) {
-		MurmurVariable symbol = symbols.get(name);
+	public MurmurSymbol getSymbol(String name) {
+		MurmurSymbol symbol = symbols.get(name);
 		if(symbol == null && context != null)
 			return context.getSymbol(name);
 		return symbol;
 	}
 
 	@Override
-	public MurmurVariable getLocal(String name) {
+	public MurmurSymbol getLocal(String name) {
 		return symbols.get(name);
 	}
 	
