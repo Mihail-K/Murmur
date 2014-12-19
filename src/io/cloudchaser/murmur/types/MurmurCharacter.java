@@ -360,34 +360,19 @@ public class MurmurCharacter extends MurmurObject {
 		// Unsupported.
 		throw new UnsupportedOperationException();
 	}
-
-	@Override
-	public MurmurObject opLogicalNot() {
-		// Unsupported.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalAnd(MurmurObject other) {
-		// Unsupported.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalOr(MurmurObject other) {
-		// Unsupported.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opIndex(MurmurObject other) {
-		// Unsupported.
-		throw new UnsupportedOperationException();
-	}
-
+	
 	@Override
 	public MurmurObject opConcat(MurmurObject other) {
-		// Unsupported.
+		// Check for a valid operand.
+		if(other.getType() == MurmurType.STRING ||
+				other.getType() == MurmurType.BOOLEAN ||
+				other.getType().numeric) {
+			// Convert to string and concatenate.
+			String string = other.asString().getValue();
+			return MurmurString.create(value + string);
+		}
+		
+		// Unsupported operation.
 		throw new UnsupportedOperationException();
 	}
 	
