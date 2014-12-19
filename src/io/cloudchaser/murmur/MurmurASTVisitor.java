@@ -804,7 +804,7 @@ public class MurmurASTVisitor
 	}
 	
 	public List<String> visitLambdaParameterList(MurmurParser.IdentifierListContext ctx) {
-		if(ctx == null) return null;
+		if(ctx == null) return Collections.emptyList();
 		List<String> parameters = new ArrayList<>();
 		ctx.Identifier().stream().forEach((parameter) ->
 				parameters.add(parameter.getText()));
