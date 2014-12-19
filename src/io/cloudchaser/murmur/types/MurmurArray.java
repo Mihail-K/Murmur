@@ -25,12 +25,13 @@
 package io.cloudchaser.murmur.types;
 
 import static io.cloudchaser.murmur.types.MurmurType.ARRAY;
-import static io.cloudchaser.murmur.types.MurmurType.INTEGER;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,6 +54,28 @@ public class MurmurArray extends MurmurObject
 		super(ARRAY);
 		this.elements = elements;
 	}
+
+	@Override
+	public MurmurObject getMember(String name) {
+		switch(name) {
+			case "length":
+				// Array length property.
+				return asInteger();
+			case "reverse":
+				// Reverse the array, in-place.
+				Collections.reverse(elements);
+				return this;
+			case "clone":
+				// Create a shadow copy.
+				return new MurmurArray(new ArrayList<>(elements));
+			case "string":
+				// Return a string form.
+				return asString();
+			default:
+				// Delegate to parent.
+				return super.getMember(name);
+		}
+	}
 	
 	@Override
 	public boolean isCompatible(Class<?> type) {
@@ -73,7 +96,8 @@ public class MurmurArray extends MurmurObject
 				// Shallow case for list containing itself.
 				MurmurObject element = elements.get(idx);
 				Array.set(array, idx, element == this ? array :
-						element.getAsJavaType(type.getComponentType()));
+						element.getAsJavaType(type.isArray() ? 
+								type.getComponentType() : type));
 			}
 			
 			// Return the completed array.
@@ -114,31 +138,20 @@ public class MurmurArray extends MurmurObject
 
 	@Override
 	public MurmurString asString() {
-		return MurmurString.create("array");
-	}
-
-	@Override
-	public MurmurObject opPositive() {
-		// Arrays don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opNegative() {
-		// Arrays don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opIncrement() {
-		// Arrays don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opDecrement() {
-		// Arrays don't support integer arithmetic.
-		throw new UnsupportedOperationException();
+		// Create a string builder for the conversion.
+		Iterator<MurmurObject> itr;
+		StringBuilder builder = new StringBuilder("[");
+		for(itr = elements.iterator(); itr.hasNext();) {
+			// TODO : Better way of getting the string value.
+			builder.append(itr.next().asString().getValue());
+			
+			// Separator.
+			if(itr.hasNext()) {
+				builder.append(", ");
+			}
+		}
+		builder.append("]");
+		return MurmurString.create(builder.toString());
 	}
 
 	@Override
@@ -159,60 +172,6 @@ public class MurmurArray extends MurmurObject
 		
 		// Return the new array.
 		return new MurmurArray(copy);
-	}
-
-	@Override
-	public MurmurObject opMultiply(MurmurObject other) {
-		// Arrays don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opDivide(MurmurObject other) {
-		// Arrays don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opModulo(MurmurObject other) {
-		// Arrays don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftLeft(MurmurObject other) {
-		// Arrays don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftRight(MurmurObject other) {
-		// Arrays don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLessThan(MurmurObject other) {
-		// Arrays don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opGreaterThan(MurmurObject other) {
-		// Arrays don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLessOrEqual(MurmurObject other) {
-		// Arrays don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opGreaterOrEqual(MurmurObject other) {
-		// Arrays don't support inequality.
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -242,53 +201,11 @@ public class MurmurArray extends MurmurObject
 	}
 
 	@Override
-	public MurmurObject opBitNot() {
-		// Arrays don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitAnd(MurmurObject other) {
-		// Arrays don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitXor(MurmurObject other) {
-		// Arrays don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitOr(MurmurObject other) {
-		// Arrays don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalNot() {
-		// Arrays don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalAnd(MurmurObject other) {
-		// Arrays don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalOr(MurmurObject other) {
-		// Arrays don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public MurmurObject opIndex(MurmurObject other) {
 		// Check for supported type.
-		if(other.getType() == INTEGER) {
+		if(other.getType().numeric) {
 			// TODO : Return an element reference.
-			long index = ((MurmurInteger)other).getValue();
+			long index = other.asInteger().getValue();
 			
 			// Check for valid index.
 			if(index >= elements.size() ||
