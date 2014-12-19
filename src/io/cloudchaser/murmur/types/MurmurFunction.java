@@ -79,18 +79,22 @@ public class MurmurFunction extends MurmurObject
 	
 	/**
 	 * The line number this function was declared on.
-	 */
+	 **/
 	private final int lineNumber;
 	
 	/**
 	 * Function declaration context.
-	 */
+	 **/
 	private SymbolContext context;
 	
 	/**
 	 * Function parameter list.
-	 */
+	 **/
 	private final List<String> parameters;
+	
+	/**
+	 * The function body parser context.
+	 **/
 	private final BlockContext body;
 
 	public MurmurFunction(int lineNumber, SymbolContext context,
@@ -108,6 +112,10 @@ public class MurmurFunction extends MurmurObject
 	
 	public void setContext(SymbolContext context) {
 		this.context = context;
+	}
+	
+	public int getParameterCount() {
+		return parameters.size();
 	}
 	
 	public List<String> getParameters() {
@@ -140,110 +148,10 @@ public class MurmurFunction extends MurmurObject
 	}
 
 	@Override
-	public MurmurInteger asInteger() {
-		return MurmurInteger.ZERO;
-	}
-
-	@Override
-	public MurmurDecimal asDecimal() {
-		return MurmurDecimal.ZERO;
-	}
-
-	@Override
 	public MurmurString asString() {
 		return MurmurString.create("function");
 	}
-
-	@Override
-	public MurmurObject opPositive() {
-		// Functions don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opNegative() {
-		// Functions don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opIncrement() {
-		// Functions don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opDecrement() {
-		// Functions don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opPlus(MurmurObject other) {
-		// Functions don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opMinus(MurmurObject other) {
-		// Functions don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opMultiply(MurmurObject other) {
-		// Functions don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opDivide(MurmurObject other) {
-		// Functions don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opModulo(MurmurObject other) {
-		// Functions don't support integer arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftLeft(MurmurObject other) {
-		// Functions don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftRight(MurmurObject other) {
-		// Functions don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLessThan(MurmurObject other) {
-		// Functions don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opGreaterThan(MurmurObject other) {
-		// Functions don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLessOrEqual(MurmurObject other) {
-		// Functions don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opGreaterOrEqual(MurmurObject other) {
-		// Functions don't support inequality.
-		throw new UnsupportedOperationException();
-	}
-
+	
 	@Override
 	public MurmurObject opEquals(MurmurObject other) {
 		if(other.getType() == FUNCTION) {
@@ -264,60 +172,6 @@ public class MurmurFunction extends MurmurObject
 		
 		// Not equal.
 		return MurmurBoolean.TRUE;
-	}
-
-	@Override
-	public MurmurObject opBitNot() {
-		// Functions don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitAnd(MurmurObject other) {
-		// Functions don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitXor(MurmurObject other) {
-		// Functions don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitOr(MurmurObject other) {
-		// Functions don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalNot() {
-		// Functions don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalAnd(MurmurObject other) {
-		// Functions don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalOr(MurmurObject other) {
-		// Functions don't support boolean arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opIndex(MurmurObject other) {
-		// Functions don't support array indexing.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opConcat(MurmurObject other) {
-		// Unsupported.
-		throw new UnsupportedOperationException();
 	}
 	
 	@Override
