@@ -62,7 +62,7 @@ public class MurmurInstance extends MurmurObject
 					
 					// Create a function symbol.
 					addSymbol(new FunctionSymbol(value.getName(),
-							function.getValue(), component));
+							function.cloneFunction(), component));
 				} else {
 					// Create a field symbol.
 					addSymbol(new FieldSymbol(value.getName(), component));

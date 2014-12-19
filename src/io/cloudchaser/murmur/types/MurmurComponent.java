@@ -73,6 +73,19 @@ public class MurmurComponent extends MurmurObject
 			super(name, function);
 		}
 		
+		/**
+		 * Clones the component function.
+		 * 
+		 * @return 
+		 */
+		public MurmurFunction cloneFunction() {
+			return new MurmurFunction(
+					getValue().getDeclaringLine(),
+					getValue().getContext(),
+					getValue().getParameters(),
+					getValue().getBody());
+		}
+		
 	}
 	
 	/**
