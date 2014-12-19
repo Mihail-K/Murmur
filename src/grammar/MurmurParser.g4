@@ -223,11 +223,11 @@ expression
 	//	Ternary.
 	|	clause = expression
 		operator = '?'
-		expression
+		left = expression
 		':'
-		expression
+		right = expression
 	|	clause = expression
-		operator = '?'
+		operator = ('?' | '@')
 		statement
 		(':'
 		 statement)?
