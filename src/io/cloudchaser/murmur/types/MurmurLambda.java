@@ -75,6 +75,14 @@ public class MurmurLambda extends MurmurObject
 		this.body = body;
 	}
 	
+	protected MurmurLambda(MurmurLambda lambda) {
+		super(FUNCTION);
+		this.lineNumber = lambda.lineNumber;
+		this.parameters = lambda.parameters;
+		this.parent = lambda.parent;
+		this.body = lambda.body;
+	}
+	
 	protected SymbolContext createLocalContext(List<MurmurObject> arguments) {
 		// Validate parameters match.
 		if((parameters.isEmpty() && arguments.isEmpty()) ||
@@ -99,7 +107,6 @@ public class MurmurLambda extends MurmurObject
 		return lineNumber;
 	}
 
-	@Override
 	public BlockContext getBody() {
 		return body;
 	}
