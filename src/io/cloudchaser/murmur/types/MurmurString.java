@@ -38,6 +38,9 @@ public class MurmurString extends MurmurObject {
 	 **/
 	public static final MurmurString EMPTY = MurmurString.create("");
 	
+	/**
+	 * The internal Java string value.
+	 **/
 	private final String value;
 
 	private MurmurString(String value) {
@@ -48,6 +51,10 @@ public class MurmurString extends MurmurObject {
 	public static MurmurString create(String value) {
 		if(value.isEmpty()) return EMPTY;
 		return new MurmurString(value);
+	}
+	
+	public String getValue() {
+		return value;
 	}
 	
 	@Override
