@@ -107,7 +107,6 @@ public class MurmurInstance extends MurmurObject
 		context = new InstanceLocalContext();
 		((InstanceLocalContext)context).build();
 		context.addSymbol(new MurmurVariable("this", this));
-		System.out.println(((InstanceLocalContext)context).symbols);
 	}
 	
 	public SymbolContext getContext() {
