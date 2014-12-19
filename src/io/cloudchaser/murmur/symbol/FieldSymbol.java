@@ -25,6 +25,7 @@
 package io.cloudchaser.murmur.symbol;
 
 import io.cloudchaser.murmur.types.MurmurComponent;
+import io.cloudchaser.murmur.types.MurmurNull;
 import io.cloudchaser.murmur.types.MurmurObject;
 
 /**
@@ -34,9 +35,13 @@ import io.cloudchaser.murmur.types.MurmurObject;
  */
 public class FieldSymbol extends ComponentSymbol {
 	
-	public FieldSymbol(String name, MurmurObject value, MurmurComponent parent) {
-		super(name, value, parent);
+	public FieldSymbol(String name, MurmurComponent parent) {
+		super(name, MurmurNull.NULL, parent);
 	}
 
+	public FieldSymbol(String name, MurmurObject value,
+			MurmurComponent parent) {
+		super(name, value, parent);
+	}
 	
 }
