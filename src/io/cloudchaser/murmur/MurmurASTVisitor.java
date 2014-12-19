@@ -301,46 +301,36 @@ public class MurmurASTVisitor
 	/* - Component Types - */
 	/* - - - - - - - - - - */
 	
-	public MurmurField visitTypeField(MurmurParser.TypeElementContext ctx) {
-		String name = ctx.name.getText();
-		
-		// Validate field name.
-		if(name.equals("this")) {
-			throw MurmurError.create(ctx.start.getLine(),
-					ctx.getText(), MurmurError.NOT_A_FUNCTION);
-		}
-		
-		// Create the field.
-		return new MurmurField(name);
-	}
-	
-	public MurmurMethod visitTypeFunction(MurmurParser.TypeElementContext ctx) {
+	@Override
+	public MurmurMember visitTypeElement(MurmurParser.TypeElementContext ctx) {
 		String name = ctx.name.getText();
 		MurmurObject value = visitExpression(ctx.expression());
 		
-		// Adjust names.
-		if(name.equals("this")) {
-			name = "~ctor";
-		}
-		
-		// Check that this is a function.
-		if(!(value instanceof MurmurLambda)) {
-			throw MurmurError.create(ctx.start.getLine(),
-					ctx.getText(), MurmurError.NOT_A_FUNCTION);
-		}
-		
-		// Create the function.
-		MurmurLambda function = (MurmurLambda)value;
-		return new MurmurMethod(name, function);
-	}
-
-	@Override
-	public MurmurMember visitTypeElement(MurmurParser.TypeElementContext ctx) {
 		// Determine the element type.
 		if(ctx.expression() != null) {
-			return visitTypeFunction(ctx);
+			// Validate field name.
+			if(name.equals("this")) {
+				throw MurmurError.create(ctx.start.getLine(),
+						ctx.getText(), MurmurError.NOT_A_FUNCTION);
+			}
+
+			// Create the field.
+			return new MurmurField(name);
 		} else {
-			return visitTypeField(ctx);
+			// Adjust names.
+			if(name.equals("this")) {
+				name = "~ctor";
+			}
+
+			// Check that this is a function.
+			if(!(value instanceof MurmurLambda)) {
+				throw MurmurError.create(ctx.start.getLine(),
+						ctx.getText(), MurmurError.NOT_A_FUNCTION);
+			}
+
+			// Create the function.
+			MurmurLambda function = (MurmurLambda)value;
+			return new MurmurMethod(name, function);
 		}
 	}
 
@@ -643,10 +633,20 @@ public class MurmurASTVisitor
 		// Check the clause.
 		if(((MurmurBoolean)clause).getValue()) {
 			// True; evaluate left.
-			return visitExpression(ctx.expression(1));
+			if(ctx.left != null) {
+				return visitExpression(ctx.left);
+			} else {
+				return visitStatement(ctx.statement(0));
+			}
 		} else {
 			// False; evaluate right.
-			return visitExpression(ctx.expression(2));
+			if(ctx.right != null) {
+				return visitExpression(ctx.right);
+			} else if(ctx.statement().size() == 2) {
+				return visitStatement(ctx.statement(1));
+			} else {
+				return MurmurVoid.VOID;
+			}
 		}
 	}
 	
@@ -841,10 +841,7 @@ public class MurmurASTVisitor
 		
 		// Check that the symbol exists.
 		if(symbol == null) {
-			throw MurmurError.create(ctx.start.getLine(),
-					getOriginalText(getVisibleView((ParserRuleContext)ctx.parent)) +
-							"\t(Not found: " + ctx.Identifier().getText() + ")",
-					MurmurError.SYMBOL_NOT_FOUND);
+			return MurmurVoid.VOID;
 		}
 		
 		// Return the symbol.
