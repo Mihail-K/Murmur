@@ -31,23 +31,31 @@ package io.cloudchaser.murmur.types;
  **/
 public enum MurmurType {
 	
-	NULL("null"),
-	INTEGER("integer"),
-	DECIMAL("decimal"),
-	BOOLEAN("boolean"),
-	CHARACTER("character"),
-	STRING("string"),
-	ARRAY("array"),
+	NULL("null", false),
+	INTEGER("integer", true),
+	DECIMAL("decimal", true),
+	BOOLEAN("boolean", false),
+	CHARACTER("character", true),
+	STRING("string", false),
+	ARRAY("array", false),
 	
-	FUNCTION("function"),
-	OBJECT("object"),
-	TYPE("type"),
-	VOID("void");
+	FUNCTION("function", false),
+	OBJECT("object", false),
+	TYPE("type", false),
+	VOID("void", false);
 	
+	/**
+	 * The internal name of the type.
+	 **/
 	public final String name;
+	/**
+	 * Numeric type flag.
+	 **/
+	public final boolean numeric;
 	
-	MurmurType(String name) {
+	MurmurType(String name, boolean numeric) {
 		this.name = name;
+		this.numeric = numeric;
 	}
 	
 }
