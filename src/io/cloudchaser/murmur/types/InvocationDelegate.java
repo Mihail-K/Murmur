@@ -33,6 +33,6 @@ import io.cloudchaser.murmur.symbol.SymbolContext;
  **/
 public interface InvocationDelegate {
 	
-	MurmurObject invokeFunction(SymbolContext context, MurmurFunction function);
+	MurmurObject invokeFunction(SymbolContext context, MurmurLambda lambda);
 	
 }

@@ -37,12 +37,13 @@ import io.cloudchaser.murmur.types.MurmurArray;
 import io.cloudchaser.murmur.types.MurmurBoolean;
 import io.cloudchaser.murmur.types.MurmurCharacter;
 import io.cloudchaser.murmur.types.MurmurComponent;
-import io.cloudchaser.murmur.types.MurmurComponent.ComponentField;
-import io.cloudchaser.murmur.types.MurmurComponent.ComponentFunction;
 import io.cloudchaser.murmur.types.MurmurDecimal;
-import io.cloudchaser.murmur.types.MurmurFunction;
+import io.cloudchaser.murmur.types.MurmurField;
 import io.cloudchaser.murmur.types.MurmurInstance;
 import io.cloudchaser.murmur.types.MurmurInteger;
+import io.cloudchaser.murmur.types.MurmurLambda;
+import io.cloudchaser.murmur.types.MurmurMember;
+import io.cloudchaser.murmur.types.MurmurMethod;
 import io.cloudchaser.murmur.types.MurmurNull;
 import io.cloudchaser.murmur.types.MurmurObject;
 import io.cloudchaser.murmur.types.MurmurReturn;
@@ -57,6 +58,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 
@@ -84,14 +86,14 @@ public class MurmurASTVisitor
 	 * The interpreter invocation delegate.
 	 */
 	private final InvocationDelegate delegate =
-	(local, function) -> {
+	(local, lambda) -> {
 		try {
 			// Step into the local context.
 			context.push(local);
-			callStack.push(function);
+			callStack.push(lambda);
 			
 			// Execute the function.
-			MurmurObject result = visitBlock(function.getBody());
+			MurmurObject result = visitBlock(lambda.getBody());
 
 			// Step out of the context.
 			callStack.pop();
@@ -301,7 +303,7 @@ public class MurmurASTVisitor
 	/* - Component Types - */
 	/* - - - - - - - - - - */
 	
-	public MurmurComponent.ComponentField visitTypeField(MurmurParser.TypeElementContext ctx) {
+	public MurmurField visitTypeField(MurmurParser.TypeElementContext ctx) {
 		String name = ctx.name.getText();
 		
 		// Validate field name.
@@ -311,10 +313,10 @@ public class MurmurASTVisitor
 		}
 		
 		// Create the field.
-		return new ComponentField(name);
+		return new MurmurField(name);
 	}
 	
-	public MurmurComponent.ComponentFunction visitTypeFunction(MurmurParser.TypeElementContext ctx) {
+	public MurmurMethod visitTypeFunction(MurmurParser.TypeElementContext ctx) {
 		String name = ctx.name.getText();
 		MurmurObject value = visitExpression(ctx.expression());
 		
@@ -324,18 +326,18 @@ public class MurmurASTVisitor
 		}
 		
 		// Check that this is a function.
-		if(!(value instanceof MurmurFunction)) {
+		if(!(value instanceof MurmurLambda)) {
 			throw MurmurError.create(ctx.start.getLine(),
 					ctx.getText(), MurmurError.NOT_A_FUNCTION);
 		}
 		
 		// Create the function.
-		MurmurFunction function = (MurmurFunction)value;
-		return new ComponentFunction(name, function);
+		MurmurLambda function = (MurmurLambda)value;
+		return new MurmurMethod(name, function);
 	}
 
 	@Override
-	public MurmurComponent.ComponentField visitTypeElement(MurmurParser.TypeElementContext ctx) {
+	public MurmurMember visitTypeElement(MurmurParser.TypeElementContext ctx) {
 		// Determine the element type.
 		if(ctx.expression() != null) {
 			return visitTypeFunction(ctx);
@@ -353,8 +355,8 @@ public class MurmurASTVisitor
 		// Build component members list.
 		if(ctx.typeElement() != null) {
 			ctx.typeElement().stream().forEach((element) -> {
-				MurmurComponent.ComponentField symbol = visitTypeElement(element);
-				component.getMembers().put(symbol.getName(), symbol);
+				MurmurMember member = visitTypeElement(element);
+				component.addMember(member);
 			});
 		}
 		
@@ -814,19 +816,18 @@ public class MurmurASTVisitor
 	@Override
 	public MurmurObject visitLambda(MurmurParser.LambdaContext ctx) {
 		List<String> parameters = visitLambdaParameterList(ctx.identifierList());
-		return new MurmurFunction(ctx.start.getLine(), context.peek(), parameters, ctx.block());
+		return new MurmurLambda(ctx.start.getLine(), ctx.block(), parameters, context.peek());
 	}
 	
 	public MurmurObject visitLambdaInvokeExpression(MurmurParser.ExpressionContext ctx) {
 		MurmurObject left = desymbolize(visitExpression(ctx.left));
-		MurmurFunction lambda = (MurmurFunction)visitLambda(ctx.lambda());
+		MurmurLambda lambda = (MurmurLambda)visitLambda(ctx.lambda());
 		
 		// Check that this is an invokable type.
 		if(left instanceof InvokableType) {
 			// Invoke and return the result.
 			InvokableType invoke = (InvokableType)left;
-			return invoke.opInvoke(delegate,
-					Collections.singletonList(lambda));
+			return invoke.opInvoke(delegate, Collections.singletonList(lambda));
 		} else {
 			throw new UnsupportedOperationException();
 		}
