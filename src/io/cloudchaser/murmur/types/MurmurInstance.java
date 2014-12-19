@@ -24,11 +24,9 @@
 
 package io.cloudchaser.murmur.types;
 
-import io.cloudchaser.murmur.symbol.FieldSymbol;
-import io.cloudchaser.murmur.symbol.FunctionSymbol;
+import io.cloudchaser.murmur.symbol.LetSymbol;
 import io.cloudchaser.murmur.symbol.Symbol;
 import io.cloudchaser.murmur.symbol.SymbolContext;
-import io.cloudchaser.murmur.types.MurmurComponent.ComponentFunction;
 import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
 
 import java.util.HashMap;
@@ -53,19 +51,18 @@ public class MurmurInstance extends MurmurObject
 		
 		protected void build() {
 			component.getMembers().values()
-					.stream().forEach((value) -> {
+					.stream().forEach((member) -> {
 				// Check if this is a function.
-				if(value instanceof ComponentFunction) {
+				if(member instanceof MurmurLambda) {
 					// Bind the function to the local context.
-					ComponentFunction function = (ComponentFunction)value;
-					function.getValue().setContext(this);
+					MurmurLambda function = (MurmurLambda)member;
+					function.setParent(context);
 					
 					// Create a function symbol.
-					addSymbol(new FunctionSymbol(value.getName(),
-							function.cloneFunction(), component));
+					addSymbol(new LetSymbol(member.getName(), function));
 				} else {
 					// Create a field symbol.
-					addSymbol(new FieldSymbol(value.getName(), component));
+					addSymbol(new LetSymbol(member.getName(), (MurmurField)member));
 				}
 			});
 		}
@@ -112,7 +109,8 @@ public class MurmurInstance extends MurmurObject
 		// Build the local context.
 		context = new InstanceLocalContext();
 		((InstanceLocalContext)context).build();
-		context.addSymbol(new FieldSymbol("this", this, null));
+		context.addSymbol(new LetSymbol("this", this));
+		System.out.println(((InstanceLocalContext)context).symbols);
 	}
 	
 	public SymbolContext getContext() {
@@ -127,206 +125,6 @@ public class MurmurInstance extends MurmurObject
 	public MurmurObject getMember(String name) {
 		Symbol symbol = context.getLocal(name);
 		return symbol == null ? MurmurVoid.VOID : symbol;
-	}
-
-	@Override
-	public MurmurInteger asInteger() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurDecimal asDecimal() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurString asString() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opPositive() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opNegative() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opIncrement() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opDecrement() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opPlus(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opMinus(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opMultiply(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opDivide(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opModulo(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opShiftLeft(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opShiftRight(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opLessThan(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opGreaterThan(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opLessOrEqual(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opGreaterOrEqual(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opEquals(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opNotEquals(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opBitNot() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opBitAnd(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opBitXor(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opBitOr(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opLogicalNot() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opLogicalAnd(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opLogicalOr(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opIndex(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opPlusAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opMinusAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opMultiplyAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opDivideAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opModuloAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opBitAndAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opBitXorAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opBitOrAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opShiftLeftAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opShiftRightAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opConcatAssign(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public MurmurObject opConcat(MurmurObject other) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 	
 }
