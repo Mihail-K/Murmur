@@ -126,5 +126,60 @@ public class MurmurInstance extends MurmurObject
 		Symbol symbol = context.getLocal(name);
 		return symbol == null ? MurmurVoid.VOID : symbol;
 	}
+
+	@Override
+	public MurmurObject opPlusAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opMinusAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opMultiplyAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opDivideAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opModuloAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opBitAndAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opBitXorAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opBitOrAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opShiftLeftAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opShiftRightAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opConcatAssign(MurmurObject other) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
 	
 }

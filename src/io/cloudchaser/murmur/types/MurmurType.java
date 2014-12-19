@@ -40,6 +40,7 @@ public enum MurmurType {
 	ARRAY("array", false),
 	
 	FUNCTION("function", false),
+	VARIABLE("variable", false),
 	OBJECT("object", false),
 	TYPE("type", false),
 	VOID("void", false);

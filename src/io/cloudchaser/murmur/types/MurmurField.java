@@ -24,12 +24,14 @@
 
 package io.cloudchaser.murmur.types;
 
+import static io.cloudchaser.murmur.types.MurmurType.VARIABLE;
+
 /**
  *
  * @author Mihail K
  * @since 0.1
  **/
-public class MurmurField
+public class MurmurField extends MurmurObject
 		implements MurmurMember {
 	
 	/**
@@ -56,6 +58,7 @@ public class MurmurField
 	}
 
 	public MurmurField(String name, MurmurComponent component, MurmurObject value) {
+		super(VARIABLE);
 		this.component = component;
 		this.value = value;
 		this.name = name;
