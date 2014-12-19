@@ -791,7 +791,7 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitIdentifierExpression(MurmurParser.ExpressionContext ctx) {
-		MurmurVariable symbol = context.peek().getSymbol(ctx.Identifier().getText());
+		MurmurSymbol symbol = context.peek().getSymbol(ctx.Identifier().getText());
 		
 		// Check that the symbol exists.
 		if(symbol == null) {
@@ -802,7 +802,7 @@ public class MurmurASTVisitor
 		}
 		
 		// Return the symbol.
-		return symbol;
+		return (MurmurObject)symbol;
 	}
 	
 	public List<String> visitLambdaParameterList(MurmurParser.IdentifierListContext ctx) {
@@ -834,7 +834,7 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitInstantiationExpression(MurmurParser.ExpressionContext ctx) {
-		MurmurVariable symbol = context.peek().getSymbol(ctx.Identifier().getText());
+		MurmurSymbol symbol = context.peek().getSymbol(ctx.Identifier().getText());
 		
 		// Check that the symbol exists.
 		if(symbol == null) {
@@ -1141,7 +1141,7 @@ public class MurmurASTVisitor
 		}
 		// 'this' literal.
 		if(ctx.getText().equals("this")) {
-			MurmurVariable symbol = context.peek().getSymbol("this");
+			MurmurSymbol symbol = context.peek().getSymbol("this");
 			
 			// Check that there is a 'this' defined.
 			if(symbol == null) {
@@ -1149,7 +1149,7 @@ public class MurmurASTVisitor
 			}
 			
 			// Return the symbol.
-			return symbol;
+			return (MurmurObject)symbol;
 		}
 		
 		// Unknown literal type.

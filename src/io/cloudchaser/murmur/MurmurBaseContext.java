@@ -24,7 +24,7 @@
 
 package io.cloudchaser.murmur;
 
-import io.cloudchaser.murmur.types.MurmurVariable;
+import io.cloudchaser.murmur.types.MurmurSymbol;
 import io.cloudchaser.murmur.types.SymbolContext;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +38,7 @@ class MurmurBaseContext implements SymbolContext {
 	/**
 	 * The base context symbol table.
 	 */
-	private final Map<String, MurmurVariable> symbols;
+	private final Map<String, MurmurSymbol> symbols;
 
 	public MurmurBaseContext() {
 		symbols = new HashMap<>();
@@ -50,17 +50,17 @@ class MurmurBaseContext implements SymbolContext {
 	}
 
 	@Override
-	public void addSymbol(MurmurVariable symbol) {
+	public void addSymbol(MurmurSymbol symbol) {
 		symbols.put(symbol.getName(), symbol);
 	}
 
 	@Override
-	public MurmurVariable getSymbol(String name) {
+	public MurmurSymbol getSymbol(String name) {
 		return symbols.get(name);
 	}
 
 	@Override
-	public MurmurVariable getLocal(String name) {
+	public MurmurSymbol getLocal(String name) {
 		return symbols.get(name);
 	}
 	
