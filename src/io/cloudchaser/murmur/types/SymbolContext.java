@@ -44,7 +44,7 @@ public interface SymbolContext {
 	 * 
 	 * @param symbol The new symbol.
 	 */
-	void addSymbol(MurmurVariable symbol);
+	void addSymbol(MurmurSymbol symbol);
 	
 	/**
 	 * Search for a symbol by name.
@@ -53,7 +53,7 @@ public interface SymbolContext {
 	 * @param name The name of the symbol to look for.
 	 * @return The symbol, if found. Otherwise, <code>null</code>.
 	 */
-	MurmurVariable getSymbol(String name);
+	MurmurSymbol getSymbol(String name);
 	
 	/**
 	 * Search for a symbol by name, in the local context.
@@ -61,6 +61,6 @@ public interface SymbolContext {
 	 * @param name The name of the symbol to look for.
 	 * @return The symbol, if found. Otherwise, <code>null</code>.
 	 */
-	MurmurVariable getLocal(String name);
+	MurmurSymbol getLocal(String name);
 	
 }
