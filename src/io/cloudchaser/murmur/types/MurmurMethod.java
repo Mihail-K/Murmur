@@ -33,7 +33,8 @@ import java.util.List;
  * @author Mihail K
  * @since 0.1
  **/
-public class MurmurMethod extends MurmurLambda {
+public class MurmurMethod extends MurmurLambda
+		implements MurmurMember {
 	
 	/**
 	 * This method's name.
@@ -66,15 +67,19 @@ public class MurmurMethod extends MurmurLambda {
 		this.name = name;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public MurmurComponent getComponent() {
 		return component;
 	}
 
-	public void setComponent(MurmurComponent component) {
+	@Override
+	public void bindComponent(MurmurComponent component) {
+		if(this.component != null) return;
 		this.component = component;
 	}
 	
