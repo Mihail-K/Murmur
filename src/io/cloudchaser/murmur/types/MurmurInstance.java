@@ -25,41 +25,46 @@
 package io.cloudchaser.murmur.types;
 
 import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
+import java.util.Collections;
 
 
 /**
  *
  * @author Mihail K
  * @since 0.1
- */
+ **/
 public class MurmurInstance extends MurmurObject
 		implements ReferenceType {
 	
-	
 	/**
 	 * The symbol context local to this object.
-	 */
-	private final SymbolContext parent;
+	 **/
+	private final SymbolContext context;
 	
 	/**
 	 * This object's component type.
-	 */
+	 **/
 	private final MurmurComponent component;
 
+	/**
+	 * Creates a Murmur object instance from a component type.
+	 * 
+	 * @param component The component type to instantiate.
+	 **/
 	public MurmurInstance(MurmurComponent component) {
 		super(OBJECT);
 		this.component = component;
 		
 		// Build the local context.
-		parent = new MurmurInstanceContext(component);
-		((MurmurInstanceContext)parent).build();
+		context = new MurmurInstanceContext(component);
+		((MurmurInstanceContext)context).build();
 		
 		// Bind 'this' constant.
-		parent.addSymbol(new MurmurVariable("this", this));
+		context.addSymbol(new MurmurVariable("this", this));
 	}
 	
 	public SymbolContext getContext() {
-		return parent;
+		return context;
 	}
 	
 	public MurmurComponent getComponentType() {
@@ -68,8 +73,22 @@ public class MurmurInstance extends MurmurObject
 	
 	@Override
 	public MurmurObject getMember(String name) {
-		MurmurSymbol symbol = parent.getLocal(name);
+		MurmurSymbol symbol = context.getLocal(name);
 		return (MurmurObject)symbol;
+	}
+
+	@Override
+	public MurmurObject opPlus(MurmurObject other) {
+		MurmurSymbol symbol = context.getLocal("opPlus");
+		
+		// Check that the operator is defined.
+		if(symbol == null) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Invoke the operator function.
+		MurmurMethod method = (MurmurMethod)symbol.getValue();
+		return method.opInvoke(Collections.singletonList(other));
 	}
 
 	@Override
