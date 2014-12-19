@@ -86,7 +86,7 @@ public class MurmurLambda extends MurmurObject
 		if((parameters.isEmpty() && arguments.isEmpty()) ||
 				(parameters.size() == arguments.size())) {
 			// Create a local context.
-			SymbolContext local = new LambdaContext(parent);
+			SymbolContext local = new MurmurLambdaContext(parent);
 			
 			// Bind parameters.
 			for(int idx = 0; idx < arguments.size(); idx++) {

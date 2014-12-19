@@ -32,7 +32,7 @@ import java.util.Map;
  * @author Mihail K
  * @since 0.1
  */
-public class LambdaContext
+public class MurmurLambdaContext
 		implements SymbolContext {
 	
 	/**
@@ -45,11 +45,19 @@ public class LambdaContext
 	 **/
 	private final Map<String, MurmurVariable> symbols;
 
-	public LambdaContext() {
+	/**
+	 * Creates a new lambda symbol context with no parent.
+	 **/
+	public MurmurLambdaContext() {
 		this(null);
 	}
 
-	public LambdaContext(SymbolContext context) {
+	/**
+	 * Creates a new lambda symbol context with a parent.
+	 * 
+	 * @param context The parent context to this one.
+	 **/
+	public MurmurLambdaContext(SymbolContext context) {
 		symbols = new HashMap<>();
 		this.context = context;
 	}
