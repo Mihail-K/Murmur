@@ -42,14 +42,17 @@ public class MurmurObject {
 	}
 	
 	public MurmurObject getMember(String name) {
-		// All objects have a type.
-		if(name.equals("typeof")) {
-			// Return a string of the object type.
-			return MurmurString.create(getType().name);
+		switch(name) {
+			case "typeof":
+				// Return a string of the object type.
+				return MurmurString.create(getType().name);
+			case "string":
+				// Return a string representation.
+				return asString();
+			default:
+				// Default implementation.
+				return MurmurVoid.VOID;
 		}
-		
-		// Default implementation.
-		return MurmurVoid.VOID;
 	}
 	
 	/**

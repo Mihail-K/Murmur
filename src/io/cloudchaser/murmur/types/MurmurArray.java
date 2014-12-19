@@ -65,12 +65,9 @@ public class MurmurArray extends MurmurObject
 				// Reverse the array, in-place.
 				Collections.reverse(elements);
 				return this;
-			case "clone":
+			case "copy":
 				// Create a shadow copy.
 				return new MurmurArray(new ArrayList<>(elements));
-			case "string":
-				// Return a string form.
-				return asString();
 			default:
 				// Delegate to parent.
 				return super.getMember(name);
