@@ -37,19 +37,43 @@ public class MurmurField extends MurmurVariable
 	 **/
 	private MurmurComponent component;
 
+	/**
+	 * Creates an unbound field with a null initial value.
+	 * 
+	 * @param name The name of the field.
+	 **/
 	public MurmurField(String name) {
 		this(name, null, MurmurNull.NULL);
 	}
 
+	/**
+	 * Creates an unbound field with a given initial value.
+	 * 
+	 * @param name The name of the field.
+	 * @param value The initial value of the field.
+	 **/
 	public MurmurField(String name, MurmurObject value) {
 		this(name, null, value);
 	}
 
+	/**
+	 * Creates a component-bound field with a given initial value.
+	 * 
+	 * @param name The name of the field.
+	 * @param component The component to bind to.
+	 * @param value The initial value of the field.
+	 **/
 	public MurmurField(String name, MurmurComponent component, MurmurObject value) {
 		super(name, value);
 		this.component = component;
 	}
 	
+	/**
+	 * Copy constructor.
+	 * Duplicates a field, including binding and value.
+	 * 
+	 * @param field The field to copy.
+	 **/
 	public MurmurField(MurmurField field) {
 		super(field.getName(), field.getValue());
 		this.component = field.component;
