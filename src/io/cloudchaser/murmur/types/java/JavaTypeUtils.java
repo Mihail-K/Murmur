@@ -22,8 +22,16 @@
  *	SOFTWARE.
  */
 
-package io.cloudchaser.murmur.types;
+package io.cloudchaser.murmur.types.java;
 
+import io.cloudchaser.murmur.types.MurmurBoolean;
+import io.cloudchaser.murmur.types.MurmurCharacter;
+import io.cloudchaser.murmur.types.MurmurDecimal;
+import io.cloudchaser.murmur.types.MurmurInteger;
+import io.cloudchaser.murmur.types.MurmurNull;
+import io.cloudchaser.murmur.types.MurmurObject;
+import io.cloudchaser.murmur.types.MurmurString;
+import io.cloudchaser.murmur.types.MurmurVoid;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

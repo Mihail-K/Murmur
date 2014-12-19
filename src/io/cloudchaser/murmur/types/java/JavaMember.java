@@ -22,72 +22,98 @@
  *	SOFTWARE.
  */
 
-package io.cloudchaser.murmur.types;
+package io.cloudchaser.murmur.types.java;
 
-import static io.cloudchaser.murmur.types.JavaTypeUtils.getPrimitive;
+import io.cloudchaser.murmur.types.MurmurObject;
+import io.cloudchaser.murmur.types.MurmurString;
+import static io.cloudchaser.murmur.types.java.JavaTypeUtils.invokeFunction;
 import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
 import java.lang.reflect.Field;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 /**
  *
  * @author Mihail K
  * @since 0.1
  **/
-public class JavaInstance extends JavaObject {
-	
-	/**
-	 * Stores the Java object instance.
-	 */
+public class JavaMember extends JavaObject
+		implements JavaInvokableType {
+
+	private final String name;
+	private final Class<?> type;
 	private final Object instance;
 	
-	/**
-	 * The Java class object corresponding to this instance.
-	 */
-	private final Class<?> type;
+	public JavaMember(String name, Class<?> type) {
+		this(name, type, null);
+	}
 
-	public JavaInstance(Object instance, Class<?> type) {
+	public JavaMember(String name, Class<?> type, Object instance) {
 		super(OBJECT);
+		this.name = name;
 		this.type = type;
 		this.instance = instance;
 	}
 
-	public Object getInstance() {
-		return instance;
-	}
-
-	public Class<?> getInstanceType() {
-		return type;
-	}
-	
 	@Override
-	public JavaMember getMember(String name) {
+	public MurmurObject getMember(String name) {
 		try {
-			// Check if this is a static field.
+			// Check if this is a field.
 			Field field = type.getField(name);
 			return new JavaMember(name, field.getType(), field.get(instance));
 		} catch (NoSuchFieldException | SecurityException |
 				IllegalArgumentException | IllegalAccessException ex) {
-			// Assume this is a static method.
+			// Assume this is a method.
 			return new JavaMember(name, type, instance);
 		}
 	}
 
 	@Override
 	public boolean isCompatible(Class<?> type) {
-		return type.isAssignableFrom(instance.getClass()) ||
-				type.isAssignableFrom(getPrimitive(instance.getClass()));
+		return type.isAssignableFrom(this.type) ||
+				type.isAssignableFrom(
+						JavaTypeUtils.getPrimitive(type));
 	}
 
 	@Override
 	public Object getAsJavaType(Class<?> type) {
 		// Java object type.
-		if(type.isAssignableFrom(instance.getClass()) ||
-				type.isAssignableFrom(getPrimitive(instance.getClass()))) {
+		if(type.isAssignableFrom(type)) {
+			return instance;
+		}
+		
+		// Java primitive type.
+		if(type.isAssignableFrom(
+				JavaTypeUtils.getPrimitive(type))) {
 			return instance;
 		}
 		
 		// Unsupported.
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public MurmurString asString() {
+		return MurmurString.create(name);
+	}
+	
+	@Override
+	public MurmurObject opInvoke(List<MurmurObject> arguments) {
+		try {
+			// Build a parameter list and invoke the function.
+			return invokeFunction(name, type, instance, arguments);
+		} catch(IllegalAccessException | IllegalArgumentException |
+				InvocationTargetException | NoSuchMethodException |
+				SecurityException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "JavaMember{name=" + name + ", type=" + type +
+				", instance=" + instance + '}';
 	}
 	
 }

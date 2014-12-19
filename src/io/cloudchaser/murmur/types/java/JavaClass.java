@@ -22,9 +22,11 @@
  *	SOFTWARE.
  */
 
-package io.cloudchaser.murmur.types;
+package io.cloudchaser.murmur.types.java;
 
-import static io.cloudchaser.murmur.types.JavaTypeUtils.invokeConstructor;
+import io.cloudchaser.murmur.types.MurmurObject;
+import io.cloudchaser.murmur.types.MurmurString;
+import static io.cloudchaser.murmur.types.java.JavaTypeUtils.invokeConstructor;
 import static io.cloudchaser.murmur.types.MurmurType.TYPE;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

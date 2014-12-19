@@ -22,7 +22,14 @@
  *	SOFTWARE.
  */
 
-package io.cloudchaser.murmur.types;
+package io.cloudchaser.murmur.types.java;
+
+import io.cloudchaser.murmur.types.MurmurBoolean;
+import io.cloudchaser.murmur.types.MurmurDecimal;
+import io.cloudchaser.murmur.types.MurmurInteger;
+import io.cloudchaser.murmur.types.MurmurObject;
+import io.cloudchaser.murmur.types.MurmurString;
+import io.cloudchaser.murmur.types.MurmurType;
 
 /**
  *

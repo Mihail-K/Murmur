@@ -22,8 +22,9 @@
  *	SOFTWARE.
  */
 
-package io.cloudchaser.murmur.types;
+package io.cloudchaser.murmur.types.java;
 
+import io.cloudchaser.murmur.types.MurmurObject;
 import java.util.List;
 
 /**
