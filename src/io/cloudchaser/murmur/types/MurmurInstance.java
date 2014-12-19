@@ -50,16 +50,20 @@ public class MurmurInstance extends MurmurObject
 			component.getMembers().values()
 					.stream().forEach((member) -> {
 				// Check if this is a function.
-				if(member instanceof MurmurLambda) {
+				if(member instanceof MurmurMethod) {
 					// Bind the function to the local context.
-					MurmurLambda function = (MurmurLambda)member;
-					function.setParent(context);
+					MurmurMethod method = (MurmurMethod)member;
+					method = new MurmurMethod(method, context);
 					
 					// Create a function symbol.
-					addSymbol(new MurmurVariable(member.getName(), function));
-				} else {
+					addSymbol(new MurmurVariable(method.getName(), method));
+				} else if(member instanceof MurmurField) {
 					// Create a field symbol.
-					addSymbol(new MurmurVariable(member.getName(), (MurmurField)member));
+					MurmurField field = (MurmurField)member;
+					addSymbol(new MurmurField(field));
+				} else {
+					// Something went wrong.
+					throw new UnsupportedOperationException();
 				}
 			});
 		}

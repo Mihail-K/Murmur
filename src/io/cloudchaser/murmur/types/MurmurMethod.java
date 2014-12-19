@@ -65,6 +65,18 @@ public class MurmurMethod extends MurmurLambda
 		super(lambda);
 		this.name = name;
 	}
+	
+	/**
+	 * Clones a Murmur Method into a different context.
+	 * 
+	 * @param method The method to clone.
+	 * @param context The new context for the method.
+	 **/
+	public MurmurMethod(MurmurMethod method, SymbolContext context) {
+		super(method);
+		this.name = method.name;
+		this.setParent(context);
+	}
 
 	@Override
 	public String getName() {

@@ -113,6 +113,10 @@ public class MurmurLambda extends MurmurObject
 		return parent;
 	}
 
+	public List<String> getParameters() {
+		return parameters;
+	}
+
 	public void setParent(SymbolContext parent) {
 		this.parent = parent;
 	}

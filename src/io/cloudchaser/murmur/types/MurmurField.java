@@ -49,6 +49,11 @@ public class MurmurField extends MurmurVariable
 		super(name, value);
 		this.component = component;
 	}
+	
+	public MurmurField(MurmurField field) {
+		super(field.getName(), field.getValue());
+		this.component = field.component;
+	}
 
 	@Override
 	public MurmurComponent getComponent() {

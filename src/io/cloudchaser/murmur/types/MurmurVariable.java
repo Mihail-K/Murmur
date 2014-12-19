@@ -310,7 +310,7 @@ public class MurmurVariable extends MurmurObject
 
 	@Override
 	public String toString() {
-		return "Symbol{name=" + name + ", value=" + value + '}';
+		return "MurmurVariable{name=" + name + ", value=" + value + '}';
 	}
 
 }
