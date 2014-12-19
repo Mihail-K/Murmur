@@ -221,10 +221,8 @@ public class MurmurASTVisitor
 			MurmurObject value = desymbolize(visitExpression(element.expression()));
 			
 			// Check that the value exists.
-			if(value == null || value == MurmurVoid.VOID) {
-				throw MurmurError.create(ctx.start.getLine(),
-						getOriginalText(getVisibleView(ctx)),
-						MurmurError.NOT_A_VALUE);
+			if(value == null) {
+				value = MurmurVoid.VOID;
 			}
 			
 			// Create a symbol entry.
