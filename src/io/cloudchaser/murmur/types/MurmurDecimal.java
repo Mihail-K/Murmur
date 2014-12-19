@@ -39,8 +39,16 @@ public class MurmurDecimal extends MurmurObject {
 	 */
 	public static final MurmurDecimal ZERO = new MurmurDecimal(0);
 	
+	/**
+	 * The value of this decimal object.
+	 **/
 	private final double value;
 
+	/**
+	 * Creates a new Murmur decimal with a given value.
+	 * 
+	 * @param value The value of the decimal.
+	 **/
 	private MurmurDecimal(double value) {
 		super(DECIMAL);
 		this.value = value;
@@ -58,6 +66,11 @@ public class MurmurDecimal extends MurmurObject {
 		return new MurmurDecimal(value);
 	}
 
+	/**
+	 * Gets the Java double value of this decimal.
+	 * 
+	 * @return The value of this decimal.
+	 **/
 	public double getValue() {
 		return value;
 	}
@@ -189,18 +202,6 @@ public class MurmurDecimal extends MurmurObject {
 	}
 
 	@Override
-	public MurmurObject opShiftLeft(MurmurObject other) {
-		// Decimal don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opShiftRight(MurmurObject other) {
-		// Decimal don't support bitshift.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public MurmurObject opLessThan(MurmurObject other) {
 		// Check for supported operation.
 		if(other.getType() == DECIMAL) {
@@ -276,60 +277,6 @@ public class MurmurDecimal extends MurmurObject {
 		
 		// Not equal.
 		return MurmurBoolean.TRUE;
-	}
-
-	@Override
-	public MurmurObject opBitNot() {
-		// Decimal don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitAnd(MurmurObject other) {
-		// Decimal don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitXor(MurmurObject other) {
-		// Decimal don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opBitOr(MurmurObject other) {
-		// Decimal don't support bit arithmetic.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalNot() {
-		// Unsupported.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalAnd(MurmurObject other) {
-		// Unsupported.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opLogicalOr(MurmurObject other) {
-		// Unsupported.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opIndex(MurmurObject other) {
-		// Unsupported.
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public MurmurObject opConcat(MurmurObject other) {
-		// Unsupported.
-		throw new UnsupportedOperationException();
 	}
 	
 	@Override
