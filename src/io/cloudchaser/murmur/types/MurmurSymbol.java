@@ -24,32 +24,28 @@
 
 package io.cloudchaser.murmur.types;
 
-import io.cloudchaser.murmur.types.MurmurDecimal;
-import io.cloudchaser.murmur.types.MurmurInteger;
-import io.cloudchaser.murmur.types.MurmurObject;
-import io.cloudchaser.murmur.types.MurmurString;
-import io.cloudchaser.murmur.types.ReferenceType;
-
 /**
  *
  * @author Mihail K
  * @since 0.1
  **/
-public abstract class MurmurSymbol extends MurmurObject
+public class MurmurSymbol extends MurmurObject
 		implements ReferenceType {
 
+	/**
+	 * The name of this symbol.
+	 **/
 	private final String name;
+	
+	/**
+	 * The value of this symbol.
+	 **/
 	private MurmurObject value;
 
 	public MurmurSymbol(String name, MurmurObject value) {
 		super(value.getType());
 		this.name = name;
 		this.value = value;
-	}
-	
-	protected MurmurSymbol(String name) {
-		super(null);
-		this.name = name;
 	}
 
 	public String getName() {

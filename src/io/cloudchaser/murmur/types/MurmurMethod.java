@@ -25,7 +25,6 @@
 package io.cloudchaser.murmur.types;
 
 import io.cloudchaser.murmur.parser.MurmurParser;
-import io.cloudchaser.murmur.symbol.SymbolContext;
 import java.util.List;
 
 /**

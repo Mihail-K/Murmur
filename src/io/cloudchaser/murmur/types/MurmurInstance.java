@@ -24,9 +24,6 @@
 
 package io.cloudchaser.murmur.types;
 
-import io.cloudchaser.murmur.symbol.LetSymbol;
-import io.cloudchaser.murmur.symbol.Symbol;
-import io.cloudchaser.murmur.symbol.SymbolContext;
 import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
 
 import java.util.HashMap;
@@ -43,7 +40,7 @@ public class MurmurInstance extends MurmurObject
 	private class InstanceLocalContext
 			implements SymbolContext {
 		
-		private final Map<String, Symbol> symbols;
+		private final Map<String, MurmurSymbol> symbols;
 
 		public InstanceLocalContext() {
 			symbols = new HashMap<>();
@@ -59,10 +56,10 @@ public class MurmurInstance extends MurmurObject
 					function.setParent(context);
 					
 					// Create a function symbol.
-					addSymbol(new LetSymbol(member.getName(), function));
+					addSymbol(new MurmurSymbol(member.getName(), function));
 				} else {
 					// Create a field symbol.
-					addSymbol(new LetSymbol(member.getName(), (MurmurField)member));
+					addSymbol(new MurmurSymbol(member.getName(), (MurmurField)member));
 				}
 			});
 		}
@@ -73,20 +70,20 @@ public class MurmurInstance extends MurmurObject
 		}
 
 		@Override
-		public void addSymbol(Symbol symbol) {
+		public void addSymbol(MurmurSymbol symbol) {
 			symbols.put(symbol.getName(), symbol);
 		}
 
 		@Override
-		public Symbol getSymbol(String name) {
-			Symbol symbol = symbols.get(name);
+		public MurmurSymbol getSymbol(String name) {
+			MurmurSymbol symbol = symbols.get(name);
 			if(symbol == null && getParent() != null)
 				return getParent().getSymbol(name);
 			return symbol;
 		}
 
 		@Override
-		public Symbol getLocal(String name) {
+		public MurmurSymbol getLocal(String name) {
 			return symbols.get(name);
 		}
 		
@@ -109,7 +106,7 @@ public class MurmurInstance extends MurmurObject
 		// Build the local context.
 		context = new InstanceLocalContext();
 		((InstanceLocalContext)context).build();
-		context.addSymbol(new LetSymbol("this", this));
+		context.addSymbol(new MurmurSymbol("this", this));
 		System.out.println(((InstanceLocalContext)context).symbols);
 	}
 	
@@ -123,7 +120,7 @@ public class MurmurInstance extends MurmurObject
 	
 	@Override
 	public MurmurObject getMember(String name) {
-		Symbol symbol = context.getLocal(name);
+		MurmurSymbol symbol = context.getLocal(name);
 		return symbol == null ? MurmurVoid.VOID : symbol;
 	}
 

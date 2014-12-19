@@ -25,8 +25,6 @@
 package io.cloudchaser.murmur.types;
 
 import io.cloudchaser.murmur.parser.MurmurParser.BlockContext;
-import io.cloudchaser.murmur.symbol.LetSymbol;
-import io.cloudchaser.murmur.symbol.SymbolContext;
 import static io.cloudchaser.murmur.types.MurmurType.FUNCTION;
 import java.util.List;
 
@@ -92,7 +90,7 @@ public class MurmurLambda extends MurmurObject
 			
 			// Bind parameters.
 			for(int idx = 0; idx < arguments.size(); idx++) {
-				local.addSymbol(new LetSymbol(
+				local.addSymbol(new MurmurSymbol(
 						parameters.get(idx), arguments.get(idx)));
 			}
 			

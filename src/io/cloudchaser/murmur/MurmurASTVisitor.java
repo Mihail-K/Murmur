@@ -26,9 +26,8 @@ package io.cloudchaser.murmur;
 
 import io.cloudchaser.murmur.parser.MurmurParser;
 import io.cloudchaser.murmur.parser.MurmurParserBaseVisitor;
-import io.cloudchaser.murmur.symbol.LetSymbol;
-import io.cloudchaser.murmur.symbol.Symbol;
-import io.cloudchaser.murmur.symbol.SymbolContext;
+import io.cloudchaser.murmur.types.MurmurSymbol;
+import io.cloudchaser.murmur.types.SymbolContext;
 import io.cloudchaser.murmur.types.InvocationDelegate;
 import io.cloudchaser.murmur.types.InvokableType;
 import io.cloudchaser.murmur.types.JavaClass;
@@ -113,7 +112,7 @@ public class MurmurASTVisitor
 	 * @return A murmur object.
 	 */
 	private static MurmurObject desymbolize(MurmurObject object) {
-		return object instanceof Symbol ? ((Symbol)object).getValue() : object;
+		return object instanceof MurmurSymbol ? ((MurmurSymbol)object).getValue() : object;
 	}
 	
 	/**
@@ -175,25 +174,25 @@ public class MurmurASTVisitor
 	
 	public MurmurObject visitLeftArrowStatement(MurmurParser.KeywordStatementContext ctx) {
 		// Get the current instance context.
-		Symbol symbol = context.peek().getSymbol("this");
+		MurmurSymbol symbol = context.peek().getSymbol("this");
 		MurmurInstance instance = (MurmurInstance)symbol.getValue();
 		
 		ctx.identifierList().Identifier()
 				.stream().forEach((identifier) -> {
 			String name = identifier.getText();
 			MurmurObject target = instance.getMember(name);
-			Symbol source = context.peek().getLocal(name);
+			MurmurSymbol source = context.peek().getLocal(name);
 			
 			// Check that the symbol exists.
 			if(source == null || target == null ||
-					!(target instanceof Symbol)) {
+					!(target instanceof MurmurSymbol)) {
 				throw MurmurError.create(ctx.start.getLine(),
 						getOriginalText(ctx) + "\t(Not found: " + name + ")",
 						MurmurError.SYMBOL_NOT_FOUND);
 			}
 			
 			// Bind the symbol, by name.
-			((Symbol)target).setValue(source.getValue());
+			((MurmurSymbol)target).setValue(source.getValue());
 		});
 		
 		// Return void value.
@@ -228,7 +227,7 @@ public class MurmurASTVisitor
 			}
 			
 			// Create a symbol entry.
-			context.peek().addSymbol(new LetSymbol(name, value));
+			context.peek().addSymbol(new MurmurSymbol(name, value));
 		});
 		
 		// Return void value.
@@ -370,7 +369,7 @@ public class MurmurASTVisitor
 		List<MurmurComponent> types = new ArrayList<>();
 		ctx.parents.stream().forEach((identifier) -> {
 			// Resolve component type name.
-			Symbol symbol = context.peek().getSymbol(identifier.getText());
+			MurmurSymbol symbol = context.peek().getSymbol(identifier.getText());
 			
 			// Check that the type exists.
 			if(symbol == null) {
@@ -402,7 +401,7 @@ public class MurmurASTVisitor
 		// Build the finished Murmur component object.
 		MurmurObject component = new MurmurComponent(
 				name, ctx.start.getLine(), context.peek(), types);
-		context.peek().addSymbol(new LetSymbol(name, component));
+		context.peek().addSymbol(new MurmurSymbol(name, component));
 		
 		// Return void value.
 		return MurmurVoid.VOID;
@@ -420,12 +419,12 @@ public class MurmurASTVisitor
 		MurmurObject right = visitExpression(ctx.right);
 		
 		// Must be a symbol to increment.
-		if(!(right instanceof Symbol)) {
+		if(!(right instanceof MurmurSymbol)) {
 			throw new UnsupportedOperationException();
 		}
 		
 		// Increment and return value.
-		Symbol symbol = (Symbol)right;
+		MurmurSymbol symbol = (MurmurSymbol)right;
 		symbol.setValue(right.opIncrement());
 		return symbol.getValue();
 	}
@@ -434,12 +433,12 @@ public class MurmurASTVisitor
 		MurmurObject left = visitExpression(ctx.left);
 		
 		// Must be a symbol to increment.
-		if(!(left instanceof Symbol)) {
+		if(!(left instanceof MurmurSymbol)) {
 			throw new UnsupportedOperationException();
 		}
 		
 		// Increment and return old value.
-		Symbol symbol = (Symbol)left;
+		MurmurSymbol symbol = (MurmurSymbol)left;
 		MurmurObject old = symbol.getValue();
 		symbol.setValue(left.opIncrement());
 		return old;
@@ -462,12 +461,12 @@ public class MurmurASTVisitor
 		MurmurObject right = visitExpression(ctx.right);
 		
 		// Must be a symbol to decrement.
-		if(!(right instanceof Symbol)) {
+		if(!(right instanceof MurmurSymbol)) {
 			throw new UnsupportedOperationException();
 		}
 		
 		// Decrement and return value.
-		Symbol symbol = (Symbol)right;
+		MurmurSymbol symbol = (MurmurSymbol)right;
 		symbol.setValue(right.opDecrement());
 		return symbol.getValue();
 	}
@@ -476,12 +475,12 @@ public class MurmurASTVisitor
 		MurmurObject left = visitExpression(ctx.left);
 		
 		// Must be a symbol to decrement.
-		if(!(left instanceof Symbol)) {
+		if(!(left instanceof MurmurSymbol)) {
 			throw new UnsupportedOperationException();
 		}
 		
 		// Decrement and return old value.
-		Symbol symbol = (Symbol)left;
+		MurmurSymbol symbol = (MurmurSymbol)left;
 		MurmurObject old = symbol.getValue();
 		symbol.setValue(left.opDecrement());
 		return old;
@@ -727,13 +726,13 @@ public class MurmurASTVisitor
 		MurmurObject right = visitExpression(ctx.right);
 		
 		// Check that this is an lvalue.
-		if(!(left instanceof Symbol)) {
+		if(!(left instanceof MurmurSymbol)) {
 			throw new UnsupportedOperationException();
 		}
 		
 		// Assign the value to the symbol.
 		MurmurObject value = desymbolize(right);
-		((Symbol)left).setValue(value);
+		((MurmurSymbol)left).setValue(value);
 		return value;
 	}
 	
@@ -791,7 +790,7 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitIdentifierExpression(MurmurParser.ExpressionContext ctx) {
-		Symbol symbol = context.peek().getSymbol(ctx.Identifier().getText());
+		MurmurSymbol symbol = context.peek().getSymbol(ctx.Identifier().getText());
 		
 		// Check that the symbol exists.
 		if(symbol == null) {
@@ -834,7 +833,7 @@ public class MurmurASTVisitor
 	}
 	
 	public MurmurObject visitInstantiationExpression(MurmurParser.ExpressionContext ctx) {
-		Symbol symbol = context.peek().getSymbol(ctx.Identifier().getText());
+		MurmurSymbol symbol = context.peek().getSymbol(ctx.Identifier().getText());
 		
 		// Check that the symbol exists.
 		if(symbol == null) {
@@ -1141,7 +1140,7 @@ public class MurmurASTVisitor
 		}
 		// 'this' literal.
 		if(ctx.getText().equals("this")) {
-			Symbol symbol = context.peek().getSymbol("this");
+			MurmurSymbol symbol = context.peek().getSymbol("this");
 			
 			// Check that there is a 'this' defined.
 			if(symbol == null) {

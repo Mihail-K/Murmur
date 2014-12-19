@@ -24,8 +24,6 @@
 
 package io.cloudchaser.murmur.types;
 
-import io.cloudchaser.murmur.symbol.SymbolContext;
-
 /**
  *
  * @author Mihail K

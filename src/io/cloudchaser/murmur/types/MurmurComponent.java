@@ -24,8 +24,6 @@
 
 package io.cloudchaser.murmur.types;
 
-import io.cloudchaser.murmur.symbol.Symbol;
-import io.cloudchaser.murmur.symbol.SymbolContext;
 import static io.cloudchaser.murmur.types.MurmurType.TYPE;
 
 import java.util.Collections;
@@ -40,53 +38,6 @@ import java.util.Map;
  **/
 public class MurmurComponent extends MurmurObject
 		implements InvokableType {
-	
-	public static class ComponentField<Type> {
-		
-		private final String name;
-		private final Type value;
-
-		public ComponentField(String name) {
-			this.name = name;
-			this.value = null;
-		}
-
-		public ComponentField(String name, Type value) {
-			this.name = name;
-			this.value = value;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public Type getValue() {
-			return value;
-		}
-		
-	}
-	
-	public static class ComponentFunction
-			extends ComponentField<MurmurFunction> {
-
-		public ComponentFunction(String name, MurmurFunction function) {
-			super(name, function);
-		}
-		
-		/**
-		 * Clones the component function.
-		 * 
-		 * @return 
-		 */
-		public MurmurFunction cloneFunction() {
-			return new MurmurFunction(
-					getValue().getDeclaringLine(),
-					getValue().getContext(),
-					getValue().getParameters(),
-					getValue().getBody());
-		}
-		
-	}
 	
 	/**
 	 * The declared name of this component.
@@ -106,7 +57,7 @@ public class MurmurComponent extends MurmurObject
 	/**
 	 * The table of members defined in this component.
 	 */
-	private final Map<String, ComponentField> members;
+	private final Map<String, MurmurMember> members;
 	
 	/**
 	 * The list of components that make up this one, if any.
@@ -140,7 +91,12 @@ public class MurmurComponent extends MurmurObject
 		return context;
 	}
 	
-	public Map<String, ComponentField> getMembers() {
+	public void addMember(MurmurMember member) {
+		members.put(member.getName(), member);
+		member.bindComponent(this);
+	}
+	
+	public Map<String, MurmurMember> getMembers() {
 		return members;
 	}
 	
@@ -184,26 +140,7 @@ public class MurmurComponent extends MurmurObject
 	
 	@Override
 	public String getMethodSignature() {
-		// Get the constructor field.
-		ComponentField local = members.get("~ctor");
-		if(!(local instanceof ComponentFunction)) {
-			// This should never happen.
-			return name + "(...)";
-		}
-		
-		// Return the constructor's method signature.
-		ComponentFunction ctor = (ComponentFunction)local;
-		StringBuilder builder = new StringBuilder(name);
-		builder.append("(");
-		
-		// Build the argument list.
-		if(!ctor.getValue().getParameters().isEmpty()) {
-			ctor.getValue().getParameters().stream()
-					.forEach(builder::append);
-		}
-		
-		builder.append(")");
-		return builder.toString();
+		return "~ctor";
 	}
 
 	@Override
@@ -212,11 +149,11 @@ public class MurmurComponent extends MurmurObject
 		MurmurInstance instance = new MurmurInstance(this);
 
 		// Lookup and call the construtor.
-		Symbol local = instance.getContext().getLocal("~ctor");
-		MurmurFunction ctor = (MurmurFunction)local.getValue();
+		MurmurSymbol local = instance.getContext().getLocal("~ctor");
+		MurmurLambda ctor = (MurmurLambda)local.getValue();
 		
 		// Invoke the constructor.
-		delegate.invokeFunction(ctor.createLocal(args), ctor);
+		ctor.opInvoke(delegate, args);
 		
 		// Return the created instance.
 		return instance;

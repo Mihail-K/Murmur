@@ -24,8 +24,6 @@
 
 package io.cloudchaser.murmur.types;
 
-import io.cloudchaser.murmur.symbol.Symbol;
-import io.cloudchaser.murmur.symbol.SymbolContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +43,7 @@ public class LambdaContext
 	/**
 	 * The context symbol table.
 	 **/
-	private final Map<String, Symbol> symbols;
+	private final Map<String, MurmurSymbol> symbols;
 
 	public LambdaContext() {
 		this(null);
@@ -62,20 +60,20 @@ public class LambdaContext
 	}
 
 	@Override
-	public void addSymbol(Symbol symbol) {
+	public void addSymbol(MurmurSymbol symbol) {
 		symbols.put(symbol.getName(), symbol);
 	}
 
 	@Override
-	public Symbol getSymbol(String name) {
-		Symbol symbol = symbols.get(name);
+	public MurmurSymbol getSymbol(String name) {
+		MurmurSymbol symbol = symbols.get(name);
 		if(symbol == null && context != null)
 			return context.getSymbol(name);
 		return symbol;
 	}
 
 	@Override
-	public Symbol getLocal(String name) {
+	public MurmurSymbol getLocal(String name) {
 		return symbols.get(name);
 	}
 	
