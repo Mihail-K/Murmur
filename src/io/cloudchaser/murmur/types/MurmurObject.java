@@ -53,7 +53,8 @@ public class MurmurObject {
 	 * @return <code>true</code> is this object converts to the given type.
 	 */
 	public boolean isCompatible(Class<?> type) {
-		return false;
+		// By default, no conversion is available.
+		return type.isAssignableFrom(getClass());
 	}
 	
 	/**
@@ -63,6 +64,12 @@ public class MurmurObject {
 	 * @return The converted Java object.
 	 */
 	public Object getAsJavaType(Class<?> type) {
+		// Check that this type is compatible.
+		if(type.isAssignableFrom(getClass())) {
+			return this;
+		}
+		
+		// Unsupported conversion.
 		throw new UnsupportedOperationException();
 	}
 	
