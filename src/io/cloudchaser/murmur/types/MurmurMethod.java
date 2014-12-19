@@ -45,6 +45,15 @@ public class MurmurMethod extends MurmurLambda
 	 **/
 	private MurmurComponent component;
 
+	/**
+	 * Creates a component-bound method with no parent context.
+	 * 
+	 * @param name The name of the method.
+	 * @param component The component to bind to.
+	 * @param lineNumber The line number the method was declared on.
+	 * @param body The parser context of the body of the method.
+	 * @param parameters The parameter list of the method.
+	 **/
 	public MurmurMethod(String name, MurmurComponent component, 
 			int lineNumber, MurmurParser.BlockContext body,
 			List<String> parameters) {
@@ -53,6 +62,16 @@ public class MurmurMethod extends MurmurLambda
 		this.name = name;
 	}
 
+	/**
+	 * Creates a component-bound method with a parent context.
+	 * 
+	 * @param name The name of the method.
+	 * @param component The component to bind to.
+	 * @param lineNumber The line number the method was declared on.
+	 * @param body The parser context of the body of the method.
+	 * @param parameters The parameter list of the method.
+	 * @param parent The parent context to this method.
+	 **/
 	public MurmurMethod(String name, MurmurComponent component,
 			int lineNumber, MurmurParser.BlockContext body,
 			List<String> parameters, SymbolContext parent) {
@@ -61,6 +80,12 @@ public class MurmurMethod extends MurmurLambda
 		this.name = name;
 	}
 
+	/**
+	 * Creates a method by naming a lambda function.
+	 * 
+	 * @param name The name of the method.
+	 * @param lambda The lambda function.
+	 **/
 	public MurmurMethod(String name, MurmurLambda lambda) {
 		super(lambda);
 		this.name = name;
