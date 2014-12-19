@@ -30,12 +30,12 @@ import static io.cloudchaser.murmur.types.MurmurType.STRING;
  *
  * @author Mihail K
  * @since 0.1
- */
+ **/
 public class MurmurString extends MurmurObject {
 	
 	/**
 	 * Singleton empty Murmur string.
-	 */
+	 **/
 	public static final MurmurString EMPTY = MurmurString.create("");
 	
 	private final String value;
@@ -104,7 +104,26 @@ public class MurmurString extends MurmurObject {
 
 	@Override
 	public MurmurObject opIndex(MurmurObject other) {
-		// Strings don't support array indexing.
+		// Check for a numeric type.
+		if(other.getType().numeric) {
+			// Get and validate the index.
+			int index = (int)other.asInteger().getValue();
+			if(index >= value.length() ||
+					index < -value.length()) {
+				throw new IndexOutOfBoundsException();
+			}
+			
+			// Compute negative index.
+			if(index < 0) {
+				index = value.length() + index;
+			}
+			
+			// Fetch and return the character.
+			char ch = value.charAt(index);
+			return new MurmurCharacter(ch);
+		}
+		
+		// Unsupported index type.
 		throw new UnsupportedOperationException();
 	}
 
