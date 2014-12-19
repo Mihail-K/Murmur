@@ -53,11 +53,12 @@ public class MurmurMethod extends MurmurLambda
 	 * @param lineNumber The line number the method was declared on.
 	 * @param body The parser context of the body of the method.
 	 * @param parameters The parameter list of the method.
+	 * @param delegate The invocation delegate which processes calls.
 	 **/
 	public MurmurMethod(String name, MurmurComponent component, 
 			int lineNumber, MurmurParser.BlockContext body,
-			List<String> parameters) {
-		super(lineNumber, body, parameters);
+			List<String> parameters, InvocationDelegate delegate) {
+		super(lineNumber, body, parameters, delegate);
 		this.component = component;
 		this.name = name;
 	}
@@ -71,11 +72,13 @@ public class MurmurMethod extends MurmurLambda
 	 * @param body The parser context of the body of the method.
 	 * @param parameters The parameter list of the method.
 	 * @param parent The parent context to this method.
+	 * @param delegate The invocation delegate which processes calls.
 	 **/
 	public MurmurMethod(String name, MurmurComponent component,
 			int lineNumber, MurmurParser.BlockContext body,
-			List<String> parameters, SymbolContext parent) {
-		super(lineNumber, body, parameters, parent);
+			List<String> parameters, SymbolContext parent,
+			InvocationDelegate delegate) {
+		super(lineNumber, body, parameters, parent, delegate);
 		this.component = component;
 		this.name = name;
 	}

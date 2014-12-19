@@ -52,23 +52,31 @@ public class MurmurLambda extends MurmurObject
 	private final List<String> parameters;
 	
 	/**
+	 * The invocation delegate for this lambda.
+	 **/
+	private final InvocationDelegate delegate;
+	
+	/**
 	 * The symbol context this lambda exists in.
 	 **/
 	private SymbolContext parent;
 
 	public MurmurLambda(int lineNumber, BlockContext body,
-			List<String> parameters) {
+			List<String> parameters, InvocationDelegate delegate) {
 		super(FUNCTION);
 		this.lineNumber = lineNumber;
 		this.parameters = parameters;
+		this.delegate = delegate;
 		this.body = body;
 	}
 
 	public MurmurLambda(int lineNumber, BlockContext body,
-			List<String> parameters, SymbolContext parent) {
+			List<String> parameters, SymbolContext parent,
+			InvocationDelegate delegate) {
 		super(FUNCTION);
 		this.lineNumber = lineNumber;
 		this.parameters = parameters;
+		this.delegate = delegate;
 		this.parent = parent;
 		this.body = body;
 	}
@@ -77,6 +85,7 @@ public class MurmurLambda extends MurmurObject
 		super(FUNCTION);
 		this.lineNumber = lambda.lineNumber;
 		this.parameters = lambda.parameters;
+		this.delegate = lambda.delegate;
 		this.parent = lambda.parent;
 		this.body = lambda.body;
 	}
@@ -132,7 +141,7 @@ public class MurmurLambda extends MurmurObject
 	}
 
 	@Override
-	public MurmurObject opInvoke(InvocationDelegate delegate, List<MurmurObject> args) {
+	public MurmurObject opInvoke(List<MurmurObject> args) {
 		return delegate.invokeFunction(createLocalContext(args), this);
 	}
 	

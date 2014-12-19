@@ -716,7 +716,7 @@ public class MurmurASTVisitor
 		} else if(left instanceof InvokableType) {
 			// Invoke and return the result.
 			InvokableType invoke = (InvokableType)left;
-			return invoke.opInvoke(delegate, args);
+			return invoke.opInvoke(args);
 		} else {
 			throw new UnsupportedOperationException();
 		}
@@ -815,8 +815,10 @@ public class MurmurASTVisitor
 
 	@Override
 	public MurmurObject visitLambda(MurmurParser.LambdaContext ctx) {
+		// Create a lambda and a parameter list.
 		List<String> parameters = visitLambdaParameterList(ctx.identifierList());
-		return new MurmurLambda(ctx.start.getLine(), ctx.block(), parameters, context.peek());
+		return new MurmurLambda(ctx.start.getLine(), ctx.block(),
+				parameters, context.peek(), delegate);
 	}
 	
 	public MurmurObject visitLambdaInvokeExpression(MurmurParser.ExpressionContext ctx) {
@@ -827,7 +829,7 @@ public class MurmurASTVisitor
 		if(left instanceof InvokableType) {
 			// Invoke and return the result.
 			InvokableType invoke = (InvokableType)left;
-			return invoke.opInvoke(delegate, Collections.singletonList(lambda));
+			return invoke.opInvoke(Collections.singletonList(lambda));
 		} else {
 			throw new UnsupportedOperationException();
 		}

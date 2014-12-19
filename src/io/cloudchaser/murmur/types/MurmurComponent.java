@@ -144,7 +144,7 @@ public class MurmurComponent extends MurmurObject
 	}
 
 	@Override
-	public MurmurObject opInvoke(InvocationDelegate delegate, List<MurmurObject> args) {
+	public MurmurObject opInvoke(List<MurmurObject> args) {
 		// Create a new Murmur instance from this context.
 		MurmurInstance instance = new MurmurInstance(this);
 
@@ -153,7 +153,7 @@ public class MurmurComponent extends MurmurObject
 		MurmurLambda ctor = (MurmurLambda)local.getValue();
 		
 		// Invoke the constructor.
-		ctor.opInvoke(delegate, args);
+		ctor.opInvoke(args);
 		
 		// Return the created instance.
 		return instance;

@@ -50,10 +50,9 @@ public interface InvokableType {
 	/**
 	 * Invoke this object as a function.
 	 * 
-	 * @param delegate The delegate handling the invocation.
 	 * @param args The list of arguments being passed.
 	 * @return The result of the invocation.
 	 */
-	MurmurObject opInvoke(InvocationDelegate delegate, List<MurmurObject> args);
+	MurmurObject opInvoke(List<MurmurObject> args);
 	
 }
