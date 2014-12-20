@@ -307,7 +307,7 @@ public class MurmurASTVisitor
 		MurmurObject value = visitExpression(ctx.expression());
 		
 		// Determine the element type.
-		if(ctx.expression() != null) {
+		if(ctx.expression() == null) {
 			// Validate field name.
 			if(name.equals("this")) {
 				throw MurmurError.create(ctx.start.getLine(),
