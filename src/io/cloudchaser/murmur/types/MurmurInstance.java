@@ -26,6 +26,7 @@ package io.cloudchaser.murmur.types;
 
 import static io.cloudchaser.murmur.types.MurmurType.OBJECT;
 import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -34,7 +35,7 @@ import java.util.Collections;
  * @since 0.1
  **/
 public class MurmurInstance extends MurmurObject
-		implements ReferenceType {
+		implements ReferenceType, InvokableType {
 	
 	/**
 	 * The symbol context local to this object.
@@ -144,6 +145,30 @@ public class MurmurInstance extends MurmurObject
 	@Override
 	public MurmurObject opConcatAssign(MurmurObject other) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public int getDeclaringLine() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public String getMethodSignature() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public MurmurObject opInvoke(List<MurmurObject> args) {
+		MurmurSymbol symbol = context.getLocal("opInvoke");
+		
+		// Check that the operator is defined.
+		if(symbol == null) {
+			throw new UnsupportedOperationException();
+		}
+		
+		// Invoke the operator function.
+		MurmurMethod method = (MurmurMethod)symbol.getValue();
+		return method.opInvoke(args);
 	}
 	
 }
